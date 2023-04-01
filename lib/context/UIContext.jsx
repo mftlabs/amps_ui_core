@@ -79,7 +79,7 @@ import PropTypes from "prop-types";
 
 // The role of this context is to propagate authentication state through the App tree.
 
-export const UIContext = createContext({ formfields, useSchemas, pages });
+export const UIContext = createContext({ undefined });
 
 export const UIProvider = ({
   formfields,
