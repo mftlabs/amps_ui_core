@@ -183,6 +183,6 @@ export const Navbar = (props) => {
   );
 };
 
-DashboardNavbar.propTypes = {
+Navbar.propTypes = {
   onSidebarOpen: PropTypes.func,
 };
