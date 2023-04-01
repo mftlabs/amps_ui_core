@@ -5,7 +5,7 @@ import { Grid } from "../layout/Grid";
 import { Subpage } from "./Subpage";
 import { useWindowSize } from "../hooks/useWindowSize";
 
-export function Generic({ useSchemas, useGridActions, pages }) {
+export function Generic({ useSchemas, useGridActions, pages, defRoute }) {
   const [width, height] = useWindowSize();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
     defaultMatches: true,
@@ -20,7 +20,7 @@ export function Generic({ useSchemas, useGridActions, pages }) {
         // setConfig(config);
         // setGrid();
       } else {
-        navigate("/message_events");
+        navigate(defRoute);
       }
     }
   });
