@@ -4,6 +4,7 @@ import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { Grid } from "../layout/Grid";
 import { Subpage } from "./Subpage";
 import { useWindowSize } from "../hooks/useWindowSize";
+import { useTokens } from "../hooks/useTokens";
 
 export function Generic({ useSchemas, useGridActions, pages, defRoute }) {
   const [width, height] = useWindowSize();
