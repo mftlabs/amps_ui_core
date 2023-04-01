@@ -86,6 +86,7 @@ export const UIProvider = ({
   pages,
   useSchemas,
   useAuthContext,
+  children,
 }) => {
   return (
     <UIContext.Provider
