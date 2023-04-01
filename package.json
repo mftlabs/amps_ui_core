@@ -1,0 +1,11 @@
+{
+  "name": "amps_ui_core",
+  "version": "1.0.0",
+  "description": "Core AMPS UI Components",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
