@@ -8,10 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { request } from "../util/util";
 import { useConfirm } from "material-ui-confirm";
 
-import useModal from "../hooks/useModal";
-import { useAuthContext } from "../contexts/auth-context";
-
-import { useFileContext } from "../contexts/file-context";
+import { useModal } from "../hooks/useModal";
 
 export const Grid = ({
   config: config,
@@ -33,8 +30,6 @@ export const Grid = ({
   const [globalFilter, setGlobalFilter] = useState("");
   const [sorting, setSorting] = useState(config.sort || []);
   const [route, setRoute] = useState(null);
-  const { user } = useAuthContext();
-  const { download } = useFileContext();
 
   const confirm = useConfirm();
 

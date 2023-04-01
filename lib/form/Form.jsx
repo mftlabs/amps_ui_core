@@ -2,11 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import { useFormik, useFormikContext } from "formik";
-import Loader from "../util/components/Loader";
-import { renderFields, loadValues } from "../util/inputs";
-import { types } from "../util/formfields";
-import useCurrent from "../hooks/useCurrent";
-import { useSchemas } from "../util/validation";
+import { Loader } from "../util/components/Loader";
+import { renderFields, loadValues } from "./inputs";
+import { useCurrent } from "../hooks/useCurrent";
 
 export const Form = ({
   fields,
@@ -22,6 +20,8 @@ export const Form = ({
   formikRef,
   width,
   height,
+  useSchemas,
+  types,
 }) => {
   const [initValues, setInitValues] = useState({});
   const [typefields, setTypeFields] = useState([]);

@@ -5,18 +5,14 @@ import Button from "@mui/material/Button";
 import KeyIcon from "@mui/icons-material/Key";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 
-import Loader from "../util/components/Loader";
-import { pages } from "../util/pages";
-import { types, formfields } from "../util/formfields";
+import { Loader } from "../util/components/Loader";
 
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { renderFields, loadValues } from "../util/inputs";
+import { renderFields, loadValues } from "./inputs";
 import { useQuery } from "@tanstack/react-query";
 import { request } from "../util/util";
-import useCurrent from "../hooks/useCurrent";
-import { useAuthContext } from "../contexts/auth-context";
-import { useSchemas } from "../util/validation";
+import { useCurrent } from "../hooks/useCurrent";
 export const UpdateForm = ({
   fields,
   schema: root,
@@ -27,15 +23,18 @@ export const UpdateForm = ({
   refetch,
   field,
   collection,
-  reloadParent = () => { },
+  reloadParent = () => {},
   route,
   stat = {},
+  types,
+  disabled,
+  useSchemas,
+  formfields,
 }) => {
   console.log(fields);
   const [editing, setEditing] = useState(false);
   const [typefields, setTypeFields] = useState([]);
   const [schema, setSchema] = useState(root);
-  const { user } = useAuthContext();
   const { current } = useCurrent({
     route: `/${collection}/${entityId}`,
     enabled: Boolean(entityId),
@@ -145,7 +144,7 @@ export const UpdateForm = ({
         ) : (
           <Button
             type="button"
-            disabled={user.user.role != "Admin"}
+            disabled={disabled()}
             onClick={(e) => {
               e.preventDefault();
               setEditing(true);
@@ -165,8 +164,12 @@ export const Update = ({
   route,
   stat,
   field,
+  pages,
+  formfields,
+  disabled,
+  useSchemas,
   // refetch,
-  reloadParent = () => { },
+  reloadParent = () => {},
 }) => {
   const [config, setConfig] = useState(null);
   const [fields, setFields] = useState(null);
@@ -224,6 +227,7 @@ export const Update = ({
     <Loader />
   ) : config && data ? (
     <UpdateForm
+      disabled={disabled}
       onSubmit={onSubmit}
       values={config.load ? config.load(data) : data}
       refetch={refetch}

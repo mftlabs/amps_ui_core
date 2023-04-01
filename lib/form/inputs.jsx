@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useQuery } from "@tanstack/react-query";
 import { queryFn } from "../util/util";
-import Loader from "../util/components/Loader";
+import { Loader } from "../util/components/Loader";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import MUICheckbox from "@mui/material/Checkbox";
@@ -44,7 +44,7 @@ import { FormAction } from "../util/grid";
 import { FieldArray, FormikProvider } from "formik";
 import MaterialReactTable from "material-react-table";
 import { Toast } from "../util/components/Toast";
-import useMetadata from "../hooks/useMetadata";
+import { useMetadata } from "../hooks/useMetadata";
 const DateTime = ({ field, formik }) => {
   return (
     <LocalizationProvider key={field.name} dateAdapter={AdapterDayjs}>
@@ -201,16 +201,16 @@ const FileSize = ({ field, formik }) => {
               sx={{ mx: 1, flex: 1 }}
               {...params}
               label="Unit"
-            // label={label}
+              // label={label}
             />
           )}
-        // onChange={(e, value) => {
-        //   onChange && onChange(formik, value);
-        //   value ? formik.setFieldValue(name, value[valField]) : null;
-        // }}
-        // onBlur={formik.handleBlur}
-        // error={formik.touched[name] && Boolean(formik.errors[name])}
-        // helperText={formik.touched[name] && formik.errors[name]}
+          // onChange={(e, value) => {
+          //   onChange && onChange(formik, value);
+          //   value ? formik.setFieldValue(name, value[valField]) : null;
+          // }}
+          // onBlur={formik.handleBlur}
+          // error={formik.touched[name] && Boolean(formik.errors[name])}
+          // helperText={formik.touched[name] && formik.errors[name]}
         />
       </Box>
       <Box sx={{ display: "flex", flexDirection: "row", mt: 1 }}>
@@ -257,16 +257,16 @@ const FileSize = ({ field, formik }) => {
               sx={{ mx: 1, flex: 1 }}
               {...params}
               label="Unit"
-            // label={label}
+              // label={label}
             />
           )}
-        // onChange={(e, value) => {
-        //   onChange && onChange(formik, value);
-        //   value ? formik.setFieldValue(name, value[valField]) : null;
-        // }}
-        // onBlur={formik.handleBlur}
-        // error={formik.touched[name] && Boolean(formik.errors[name])}
-        // helperText={formik.touched[name] && formik.errors[name]}
+          // onChange={(e, value) => {
+          //   onChange && onChange(formik, value);
+          //   value ? formik.setFieldValue(name, value[valField]) : null;
+          // }}
+          // onBlur={formik.handleBlur}
+          // error={formik.touched[name] && Boolean(formik.errors[name])}
+          // helperText={formik.touched[name] && formik.errors[name]}
         />
       </Box>
     </Box>
@@ -535,8 +535,8 @@ function Select({
       return route
         ? queryFn(route instanceof Function ? route(formik) : route, filter)
         : options instanceof Function
-          ? options(formik)
-          : options;
+        ? options(formik)
+        : options;
     },
     keepPreviousData: true,
   });
@@ -724,9 +724,9 @@ const Parm = ({
           setField(e.target.value);
         }}
         sx={{ flex: 1, mx: 1 }}
-      // onBlur={formik.handleBlur}
-      // error={formik.touched[field.name] && Boolean(formik.errors[field.name])}
-      // helperText={formik.touched[field.name] && formik.errors[field.name]}
+        // onBlur={formik.handleBlur}
+        // error={formik.touched[field.name] && Boolean(formik.errors[field.name])}
+        // helperText={formik.touched[field.name] && formik.errors[field.name]}
       />
       {type == "string" && (
         <TextField
@@ -740,9 +740,9 @@ const Parm = ({
             setValue(e.target.value);
           }}
           sx={{ flex: 1, mx: 1 }}
-        // onBlur={formik.handleBlur}
-        // error={formik.touched[field.name] && Boolean(formik.errors[field.name])}
-        // helperText={formik.touched[field.name] && formik.errors[field.name]}
+          // onBlur={formik.handleBlur}
+          // error={formik.touched[field.name] && Boolean(formik.errors[field.name])}
+          // helperText={formik.touched[field.name] && formik.errors[field.name]}
         />
       )}
       {type == "number" && (
@@ -1097,16 +1097,16 @@ function CollectionList({
                     fullWidth={true}
                     sx={{ mx: 1, flex: 1 }}
                     {...params}
-                  // label={label}
+                    // label={label}
                   />
                 )}
-              // onChange={(e, value) => {
-              //   onChange && onChange(formik, value);
-              //   value ? formik.setFieldValue(name, value[valField]) : null;
-              // }}
-              // onBlur={formik.handleBlur}
-              // error={formik.touched[name] && Boolean(formik.errors[name])}
-              // helperText={formik.touched[name] && formik.errors[name]}
+                // onChange={(e, value) => {
+                //   onChange && onChange(formik, value);
+                //   value ? formik.setFieldValue(name, value[valField]) : null;
+                // }}
+                // onBlur={formik.handleBlur}
+                // error={formik.touched[name] && Boolean(formik.errors[name])}
+                // helperText={formik.touched[name] && formik.errors[name]}
               />
               <Tooltip arrow title="Add" key="refresh">
                 <IconButton
@@ -1217,8 +1217,8 @@ export function Tags({
       return route
         ? queryFn(route instanceof Function ? route(formik) : route, filter)
         : options instanceof Function
-          ? options(formik)
-          : options;
+        ? options(formik)
+        : options;
     },
     keepPreviousData: true,
   });
@@ -1263,7 +1263,7 @@ export function Tags({
           {...params}
           variant="standard"
           label={label}
-        // placeholder="Favorites"
+          // placeholder="Favorites"
         />
       )}
       isOptionEqualToValue={(option, val) => {
@@ -1340,18 +1340,18 @@ export const Text = ({ field, formik, sx = {} }) => {
       InputProps={
         field.inputType == "password"
           ? {
-            endAdornment: (
-              <IconButton
-                tabIndex="-1"
-                onMouseDown={() => setPassword(!password)}
-                onMouseUp={() => setPassword(!password)}
-              >
-                <InputAdornment position="end">
-                  <VisibilityIcon />
-                </InputAdornment>
-              </IconButton>
-            ),
-          }
+              endAdornment: (
+                <IconButton
+                  tabIndex="-1"
+                  onMouseDown={() => setPassword(!password)}
+                  onMouseUp={() => setPassword(!password)}
+                >
+                  <InputAdornment position="end">
+                    <VisibilityIcon />
+                  </InputAdornment>
+                </IconButton>
+              ),
+            }
           : {}
       }
       name={field.name}

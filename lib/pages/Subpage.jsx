@@ -21,7 +21,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import React, { useEffect, useState } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
-import Update from "../form/Update";
+import { Update } from "../form/Update";
 import InfoIcon from "@mui/icons-material/Info";
 
 const drawerWidth = 240;
@@ -156,7 +156,7 @@ const SubNavItem = ({ title, href, icon, route, open }) => {
   );
 };
 
-export function Subpage({ config, useGridActions, schemas }) {
+export function Subpage({ config, useGridActions, schemas, pages }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const location = useLocation();
@@ -258,7 +258,7 @@ export function Subpage({ config, useGridActions, schemas }) {
                 config.subroot ? (
                   <config.subroot.view location={location} />
                 ) : (
-                  <Update field={field} location={location} />
+                  <Update field={field} pages={pages} location={location} />
                 )
               }
             />
@@ -273,7 +273,11 @@ export function Subpage({ config, useGridActions, schemas }) {
                       key={sp.href}
                       element={
                         sp.field ? (
-                          <Update key={sp.href} location={location} />
+                          <Update
+                            key={sp.href}
+                            pages={pages}
+                            location={location}
+                          />
                         ) : sp.view ? (
                           <sp.view />
                         ) : (
@@ -293,6 +297,7 @@ export function Subpage({ config, useGridActions, schemas }) {
                         path={sp.href + "/:fieldid/*"}
                         element={
                           <Update
+                            pages={pages}
                             key={sp.href + "/:fieldid/*"}
                             field={sp.href}
                             location={location}

@@ -5,8 +5,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 import CloseIcon from "@mui/icons-material/Close";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import Form from "./Form";
-import Update, { UpdateForm } from "./Update";
+import { Form } from "./Form";
+import { Update, UpdateForm } from "./Update";
 
 export function FormDialog(props) {
   const { open, title, setOpen, style = {}, update } = props;

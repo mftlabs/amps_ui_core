@@ -1,4 +1,4 @@
-import Modal from "../layout/Modal";
+import { Modal } from "../layout/Modal";
 import React, { useRef } from "react";
 
 export const useModal = (props) => {
