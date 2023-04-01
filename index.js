@@ -52,6 +52,7 @@ export {
   mapping,
   outputTopic,
 } from "./lib/util/util";
+export { Subpage } from "./lib/pages/Subpage";
 
 export { AccountPopover } from "./lib/layout/AccountPopover";
 export { Grid } from "./lib/layout/Grid";
