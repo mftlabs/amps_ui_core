@@ -12,7 +12,18 @@ export function Generic({ useSchemas, useGridActions, pages }) {
     noSsr: false,
   });
   const { schemas } = useSchemas();
+  const { main } = useTokens();
 
+  useEffect(() => {
+    if (main) {
+      if (pages[main]) {
+        // setConfig(config);
+        // setGrid();
+      } else {
+        navigate("/message_events");
+      }
+    }
+  });
   return (
     <>
       <Box
