@@ -15,11 +15,23 @@ const DashboardLayoutRoot = styled("div")(({ theme }) => ({
   // },
 }));
 
-export function DashboardLayout({ children, AuthGuard, menu }) {
+export function DashboardLayout({
+  children,
+  AuthGuard,
+  menu,
+  NavbarContent,
+  AccountPopover,
+  pages,
+}) {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   return (
     <AuthGuard>
-      <DashboardNavbar onSidebarOpen={() => setSidebarOpen(true)} />
+      <DashboardNavbar
+        Content={NavbarContent}
+        pages={pages}
+        AccountPopover={AccountPopover}
+        onSidebarOpen={() => setSidebarOpen(true)}
+      />
       <DashboardSidebar
         onClose={() => setSidebarOpen(false)}
         menu={menu}
