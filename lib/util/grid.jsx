@@ -14,16 +14,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import { RecursiveMenu } from "../layout/rescursive";
-export const dateRenderer = ({ cell }) => {
-  var val = cell.getValue();
-  if (val) {
-    var date = new Date(val);
-    var milli = val.split(".")[1].substring(0, 3);
-    var str = date.toLocaleString();
 
-    return str.substring(0, str.length - 3) + ":" + milli + str.slice(-3);
-  }
-};
 import { request } from "./util";
 import { Edit, Search, SearchOff } from "@mui/icons-material";
 import {
@@ -34,6 +25,16 @@ import {
   Typography,
 } from "@mui/material";
 
+export const dateRenderer = ({ cell }) => {
+  var val = cell.getValue();
+  if (val) {
+    var date = new Date(val);
+    var milli = val.split(".")[1].substring(0, 3);
+    var str = date.toLocaleString();
+
+    return str.substring(0, str.length - 3) + ":" + milli + str.slice(-3);
+  }
+};
 export const idRenderer = ({ cell }, route) => {
   var id = cell.getValue();
   if (id) {
