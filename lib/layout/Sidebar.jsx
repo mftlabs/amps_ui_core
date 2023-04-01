@@ -148,7 +148,7 @@ export const Sidebar = (props) => {
   );
 };
 
-DashboardSidebar.propTypes = {
+Sidebar.propTypes = {
   onClose: PropTypes.func,
   open: PropTypes.bool,
 };
