@@ -86,6 +86,7 @@ export const UIProvider = ({
   pages,
   useSchemas,
   useAuthContext,
+  types,
   children,
 }) => {
   return (
@@ -95,6 +96,7 @@ export const UIProvider = ({
         pages,
         useSchemas,
         useAuthContext,
+        types,
       }}
     >
       {children}
