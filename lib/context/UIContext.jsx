@@ -81,22 +81,11 @@ import PropTypes from "prop-types";
 
 export const UIContext = createContext({ undefined });
 
-export const UIProvider = ({
-  formfields,
-  pages,
-  useSchemas,
-  useAuthContext,
-  types,
-  children,
-}) => {
+export const UIProvider = ({ children, ...other }) => {
   return (
     <UIContext.Provider
       value={{
-        formfields,
-        pages,
-        useSchemas,
-        useAuthContext,
-        types,
+        ...other,
       }}
     >
       {children}
