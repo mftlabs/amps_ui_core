@@ -53,6 +53,9 @@ export {
   outputTopic,
 } from "./lib/util/util";
 
+export { AccountPopover } from "./lib/layout/AccountPopover";
+export { Grid } from "./lib/layout/Grid";
+
 export { Main } from "./lib/Main";
 
 export { UIProvider, UIConsumer, useUIContext } from "./lib/context/UIContext";
