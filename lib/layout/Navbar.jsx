@@ -60,11 +60,13 @@ const DashboardNavbarRoot = styled(AppBar)(({ theme }) => ({
 
 export const Navbar = (props) => {
   const { onSidebarOpen, Content, ...other } = props;
-  const { pages, NavbarContent, useAuthContext } = useUIContext();
+  const { pages, NavbarContent } = useUIContext();
   const settingsRef = useRef(null);
   const [openAccountPopover, setOpenAccountPopover] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const location = useLocation();
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -72,37 +74,6 @@ export const Navbar = (props) => {
     setAnchorEl(null);
   };
   const [crumbs, setCrumbs] = useState([]);
-  const location = useLocation();
-  const { user } = useAuthContext();
-  const [environments, setEnvironments] = useState([]);
-
-  // const { user } = useUser();
-
-  const { data, isError, isFetching, isLoading, refetch } = useQuery({
-    queryKey: ["/environments"],
-    queryFn: () => {
-      return queryFn("/environments");
-    },
-    refetchOnMount: true,
-  });
-
-  useEffect(() => {
-    if (data) {
-      setEnvironments(data);
-    }
-  }, [data]);
-
-  const updateEnv = async (env) => {
-    console.log(env);
-    console.log(user);
-    handleClose();
-    request({
-      url: `/api/admin/${user.user._id}`,
-      method: "put",
-      data: { config: { env: env } },
-    });
-  };
-
   useEffect(() => {
     var curr = "";
     var root = "";
