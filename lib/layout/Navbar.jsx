@@ -19,7 +19,7 @@ import { useLocation } from "react-router-dom";
 import moment from "moment-timezone";
 import { useQuery } from "@tanstack/react-query";
 import { queryFn, request } from "../util/util";
-import { useUIContext } from "../context/UIContext";
+import { useUIContext } from "../contexts/UIContext";
 import { Downloads } from "./Downloads";
 import { Uploads } from "./Uploads";
 

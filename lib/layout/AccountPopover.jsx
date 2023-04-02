@@ -14,7 +14,7 @@ import { Form } from "../form/Form";
 import * as yup from "yup";
 import { request } from "../util/util";
 import { toast } from "react-toastify";
-import { useUIContext } from "../context/UIContext";
+import { useUIContext } from "../contexts/UIContext";
 import { useModal } from "../hooks/useModal";
 
 export const AccountPopover = (props) => {

@@ -10,8 +10,8 @@ import React, {
 import PropTypes from "prop-types";
 import { request, useRenew } from "amps_ui_core";
 import { Socket } from "phoenix";
-import { useAuthContext } from "./auth-context";
 import { toast } from "react-toastify";
+import { useUIContext } from "./UIContext";
 // import "../workers/file.js";
 
 const HANDLERS = {
@@ -71,6 +71,7 @@ export const FileContext = createContext({ undefined });
 
 export const FileProvider = (props) => {
   const { children } = props;
+  const { useAuthContext } = useUIContext();
   // const [state, dispatch] = useReducer(reducer, initialState);
   const [uploads, setUploads] = useState([]);
   const [downloads, setDownloads] = useState([]);

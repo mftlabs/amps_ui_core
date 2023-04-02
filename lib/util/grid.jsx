@@ -33,7 +33,7 @@ import {
   Popper,
   Typography,
 } from "@mui/material";
-import { useUIContext } from "../context/UIContext";
+import { useUIContext } from "../contexts/UIContext";
 
 export const idRenderer = ({ cell }, route) => {
   const queryFn = useQueryFn();

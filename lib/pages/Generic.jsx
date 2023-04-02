@@ -5,7 +5,7 @@ import { Grid } from "../layout/Grid";
 import { Subpage } from "./Subpage";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { useTokens } from "../hooks/useTokens";
-import { useUIContext } from "../context/UIContext";
+import { useUIContext } from "../contexts/UIContext";
 
 export function Generic() {
   const { pages } = useUIContext();

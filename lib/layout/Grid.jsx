@@ -9,7 +9,7 @@ import { request, useRenew, useSocket, queryFn } from "../util/util";
 
 import { useModal } from "../hooks/useModal";
 import { useGridActions } from "../util/gridactions";
-import { useUIContext } from "../context/UIContext";
+import { useUIContext } from "../contexts/UIContext";
 
 export const Grid = ({ config: config, route: rte, isSubpage }) => {
   // const { confRowActions = [], confActions = [], ...config } = conf;

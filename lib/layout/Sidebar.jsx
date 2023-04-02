@@ -21,7 +21,7 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { NavItem } from "./NavItem";
 import { Link } from "react-router-dom";
 
-import { useUIContext } from "../context/UIContext";
+import { useUIContext } from "../contexts/UIContext";
 
 export const Sidebar = (props) => {
   const { menu } = useUIContext();

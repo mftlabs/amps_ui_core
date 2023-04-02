@@ -13,7 +13,7 @@ import { renderFields, loadValues } from "./util";
 import { useQuery } from "@tanstack/react-query";
 import { request } from "../util/util";
 import { useCurrent } from "../hooks/useCurrent";
-import { useUIContext } from "../context/UIContext";
+import { useUIContext } from "../contexts/UIContext";
 export const UpdateForm = ({
   fields,
   schema: root,

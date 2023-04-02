@@ -59,9 +59,9 @@ export { Grid } from "./lib/layout/Grid";
 
 export { Main } from "./lib/Main";
 
-export { UIProvider, UIConsumer, useUIContext } from "./lib/context/UIContext";
+export { UIProvider, UIConsumer, useUIContext } from "./lib/contexts/UIContext";
 export {
   FileProvider,
   FileConsumer,
   useFileContext,
-} from "./lib/context/file-context";
+} from "./lib/contexts/file-context";
