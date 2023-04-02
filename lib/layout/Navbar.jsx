@@ -91,6 +91,11 @@ export const Navbar = (props) => {
       if (idx == 2) {
         title = pages[root].subpages[piece].title;
       }
+
+      if (idx == 3) {
+        title = pages[root].subpages[piece].object + " ID";
+        tooltip = piece;
+      }
       return {
         title: title,
         href: curr,
