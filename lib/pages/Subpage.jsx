@@ -287,7 +287,7 @@ export function Subpage({ config }) {
                         )
                       }
                     />
-                    {!sp.field && (
+                    {!sp.field && !sp.view && (
                       <Route
                         key={sp.href + "/:fieldid/*"}
                         path={sp.href + "/:fieldid/*"}
