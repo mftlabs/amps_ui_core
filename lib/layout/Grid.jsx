@@ -8,10 +8,10 @@ import { useQuery } from "@tanstack/react-query";
 import { request, useRenew, useSocket, queryFn } from "../util/util";
 
 import { useModal } from "../hooks/useModal";
+import { useGridActions } from "../util/gridactions";
 import { useUIContext } from "../context/UIContext";
 
 export const Grid = ({ config: config, route: rte, isSubpage }) => {
-  const { useGridActions } = useUIContext();
   // const { confRowActions = [], confActions = [], ...config } = conf;
 
   const { modal, Modal } = useModal();
