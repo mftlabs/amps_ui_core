@@ -267,11 +267,10 @@ export function Subpage({ config }) {
 
             {config.subpages &&
               Object.values(config.subpages).map((sp) => {
-                console.log(sp.href);
                 return (
                   <>
                     <Route
-                      path={`${sp.href}`}
+                      path={sp.path ? sp.path : sp.href}
                       key={sp.href}
                       element={
                         sp.field ? (
