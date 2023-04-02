@@ -85,7 +85,7 @@ export const Navbar = (props) => {
       }
 
       if (idx == 1) {
-        title = pages[root].object + " ID";
+        title = pages[root].object;
         tooltip = piece;
       }
 
@@ -95,7 +95,7 @@ export const Navbar = (props) => {
       }
 
       if (idx == 3) {
-        title = pages[root].subpages[subroot].object + " ID";
+        title = pages[root].subpages[subroot].object;
         tooltip = piece;
       }
       return {
