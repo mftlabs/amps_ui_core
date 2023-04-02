@@ -18,7 +18,11 @@ export const useGridActions = (props) => {
   const { rowSelection, search, setSearch, route, config, refetch } = props;
   const { useGridActions } = useUIContext();
 
-  const { actions: a, rowActions: r } = useGridActions({ ...props });
+  const {
+    actions: a,
+    rowActions: r,
+    disabled = () => false,
+  } = useGridActions({ ...props });
 
   const rowActions = {
     ...r,
@@ -180,7 +184,7 @@ export const useGridActions = (props) => {
       return (
         <FormAction
           key="add"
-          disabled={user.user.role != "Admin"}
+          disabled={disabled(route)}
           refetch={refetch}
           route={location.pathname}
           style={config.dialog}
