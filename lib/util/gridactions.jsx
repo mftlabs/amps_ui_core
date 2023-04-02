@@ -14,10 +14,12 @@ import {
 
 import { toast } from "react-toastify";
 import { useQueryFn } from "./util";
+import { useConfirm } from "material-ui-confirm";
 
 export const useGridActions = (props) => {
   const { rowSelection, search, setSearch, route, config, refetch } = props;
   const { useGridActions } = useUIContext();
+  const confirm = useConfirm();
 
   const {
     actions: a,
