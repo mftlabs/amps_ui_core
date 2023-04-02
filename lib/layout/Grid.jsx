@@ -179,7 +179,10 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
         positionActionsColumn="last"
         displayColumnDefOptions={{
           "mrt-row-actions": {
-            size: config.rowActions?.length * 45 ?? 30,
+            size:
+              config.rowActions?.length == 1
+                ? 60
+                : config.rowActions?.length * 45 ?? 30,
             enablePinning: true,
           },
         }}
