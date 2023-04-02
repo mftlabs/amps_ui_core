@@ -221,6 +221,7 @@ export const FormAction = forwardRef(
 );
 
 export const SearchAction = ({ route, refetch, search, setSearch }) => {
+  const { pages } = useUIContext();
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState("Create New");
   const [config, setConfig] = useState(null);
