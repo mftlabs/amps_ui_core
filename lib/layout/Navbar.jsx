@@ -72,6 +72,8 @@ export const Navbar = (props) => {
     var root = "";
     var cr = location.pathname.substring(1).split("/");
     cr = cr.map((piece, idx) => {
+      var tooltip;
+
       var title = piece;
       curr = [curr, piece].join("/");
       if (idx == 0) {
@@ -81,6 +83,11 @@ export const Navbar = (props) => {
         }
       }
 
+      if (idx == 1) {
+        title = pages[root].object + " ID";
+        tooltip = piece;
+      }
+
       if (idx == 2) {
         title = pages[root].subpages[piece].title;
       }
@@ -88,6 +95,7 @@ export const Navbar = (props) => {
         title: title,
         href: curr,
         active: idx === cr.length - 1,
+        tooltip,
       };
     });
 
@@ -129,8 +137,8 @@ export const Navbar = (props) => {
           </IconButton>
 
           <Breadcrumbs sx={{ mx: 3 }} aria-label="breadcrumb">
-            {crumbs.map(({ title, href, active }) => {
-              return (
+            {crumbs.map(({ title, href, active, tooltip }) => {
+              var link = (
                 <Link
                   component={RouterLink}
                   underline="hover"
@@ -141,6 +149,8 @@ export const Navbar = (props) => {
                   {title}
                 </Link>
               );
+
+              return tooltip ? <Tooltip title={tooltip}>{link}</Tooltip> : link;
             })}
           </Breadcrumbs>
 
