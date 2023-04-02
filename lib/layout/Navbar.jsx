@@ -63,16 +63,9 @@ export const Navbar = (props) => {
   const { pages, NavbarContent } = useUIContext();
   const settingsRef = useRef(null);
   const [openAccountPopover, setOpenAccountPopover] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+
   const location = useLocation();
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   const [crumbs, setCrumbs] = useState([]);
   useEffect(() => {
     var curr = "";

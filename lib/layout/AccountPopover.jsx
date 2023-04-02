@@ -15,6 +15,7 @@ import * as yup from "yup";
 import { request } from "../util/util";
 import { toast } from "react-toastify";
 import { useUIContext } from "../context/UIContext";
+import { useModal } from "../hooks/useModal";
 
 export const AccountPopover = (props) => {
   const { anchorEl, onClose, open, ...other } = props;
