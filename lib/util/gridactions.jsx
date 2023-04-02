@@ -14,8 +14,6 @@ import {
 
 import { toast } from "react-toastify";
 
-import { useUIContext } from "../context/UIContext";
-
 export const useGridActions = (props) => {
   const { rowSelection, search, setSearch, route, config, refetch } = props;
   const { useGridActions } = useUIContext();
