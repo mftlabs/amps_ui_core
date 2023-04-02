@@ -28,12 +28,11 @@ export const UpdateForm = ({
   route,
   stat = {},
 }) => {
-  const { useSchemas, types, useAuthContext } = useUIContext();
+  const { useSchemas, types, useAuthContext, disabled } = useUIContext();
 
   const [editing, setEditing] = useState(false);
   const [typefields, setTypeFields] = useState([]);
   const [schema, setSchema] = useState(root);
-  const { user } = useAuthContext();
   const { current } = useCurrent({
     route: `/${collection}/${entityId}`,
     enabled: Boolean(entityId),
@@ -143,7 +142,7 @@ export const UpdateForm = ({
         ) : (
           <Button
             type="button"
-            disabled={user.user.role != "Admin"}
+            disabled={disabled(route)}
             onClick={(e) => {
               e.preventDefault();
               setEditing(true);
