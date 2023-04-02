@@ -20,6 +20,8 @@ import moment from "moment-timezone";
 import { useQuery } from "@tanstack/react-query";
 import { queryFn, request } from "../util/util";
 import { useUIContext } from "../context/UIContext";
+import { Downloads } from "./Downloads";
+import { Uploads } from "./Uploads";
 
 const Clock = ({ timezone }) => {
   const [dt, setDt] = useState(
@@ -169,6 +171,8 @@ export const Navbar = (props) => {
 
           <Box sx={{ flexGrow: 1 }} />
           <Clock timezone={server_time_zone} />
+          <Downloads />
+          <Uploads />
           <NavbarContent />
           <Tooltip title="Account">
             <IconButton

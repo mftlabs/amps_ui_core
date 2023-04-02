@@ -35,9 +35,15 @@ export const Main = ({ Auth }) => {
             <Route
               path="/*"
               element={
-                <DashboardLayout>
-                  <Generic></Generic>
-                </DashboardLayout>
+                <FileProvider>
+                  <FileConsumer>
+                    {() => (
+                      <DashboardLayout>
+                        <Generic></Generic>
+                      </DashboardLayout>
+                    )}
+                  </FileConsumer>
+                </FileProvider>
               }
             />
           </Routes>
