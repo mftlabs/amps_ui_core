@@ -124,7 +124,7 @@ export const FileProvider = (props) => {
 
   const download = async function (url, method = "get", rec, body) {
     setDChecked((d) => (d += 1));
-    var token = await renew();
+    // var token = await renew();
     console.log(rec);
 
     const worker = new Worker("/assets/js/file.js");
@@ -157,7 +157,11 @@ export const FileProvider = (props) => {
       }
     };
 
-    worker.postMessage(["download", token, [url, method, rec, body]]);
+    worker.postMessage([
+      "download",
+      user.access_token,
+      [url, method, rec, body],
+    ]);
   };
 
   const cancelDownload = (id) => {
