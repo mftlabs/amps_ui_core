@@ -70,6 +70,7 @@ export const Navbar = (props) => {
   useEffect(() => {
     var curr = "";
     var root = "";
+    var subroot = "";
     var cr = location.pathname.substring(1).split("/");
     cr = cr.map((piece, idx) => {
       var tooltip;
@@ -90,10 +91,11 @@ export const Navbar = (props) => {
 
       if (idx == 2) {
         title = pages[root].subpages[piece].title;
+        subroot = piece;
       }
 
       if (idx == 3) {
-        title = pages[root].subpages[piece].object + " ID";
+        title = pages[root].subpages[subroot].object + " ID";
         tooltip = piece;
       }
       return {
