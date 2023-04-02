@@ -8,6 +8,7 @@ import { Box } from "@mui/material";
 import { Copyright } from "./layout/Copyright";
 import { BrowserRouter } from "react-router-dom";
 import { DashboardLayout } from "./layout/DashboardLayout";
+import { FileProvider, FileConsumer } from "./contexts/file-context";
 
 export const Main = ({ Auth }) => {
   return (
