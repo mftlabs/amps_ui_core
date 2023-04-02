@@ -4,7 +4,7 @@ import TextField from "@mui/material/TextField";
 
 import Autocomplete from "@mui/material/Autocomplete";
 import { useQuery } from "@tanstack/react-query";
-import { queryFn } from "../util/util";
+import { queryFn, useQueryFn } from "../util/util";
 import { Loader } from "../util/components/Loader";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -524,6 +524,7 @@ function Select({
   ...other
 }) {
   const [selected, setSelected] = useState(null);
+  const queryFn = useQueryFn();
 
   const { data, isError, isFetching, isLoading, refetch } = useQuery({
     queryKey: [
@@ -1206,6 +1207,7 @@ export function Tags({
   submitValue = true,
   onChange = () => null,
 }) {
+  const queryFn = useQueryFn();
   const [selected, setSelected] = useState([]);
   const { data, isError, isFetching, isLoading, refetch } = useQuery({
     queryKey: [

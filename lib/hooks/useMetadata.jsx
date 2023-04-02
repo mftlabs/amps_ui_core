@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { mapping, queryFn } from "../util/util";
+import { mapping, queryFn, useQueryFn } from "../util/util";
 import { useQuery } from "@tanstack/react-query";
 
 export const useMetadata = () => {
   const [data, setData] = useState();
+  const queryFn = useQueryFn();
   const { data: fields, ...others } = useQuery({
     queryKey: ["/fields"],
     queryFn: () => {

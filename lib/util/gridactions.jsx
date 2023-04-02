@@ -62,6 +62,7 @@ export const useGridActions = (props) => {
       );
     },
     delete: ({ row }) => {
+      const queryFn = useQueryFn();
       return (
         <IconButton
           onClick={async () => {

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { queryFn } from "./util";
+import { queryFn, useQueryFn } from "./util";
 import { Loader } from "./components/Loader";
 import React, {
   useState,
@@ -36,6 +36,7 @@ import {
 import { useUIContext } from "../context/UIContext";
 
 export const idRenderer = ({ cell }, route) => {
+  const queryFn = useQueryFn();
   if (cell.getValue()) {
     const { data, isError, isFetching, isLoading, refetch } = useQuery({
       queryKey: [route],
