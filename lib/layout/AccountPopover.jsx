@@ -19,7 +19,7 @@ import { useModal } from "../hooks/useModal";
 
 export const AccountPopover = (props) => {
   const { anchorEl, onClose, open, ...other } = props;
-  const { useAuthContext } = useUIContext();
+  const { useAuthContext, urls } = useUIContext();
   const { signOut, user } = useAuthContext();
   const { Modal, modal } = useModal();
   // const { user } = useUser();
@@ -177,7 +177,7 @@ export const AccountPopover = (props) => {
                     ]}
                     onSubmit={(values) => {
                       request({
-                        url: "/api/admin/changepassword/" + user.user._id,
+                        url: urls.resetPassword(user),
                         method: "post",
                         data: {
                           password: values.password,
