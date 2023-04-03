@@ -146,7 +146,7 @@ export const AccountPopover = (props) => {
                 title: "Update Password",
                 content: (
                   <Form
-                    schema={{
+                    schema={yup.object({
                       password: yup.string().password().required(),
                       confirmPassword: yup
                         .string()
@@ -157,7 +157,7 @@ export const AccountPopover = (props) => {
                             return this.parent.password === value;
                           }
                         ),
-                    }}
+                    })}
                     submitText="Update"
                     fields={[
                       {
