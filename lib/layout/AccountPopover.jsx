@@ -177,7 +177,7 @@ export const AccountPopover = (props) => {
                     ]}
                     onSubmit={(values) => {
                       request({
-                        url: urls.resetPassword(user),
+                        url: `/api${urls.resetPassword(user)}`,
                         method: "post",
                         data: {
                           password: values.password,
