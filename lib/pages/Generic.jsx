@@ -8,7 +8,7 @@ import { useTokens } from "../hooks/useTokens";
 import { useUIContext } from "../contexts/UIContext";
 
 export function Generic() {
-  const { pages } = useUIContext();
+  const { pages, defRoute } = useUIContext();
   const [width, height] = useWindowSize();
   const location = useLocation();
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ export function Generic() {
         // setConfig(config);
         // setGrid();
       } else {
-        navigate("/message_events");
+        navigate(defRoute);
       }
     }
   }, [location.pathname, main]);
