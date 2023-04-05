@@ -1390,7 +1390,7 @@ const JSON = ({ field, formik }) => {
 
   return (
     <Box sx={{ opacity: field.readOnly ? 0.7 : 1 }}>
-      <FormLabel label={field.label} error={formik.errors[field.name]} />
+      <FormLabel error={formik.errors[field.name]}>{field.label}</FormLabel>
       <Editor
         options={editorCustomOptions}
         height="60vh"
