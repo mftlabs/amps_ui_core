@@ -1383,6 +1383,7 @@ const JSON = ({ field, formik }) => {
         height="60vh"
         defaultLanguage="json"
         onChange={onChange}
+        theme="dark"
         value={formik.values[field.name]}
       />
     </>
