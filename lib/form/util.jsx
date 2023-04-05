@@ -1380,6 +1380,7 @@ const JSON = ({ field, formik }) => {
     <>
       <FormLabel label={field.label} />
       <Editor
+        height="60vh"
         defaultLanguage="json"
         onChange={onChange}
         value={formik.values[field.name]}
@@ -1506,7 +1507,7 @@ export const renderFields = (
         }
       } else {
         fs.push(
-          <Box sx={{ py: 1, mx: 1, height: "100%" }}>
+          <Box sx={{ py: 1, mx: 1 }}>
             {fieldtypes[field.type](
               { ...field, ...{ ...(readOnly ? { readOnly: readOnly } : {}) } },
               formik
