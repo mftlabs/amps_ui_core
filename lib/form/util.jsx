@@ -1377,14 +1377,14 @@ const JSON = ({ field, formik }) => {
   };
 
   return (
-    <>
+    <Box sx={{ height: "100%" }}>
       <FormLabel label={field.label} />
       <Editor
         defaultLanguage="json"
         onChange={onChange}
         value={formik.values[field.name]}
       />
-    </>
+    </Box>
   );
 };
 
