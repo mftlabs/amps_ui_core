@@ -12,7 +12,7 @@ import MUICheckbox from "@mui/material/Checkbox";
 import MUISwitch from "@mui/material/Switch";
 import Box from "@mui/material/Box";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-
+import FormHelperText from "@mui/material/FormHelperText";
 import { MuiFileInput } from "mui-file-input";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -1390,7 +1390,8 @@ const JSON = ({ field, formik }) => {
 
   return (
     <Box sx={{ opacity: field.readOnly ? 0.7 : 1 }}>
-      <FormLabel error={formik.errors[field.name]}>{field.label}</FormLabel>
+      <FormLabel>{field.label}</FormLabel>
+      <FormHelperText>{formik.errors[field.name]}</FormHelperText>
       <Editor
         options={editorCustomOptions}
         height="60vh"
