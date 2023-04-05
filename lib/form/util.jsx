@@ -1372,6 +1372,14 @@ export const Text = ({ field, formik, sx = {} }) => {
 };
 
 const JSON = ({ field, formik }) => {
+  const editorCustomOptions = {
+    glyphMargin: true,
+    lightbulb: {
+      enabled: true,
+    },
+    fixedOverflowWidgets: true,
+    padding: { top: 16 },
+  };
   const onChange = (value) => {
     formik.setFieldValue(field.name, value);
   };
@@ -1380,6 +1388,7 @@ const JSON = ({ field, formik }) => {
     <>
       <FormLabel label={field.label} />
       <Editor
+        options={editorCustomOptions}
         height="60vh"
         defaultLanguage="json"
         onChange={onChange}
