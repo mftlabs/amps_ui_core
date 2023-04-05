@@ -44,6 +44,7 @@ import { FieldArray, FormikProvider } from "formik";
 import MaterialReactTable from "material-react-table";
 import { Toast } from "../util/components/Toast";
 import { useMetadata } from "../hooks/useMetadata";
+import Editor from "@monaco-editor/react";
 const DateTime = ({ field, formik }) => {
   return (
     <LocalizationProvider key={field.name} dateAdapter={AdapterDayjs}>
@@ -1370,6 +1371,23 @@ export const Text = ({ field, formik, sx = {} }) => {
   );
 };
 
+const JSON = ({ field, formik }) => {
+  const onChange = (value) => {
+    formik.setValue(field.name, value);
+  };
+
+  return (
+    <>
+      <FormLabel label={field.label} />
+      <Editor
+        defaultLanguage="json"
+        onChange={onChange}
+        value={formik.values[field.name]}
+      />
+    </>
+  );
+};
+
 export const fieldtypes = {
   fileSize: (field, formik) => {
     return <FileSize formik={formik} field={field} />;
@@ -1421,6 +1439,9 @@ export const fieldtypes = {
   },
   text: (field, formik) => {
     return <Text field={field} formik={formik} />;
+  },
+  json: (field, formik) => {
+    return <JSON field={field} formik={formik} />;
   },
 };
 
