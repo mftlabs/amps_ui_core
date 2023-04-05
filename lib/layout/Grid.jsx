@@ -91,6 +91,7 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
     route: rte,
     config,
     refetch,
+    modal,
   });
 
   useEffect(() => {
