@@ -1384,6 +1384,10 @@ const JSON = ({ field, formik }) => {
     formik.setFieldValue(field.name, value);
   };
 
+  const onMount = (editor) => {
+    editor.updateOptions({ readOnly: field.readOnly });
+  };
+
   return (
     <>
       <FormLabel label={field.label} />
@@ -1391,6 +1395,7 @@ const JSON = ({ field, formik }) => {
         options={editorCustomOptions}
         height="60vh"
         defaultLanguage="json"
+        onMount={onMount}
         onChange={onChange}
         theme="vs-dark"
         value={formik.values[field.name]}
