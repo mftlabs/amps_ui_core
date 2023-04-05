@@ -1373,7 +1373,7 @@ export const Text = ({ field, formik, sx = {} }) => {
 
 const JSON = ({ field, formik }) => {
   const onChange = (value) => {
-    formik.setValue(field.name, value);
+    formik.setFieldValue(field.name, value);
   };
 
   return (
