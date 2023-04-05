@@ -171,7 +171,7 @@ export const FileProvider = (props) => {
 
   const upload = async function (url, file, metadata = false, extra) {
     return new Promise(async (resolve, reject) => {
-      // await renew();
+      var token = await renew();
       var data = new FormData();
       console.log(url);
 
@@ -182,7 +182,7 @@ export const FileProvider = (props) => {
 
       let request = new XMLHttpRequest();
       request.open("POST", url);
-      request.setRequestHeader("Authorization", user.access_token);
+      request.setRequestHeader("Authorization", token);
 
       var id = Math.floor(Math.random() * Date.now());
       console.log(id);
