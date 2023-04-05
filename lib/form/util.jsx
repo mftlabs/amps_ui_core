@@ -1389,7 +1389,7 @@ const JSON = ({ field, formik }) => {
   };
 
   return (
-    <>
+    <Box sx={{ opacity: field.readOnly ? 0.7 : 1 }}>
       <FormLabel label={field.label} />
       <Editor
         options={editorCustomOptions}
@@ -1400,7 +1400,7 @@ const JSON = ({ field, formik }) => {
         theme="vs-dark"
         value={formik.values[field.name]}
       />
-    </>
+    </Box>
   );
 };
 
