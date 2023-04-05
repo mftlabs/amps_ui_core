@@ -59,6 +59,8 @@ export { Grid } from "./lib/layout/Grid";
 
 export { Main } from "./lib/Main";
 
+export { validJson } from "./lib/util/validation";
+
 export { UIProvider, UIConsumer, useUIContext } from "./lib/contexts/UIContext";
 export {
   FileProvider,
