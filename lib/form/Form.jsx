@@ -50,13 +50,15 @@ export const Form = ({
   });
 
   useEffect(() => {
-    if (values) {
-      console.log(values);
-      setInitValues(values);
-    } else {
-      var d = {};
-      d = loadValues(d, fields);
-      setInitValues(d);
+    if (!preserve) {
+      if (values) {
+        console.log(values);
+        setInitValues(values);
+      } else {
+        var d = {};
+        d = loadValues(d, fields);
+        setInitValues(d);
+      }
     }
   }, []);
 
