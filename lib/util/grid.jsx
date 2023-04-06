@@ -288,6 +288,7 @@ export const SearchAction = ({ route, refetch, search, setSearch }) => {
           title={title}
           collection={config.collection}
           fields={fields}
+          values={search}
           // schema={getSchema(collection, field, {})}
         />
       )}
