@@ -27,7 +27,9 @@ export const Form = ({
   const [typefields, setTypeFields] = useState([]);
   const [schema, setSchema] = useState(root);
   const [loading, setLoading] = useState(false);
-  const [initialized, setInitialized] = useState(values ? false : true);
+  const [initialized, setInitialized] = useState(
+    values ? (values.type ? false : true) : true
+  );
   const [currType, setType] = useState(null);
   const { current } = useCurrent({
     route: `/${collection}/${entityId}`,
@@ -50,15 +52,13 @@ export const Form = ({
   });
 
   useEffect(() => {
-    if (!preserve) {
-      if (values) {
-        console.log(values);
-        setInitValues(values);
-      } else {
-        var d = {};
-        d = loadValues(d, fields);
-        setInitValues(d);
-      }
+    if (values) {
+      console.log(values);
+      setInitValues(values);
+    } else {
+      var d = {};
+      d = loadValues(d, fields);
+      setInitValues(d);
     }
   }, []);
 
@@ -70,10 +70,10 @@ export const Form = ({
 
   useEffect(() => {
     return () => {
-      if (!preserve) {
-        console.log("resetting");
-        formik.handleReset();
-      }
+      // if (!preserve) {
+      console.log("resetting");
+      formik.handleReset();
+      // }
     };
   }, []);
 

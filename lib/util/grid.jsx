@@ -227,6 +227,7 @@ export const SearchAction = ({ route, refetch, search, setSearch }) => {
   const [title, setTitle] = useState("Create New");
   const [config, setConfig] = useState(null);
   const [fields, setFields] = useState(null);
+  const [values, setValues] = useState({});
 
   useEffect(() => {
     const tokens = route.substring(1).split("/");
@@ -258,7 +259,14 @@ export const SearchAction = ({ route, refetch, search, setSearch }) => {
     setTitle(`Search ${config.title}`);
   }, []);
 
+  const reset = () => {
+    setSearch({});
+    setValues({});
+  };
+
   const onSubmit = (data, formik, setLoading) => {
+    setValues(data);
+
     data = getFilters(data, fields);
     console.log(data);
     setSearch(data);
@@ -288,7 +296,7 @@ export const SearchAction = ({ route, refetch, search, setSearch }) => {
           title={title}
           collection={config.collection}
           fields={fields}
-          values={search}
+          values={values}
           // schema={getSchema(collection, field, {})}
         />
       )}
@@ -305,7 +313,7 @@ export const SearchAction = ({ route, refetch, search, setSearch }) => {
         </IconButton>
       </Tooltip>
       <Tooltip arrow title="Clear Search" key="searchoff">
-        <IconButton onClick={() => setSearch({})}>
+        <IconButton onClick={() => reset()}>
           <SearchOff fontSize="medium" />
         </IconButton>
       </Tooltip>
