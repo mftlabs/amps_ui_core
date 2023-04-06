@@ -68,8 +68,8 @@ export const Form = ({
 
   useEffect(() => {
     return () => {
-      console.log("resetting");
       if (!preserve) {
+        console.log("resetting");
         formik.handleReset();
       }
     };
