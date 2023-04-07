@@ -29,7 +29,7 @@ export const UpdateForm = ({
   stat = {},
 }) => {
   const { useSchemas, types, useAuthContext, disabled } = useUIContext();
-
+  const { user } = useAuthContext();
   const [editing, setEditing] = useState(false);
   const [typefields, setTypeFields] = useState([]);
   const [schema, setSchema] = useState(root);
@@ -100,6 +100,12 @@ export const UpdateForm = ({
       formik.setFieldValue("_entity", current);
     }
   }, [current]);
+
+  useEffect(() => {
+    if (user) {
+      formik.setFieldValue("_user", user);
+    }
+  }, [user]);
 
   return (
     <Box

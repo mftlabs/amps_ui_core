@@ -22,7 +22,8 @@ export const Form = ({
   width,
   height,
 }) => {
-  const { useSchemas, types } = useUIContext();
+  const { useSchemas, types, useAuthContext } = useUIContext();
+  const { user } = useAuthContext();
   const [initValues, setInitValues] = useState({});
   const [typefields, setTypeFields] = useState([]);
   const [schema, setSchema] = useState(root);
@@ -76,6 +77,12 @@ export const Form = ({
       // }
     };
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      formik.setFieldValue("_user", user);
+    }
+  }, [user]);
 
   // useEffect(() => {
   //   console.log(formik.errors);
