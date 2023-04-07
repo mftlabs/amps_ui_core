@@ -204,6 +204,7 @@ export const Update = ({
   }, [route]);
 
   const onSubmit = (vals) => {
+    delete vals._user;
     if (entityId) {
       delete vals._entity;
     }

@@ -38,6 +38,9 @@ export const Form = ({
   });
   const { getSchema } = useSchemas();
   const submit = async (values) => {
+    delete values._user;
+    delete values._entity;
+
     setLoading(true);
     await onSubmit(values, formik, setLoading);
     setLoading(false);
