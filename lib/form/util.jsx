@@ -1339,7 +1339,7 @@ export const Text = ({ field, formik, sx = {} }) => {
       fullWidth={true}
       type={password ? "password" : undefined}
       id={field.name}
-      InputLabelProps={{ shrink: field.readOnly ? true : null }}
+      InputLabelProps={field.readOnly ? { shrink: true } : {}}
       InputProps={
         field.inputType == "password"
           ? {
