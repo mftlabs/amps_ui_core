@@ -83,6 +83,10 @@ export const UpdateForm = ({
         if (current) {
           baseVals["_entity"] = current;
         }
+        if (user) {
+          baseVals["_user"] = user;
+        }
+
         var newVals = { ...baseVals, ...inits };
         formik.setValues(values);
 

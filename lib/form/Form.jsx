@@ -109,6 +109,10 @@ export const Form = ({
         if (current) {
           baseVals["_entity"] = current;
         }
+
+        if (user) {
+          baseVals["_user"] = user;
+        }
         var values = { ...baseVals, ...inits };
         formik.setValues(values);
         setTypeFields(type.fields);
