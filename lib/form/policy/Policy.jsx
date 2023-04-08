@@ -18,6 +18,7 @@ import {
   Tab,
   Tabs,
   TextField,
+  Typography,
 } from "@mui/material";
 import { Add } from "@mui/icons-material";
 import Editor from "@monaco-editor/react";
@@ -159,11 +160,6 @@ export function Policy({ field, formik }) {
       np = policy.filter((item) => item !== value);
     }
     setPolicy(np);
-    if (addValue) {
-      var exp = getExpanded(np);
-
-      setExpanded(exp);
-    }
   };
 
   const getPaths = (obj, parentKey = "") => {
@@ -299,7 +295,11 @@ export function Policy({ field, formik }) {
                     return objects;
                   });
                   setOptions((options) => options.filter((o) => o != value));
-                  setExpanded(getExpanded());
+                  setExpanded((expanded) => {
+                    var exp = [...expanded];
+                    exp.push(value);
+                    return exp;
+                  });
                   setValue(null);
                   event.target.blur();
                 }}
@@ -332,48 +332,67 @@ export function Policy({ field, formik }) {
                   console.log(k1);
                   var v1 = data[k1];
                   return (
-                    <StyledTreeItem nodeId={k1} label={k1}>
-                      <Switch
-                        onChange={(event, value) => {
-                          var gp = getPaths(data[k1], k1);
-                          console.log(gp);
-                          var np = [...policy];
-                          if (value) {
-                            np = np.concat(gp);
-                            np = [...new Set(np)];
-                          } else {
-                            const set = new Set(gp);
-                            np = np.filter((value) => !set.has(value));
-                          }
-                          console.log(np);
-                          setPolicy(np);
-                          setExpanded(getExpanded(np));
-                        }}
-                        checked={toggleState(k1)}
-                      />
+                    <StyledTreeItem
+                      nodeId={k1}
+                      label={
+                        <Box sx={{ alignItems: "center", display: "flex" }}>
+                          <Typography>{k1}</Typography>
+                          <Switch
+                            onChange={(event, value) => {
+                              var gp = getPaths(data[k1], k1);
+                              console.log(gp);
+                              var np = [...policy];
+                              if (value) {
+                                np = np.concat(gp);
+                                np = [...new Set(np)];
+                              } else {
+                                const set = new Set(gp);
+                                np = np.filter((value) => !set.has(value));
+                              }
+                              console.log(np);
+                              setPolicy(np);
+                              // setExpanded(getExpanded(np));
+                            }}
+                            checked={toggleState(k1)}
+                          />
+                        </Box>
+                      }
+                    >
                       {Object.entries(v1).map(([k2, v2], index2) => {
                         if (typeof v2 == "object") {
                           var p = [k1, k2].join(".");
                           return (
-                            <StyledTreeItem expanded nodeId={p} label={k2}>
-                              <Switch
-                                onChange={(event, value) => {
-                                  var gp = getPaths(data[k1][k2], p);
-                                  console.log(gp);
-                                  var np = [...policy];
-                                  if (value) {
-                                    np = np.concat(gp);
-                                    np = [...new Set(np)];
-                                  } else {
-                                    const set = new Set(gp);
-                                    np = np.filter((value) => !set.has(value));
-                                  }
+                            <StyledTreeItem
+                              expanded
+                              nodeId={p}
+                              label={
+                                <Box
+                                  sx={{ alignItems: "center", display: "flex" }}
+                                >
+                                  <Typography>{k1}</Typography>
+                                  <Switch
+                                    onChange={(event, value) => {
+                                      var gp = getPaths(data[k1][k2], p);
+                                      console.log(gp);
+                                      var np = [...policy];
+                                      if (value) {
+                                        np = np.concat(gp);
+                                        np = [...new Set(np)];
+                                      } else {
+                                        const set = new Set(gp);
+                                        np = np.filter(
+                                          (value) => !set.has(value)
+                                        );
+                                      }
 
-                                  setPolicy(np);
-                                  setExpanded(getExpanded(np));
-                                }}
-                                checked={toggleState(p)}
-                              />
+                                      setPolicy(np);
+                                      setExpanded(getExpanded(np));
+                                    }}
+                                    checked={toggleState(p)}
+                                  />
+                                </Box>
+                              }
+                            >
                               {Object.entries(v2).map(([k3, v3]) => {
                                 var path = [k1, k2, k3].join(".");
 
@@ -403,20 +422,6 @@ export function Policy({ field, formik }) {
                     </StyledTreeItem>
                   );
                 })}
-                {/* <StyledTreeItem nodeId="1" label="Main">
-              <StyledTreeItem nodeId="2" label="Hello" />
-              <StyledTreeItem nodeId="3" label="Subtree with children">
-                <StyledTreeItem nodeId="6" label="Hello" />
-                <StyledTreeItem nodeId="7" label="Sub-subtree with children">
-                  <StyledTreeItem nodeId="9" label="Child 1" />
-                  <StyledTreeItem nodeId="10" label="Child 2" />
-                  <StyledTreeItem nodeId="11" label="Child 3" />
-                </StyledTreeItem>
-                <StyledTreeItem nodeId="8" label="Hello" />
-              </StyledTreeItem>
-              <StyledTreeItem nodeId="4" label="World" />
-              <StyledTreeItem nodeId="5" label="Something something" />
-            </StyledTreeItem> */}
               </TreeView>
             </>
           )}
