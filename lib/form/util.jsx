@@ -1093,6 +1093,7 @@ function CollectionList({
                 onChange={(e, value) => {
                   setCurr(value);
                 }}
+                value={curr}
                 renderInput={(params) => (
                   <TextField
                     variant="standard"
@@ -1114,14 +1115,13 @@ function CollectionList({
                 <IconButton
                   onClick={() => {
                     if (curr) {
-                      if (formik.values?.[name].some((e) => e === curr._id)) {
+                      var l = formik.values[name] || [];
+                      if (l.some((e) => e === curr._id)) {
                         setOpen(true);
                       } else {
-                        formik.setFieldValue(name, [
-                          ...formik.values[name],
-                          curr[valField],
-                        ]);
+                        formik.setFieldValue(name, [...l, curr[valField]]);
                       }
+                      setCurr(null);
                     }
                     console.log(formik.values[name]);
                   }}
