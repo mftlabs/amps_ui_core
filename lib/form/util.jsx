@@ -1114,7 +1114,7 @@ function CollectionList({
                 <IconButton
                   onClick={() => {
                     if (curr) {
-                      if (formik.values[name].some((e) => e === curr._id)) {
+                      if (formik.values?.[name].some((e) => e === curr._id)) {
                         setOpen(true);
                       } else {
                         formik.setFieldValue(name, [
