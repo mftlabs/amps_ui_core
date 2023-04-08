@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import SvgIcon from "@mui/material/SvgIcon";
 import { alpha, styled } from "@mui/material/styles";
@@ -103,6 +103,7 @@ const ToggleTreeItem = styled((props) => {
       <ListItemText>{props.label}</ListItemText>
       <Switch
         checked={props.value}
+        disabled={props.disabled}
         onChange={(e, value) => {
           props.handleToggle(props.path, value);
         }}
@@ -125,11 +126,12 @@ const ToggleTreeItem = styled((props) => {
 export function Policy({ field, formik }) {
   const request = useRequest();
   const [options, setOptions] = useState([]);
-  const [policy, setPolicy] = useState([]);
+  const [policy, setPolicy] = useState(formik.values[field.name]);
   const [expanded, setExpanded] = useState([]);
   const [objects, setObjects] = useState([]);
   const [value, setValue] = useState(null);
   const [type, setType] = useState("tree");
+  const acRef = useRef(null);
 
   const changeType = (event, newValue) => {
     setType(newValue);
@@ -214,6 +216,21 @@ export function Policy({ field, formik }) {
     setExpanded(nodeIds);
   };
 
+  const toggleObject = (obj, parentKey, value) => {
+    var gp = getPaths(obj, parentKey);
+    console.log(gp);
+    var np = [...policy];
+    if (value) {
+      np = np.concat(gp);
+      np = [...new Set(np)];
+    } else {
+      const set = new Set(gp);
+      np = np.filter((value) => !set.has(value));
+    }
+    console.log(np);
+    setPolicy(np);
+  };
+
   const { data, isError, isFetching, isLoading, refetch } = useQuery({
     queryKey: ["schema"],
     queryFn: () => {
@@ -263,8 +280,18 @@ export function Policy({ field, formik }) {
   }, []);
 
   useEffect(() => {
+    console.log("Nulling");
+    setValue(null);
+    if (acRef.current) {
+      console.log(acRef.current);
+      acRef.current.blur();
+    }
+  }, [objects]);
+
+  useEffect(() => {
     console.log(expanded);
-  }, [expanded]);
+    setExpanded(getExpanded());
+  }, []);
 
   useEffect(() => {
     console.log(policy);
@@ -272,7 +299,7 @@ export function Policy({ field, formik }) {
   }, [policy]);
 
   return (
-    <Box sx={{ p: 1, flex: 1, height: "100%" }}>
+    <Box sx={{ p: 1, flex: 1 }}>
       <Tabs value={type} onChange={changeType} aria-label="basic tabs example">
         <Tab label="Tree" value="tree" />
         <Tab label="JSON" value="json" />
@@ -287,26 +314,31 @@ export function Policy({ field, formik }) {
                 sx={{ flex: 1 }}
                 value={value}
                 clearOnBlur
+                disabled={field.readOnly}
                 onChange={(event, value) => {
                   console.log(event);
 
                   setObjects((objects) => {
-                    objects.push(value);
-                    return objects;
+                    var no = [...objects];
+                    no.push(value);
+                    return no;
                   });
                   setOptions((options) => options.filter((o) => o != value));
-                  setExpanded((expanded) => {
-                    var exp = [...expanded];
-                    exp.push(value);
-                    return exp;
-                  });
-                  setValue(null);
+                  toggleObject(data[value], value, true);
+
+                  // setExpanded((expanded) => {
+                  //   var exp = [...expanded];
+                  //   exp.push(value);
+                  //   return exp;
+                  // });
+
                   event.target.blur();
                 }}
                 options={options}
                 renderInput={(params) => (
                   <TextField
                     {...params}
+                    inputRef={acRef}
                     value={value}
                     label="Select Object"
                     variant="standard"
@@ -325,7 +357,6 @@ export function Policy({ field, formik }) {
                   height: "100%",
                   flexGrow: 1,
                   maxWidth: 400,
-                  overflowY: "auto",
                 }}
               >
                 {objects.map((k1, index) => {
@@ -338,19 +369,13 @@ export function Policy({ field, formik }) {
                         <Box sx={{ alignItems: "center", display: "flex" }}>
                           <Typography>{k1}</Typography>
                           <Switch
+                            onClick={(e) => {
+                              e.stopPropagation();
+                            }}
+                            disabled={field.readOnly}
                             onChange={(event, value) => {
-                              var gp = getPaths(data[k1], k1);
-                              console.log(gp);
-                              var np = [...policy];
-                              if (value) {
-                                np = np.concat(gp);
-                                np = [...new Set(np)];
-                              } else {
-                                const set = new Set(gp);
-                                np = np.filter((value) => !set.has(value));
-                              }
-                              console.log(np);
-                              setPolicy(np);
+                              toggleObject(data[k1], k1, value);
+
                               // setExpanded(getExpanded(np));
                             }}
                             checked={toggleState(k1)}
@@ -371,22 +396,12 @@ export function Policy({ field, formik }) {
                                 >
                                   <Typography>{k1}</Typography>
                                   <Switch
+                                    disabled={field.readOnly}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                    }}
                                     onChange={(event, value) => {
-                                      var gp = getPaths(data[k1][k2], p);
-                                      console.log(gp);
-                                      var np = [...policy];
-                                      if (value) {
-                                        np = np.concat(gp);
-                                        np = [...new Set(np)];
-                                      } else {
-                                        const set = new Set(gp);
-                                        np = np.filter(
-                                          (value) => !set.has(value)
-                                        );
-                                      }
-
-                                      setPolicy(np);
-                                      setExpanded(getExpanded(np));
+                                      toggleObject(data[k1][k2], p, value);
                                     }}
                                     checked={toggleState(p)}
                                   />
@@ -400,6 +415,7 @@ export function Policy({ field, formik }) {
                                   <ToggleTreeItem
                                     handleToggle={handleToggle}
                                     label={k3}
+                                    disabled={field.readOnly}
                                     value={policy.includes(path)}
                                     path={path}
                                   />
@@ -412,6 +428,7 @@ export function Policy({ field, formik }) {
                           return (
                             <ToggleTreeItem
                               handleToggle={handleToggle}
+                              disabled={field.readOnly}
                               label={k2}
                               value={policy.includes(path)}
                               path={path}
