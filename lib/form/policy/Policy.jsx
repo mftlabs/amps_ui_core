@@ -276,7 +276,7 @@ export function Policy({ field, formik }) {
   }, [policy]);
 
   return (
-    <Box sx={{ p: 3, flex: 1, height: "100%" }}>
+    <Box sx={{ p: 1, flex: 1, height: "100%" }}>
       <Tabs value={type} onChange={changeType} aria-label="basic tabs example">
         <Tab label="Tree" value="tree" />
         <Tab label="JSON" value="json" />
