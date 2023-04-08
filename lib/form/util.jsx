@@ -45,6 +45,7 @@ import MaterialReactTable from "material-react-table";
 import { Toast } from "../util/components/Toast";
 import { useMetadata } from "../hooks/useMetadata";
 import Editor from "@monaco-editor/react";
+import { Policy } from "./policy/Policy";
 const DateTime = ({ field, formik }) => {
   return (
     <LocalizationProvider key={field.name} dateAdapter={AdapterDayjs}>
@@ -1409,6 +1410,9 @@ const JSON = ({ field, formik }) => {
 };
 
 export const fieldtypes = {
+  policy: (field, formik) => {
+    return <Policy formik={formik} field={field} />;
+  },
   fileSize: (field, formik) => {
     return <FileSize formik={formik} field={field} />;
   },
