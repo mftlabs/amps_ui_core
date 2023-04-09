@@ -10,6 +10,7 @@ import { request } from "../util/util";
 import { useModal } from "../hooks/useModal";
 import { useGridActions } from "../util/gridactions";
 import { useUIContext } from "../contexts/UIContext";
+import { useTokens } from "amps_ui_core";
 
 export const Grid = ({ config: config, route: rte, isSubpage }) => {
   // const { confRowActions = [], confActions = [], ...config } = conf;
@@ -22,10 +23,11 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
   const [search, setSearch] = useState(
     config.defaultFilter ? config.defaultFilter() : {}
   );
+
   const [globalFilter, setGlobalFilter] = useState("");
   const [sorting, setSorting] = useState(config.sort || []);
   const [route, setRoute] = useState(null);
-
+  const { main, field } = useTokens(route);
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 25,
@@ -89,6 +91,7 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
     search,
     setSearch,
     route: route,
+    tokens: { main, field },
     config,
     refetch,
     modal,

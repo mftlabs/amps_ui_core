@@ -17,7 +17,8 @@ import { useQueryFn } from "./util";
 import { useConfirm } from "material-ui-confirm";
 
 export const useGridActions = (props) => {
-  const { rowSelection, search, setSearch, route, config, refetch } = props;
+  const { rowSelection, search, setSearch, route, config, refetch, tokens } =
+    props;
   const { useGridActions } = useUIContext();
   const confirm = useConfirm();
 
@@ -33,7 +34,7 @@ export const useGridActions = (props) => {
       return (
         <IconButton
           sx={{ color: row.original.active ? "green" : "red" }}
-          disabled={disabled(route, "actions.active")}
+          disabled={disabled(tokens, "actions.active")}
           key={`${route}-active`}
           onClick={async () => {
             console.log(row.original);
@@ -70,7 +71,7 @@ export const useGridActions = (props) => {
       const queryFn = useQueryFn();
       return (
         <IconButton
-          disabled={disabled(route, "delete")}
+          disabled={disabled(tokens, "delete")}
           key={`${route}-delete`}
           onClick={async () => {
             var deletable = true;
@@ -192,7 +193,7 @@ export const useGridActions = (props) => {
       return (
         <FormAction
           key={`${route}-add`}
-          disabled={disabled(route, "write")}
+          disabled={disabled(tokens, "write")}
           refetch={refetch}
           route={location.pathname}
           style={config.dialog}
