@@ -33,6 +33,7 @@ export const useGridActions = (props) => {
       return (
         <IconButton
           sx={{ color: row.original.active ? "green" : "red" }}
+          disabled={disabled(route, "actions.active")}
           onClick={async () => {
             console.log(row.original);
             var tokens = location.pathname.substring(1).split("/");
@@ -68,6 +69,7 @@ export const useGridActions = (props) => {
       const queryFn = useQueryFn();
       return (
         <IconButton
+          disabled={disabled(route, "delete")}
           onClick={async () => {
             var deletable = true;
 
@@ -188,7 +190,7 @@ export const useGridActions = (props) => {
       return (
         <FormAction
           key="add"
-          disabled={disabled(route)}
+          disabled={disabled(route, "write")}
           refetch={refetch}
           route={location.pathname}
           style={config.dialog}
