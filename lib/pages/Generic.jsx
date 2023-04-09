@@ -8,8 +8,9 @@ import { useTokens } from "../hooks/useTokens";
 import { useUIContext } from "../contexts/UIContext";
 
 export function Generic() {
-  const { pages, defRoute } = useUIContext();
+  const { pages, defRoute, useAuthContext } = useUIContext();
   const [width, height] = useWindowSize();
+  const { checkMenu } = useAuthContext();
   const location = useLocation();
   const navigate = useNavigate();
   const [config, setConfig] = useState(null);
@@ -23,16 +24,14 @@ export function Generic() {
   useEffect(() => {
     setGrid(null);
     setConfig(null);
-    var tokens = location.pathname.substring(1).split("/");
-
-    var config = pages[tokens[0]];
 
     if (main !== undefined) {
-      if (pages[main]) {
+      var resp = checkMenu(`/${main}`);
+      if (resp.success) {
         // setConfig(config);
         // setGrid();
       } else {
-        navigate(defRoute);
+        navigate(resp.href);
       }
     }
   }, [location.pathname, main]);
