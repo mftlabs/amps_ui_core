@@ -27,6 +27,7 @@ export function Generic() {
 
     if (main !== undefined) {
       var resp = checkMenu(`/${main}`);
+      console.log(resp);
       if (resp.success) {
         // setConfig(config);
         // setGrid();
