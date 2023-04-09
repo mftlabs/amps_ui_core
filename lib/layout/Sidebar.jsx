@@ -25,7 +25,7 @@ import { useUIContext } from "../contexts/UIContext";
 
 export const Sidebar = (props) => {
   const { useAuthContext } = useUIContext();
-  const { menu } = useAuthContext();
+  const { user } = useAuthContext();
   const { open, onClose } = props;
   // const router = useRouter();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
@@ -85,7 +85,7 @@ export const Sidebar = (props) => {
           }}
         />
         <Box sx={{ flexGrow: 1 }}>
-          {Object.entries(menu).map(([title, object]) => {
+          {Object.entries(user.menu).map(([title, object]) => {
             return (
               <NavItem
                 key={object.children ? title : object.title}
