@@ -529,20 +529,21 @@ function Select({
   const [selected, setSelected] = useState(null);
   const queryFn = useQueryFn();
 
-  const { data, isError, isFetching, isLoading, refetch } = useQuery({
-    queryKey: [
-      route ? (route instanceof Function ? route(formik) : route) : label,
-      filter, //refetch when sorting changes
-    ],
-    queryFn: () => {
-      return route
-        ? queryFn(route instanceof Function ? route(formik) : route, filter)
-        : options instanceof Function
-        ? options(formik)
-        : options;
-    },
-    keepPreviousData: true,
-  });
+  const { data, isError, isFetching, isLoading, refetch, remove, error } =
+    useQuery({
+      queryKey: [
+        route ? (route instanceof Function ? route(formik) : route) : label,
+        filter, //refetch when sorting changes
+      ],
+      queryFn: () => {
+        return route
+          ? queryFn(route instanceof Function ? route(formik) : route, filter)
+          : options instanceof Function
+          ? options(formik)
+          : options;
+      },
+      keepPreviousData: true,
+    });
 
   useEffect(() => {
     refetch();
@@ -553,6 +554,14 @@ function Select({
       formik.setFieldValue(name, selected[valField]);
     }
   }, [selected]);
+
+  useEffect(() => {
+    if (error) {
+      if (error.status == 403) {
+        remove();
+      }
+    }
+  }, [error]);
 
   // useEffect(() => {
   //   if (selected) {
@@ -591,7 +600,7 @@ function Select({
 
   return isLoading && !isError ? (
     <Loader key={name} />
-  ) : isError ? (
+  ) : error ? (
     <Typography>{error.resp.data}</Typography>
   ) : (
     <Box key={name} sx={{ display: "flex", flexDirection: "row", ...sx }}>
