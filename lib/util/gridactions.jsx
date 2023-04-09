@@ -19,14 +19,10 @@ import { useConfirm } from "material-ui-confirm";
 export const useGridActions = (props) => {
   const { rowSelection, search, setSearch, route, config, refetch, tokens } =
     props;
-  const { useGridActions } = useUIContext();
+  const { useGridActions, checkPerm } = useUIContext();
   const confirm = useConfirm();
 
-  const {
-    actions: a,
-    rowActions: r,
-    disabled = () => false,
-  } = useGridActions({ ...props });
+  const { actions: a, rowActions: r } = useGridActions({ ...props });
 
   const rowActions = {
     ...r,
@@ -34,7 +30,7 @@ export const useGridActions = (props) => {
       return (
         <IconButton
           sx={{ color: row.original.active ? "green" : "red" }}
-          disabled={disabled(tokens, "actions.active")}
+          disabled={!checkPerm(tokens, "actions.active")}
           key={`${route}-active`}
           onClick={async () => {
             console.log(row.original);
@@ -71,7 +67,7 @@ export const useGridActions = (props) => {
       const queryFn = useQueryFn();
       return (
         <IconButton
-          disabled={disabled(tokens, "delete")}
+          disabled={!checkPerm(tokens, "delete")}
           key={`${route}-delete`}
           onClick={async () => {
             var deletable = true;
@@ -193,7 +189,7 @@ export const useGridActions = (props) => {
       return (
         <FormAction
           key={`${route}-add`}
-          disabled={disabled(tokens, "write")}
+          disabled={!checkPerm(tokens, "write")}
           refetch={refetch}
           route={location.pathname}
           style={config.dialog}

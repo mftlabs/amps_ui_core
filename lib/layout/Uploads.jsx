@@ -119,7 +119,7 @@ export function Uploads() {
 
   const { uploads, pending } = useFileContext();
 
-  const { disabled } = useUIContext();
+  const { checkPerm } = useUIContext();
 
   React.useEffect(() => {
     if (lgUp) {
@@ -142,7 +142,7 @@ export function Uploads() {
       <Tooltip title="Uploads" key="uploads">
         <IconButton
           onClick={handleClickOpen}
-          disabled={disabled("/topics", "actions.upload")}
+          disabled={!checkPerm("/topics", "actions.upload")}
         >
           <Badge badgeContent={pending} color="primary">
             <Upload fontSize="medium" />
