@@ -14,7 +14,7 @@ import { Resizable } from "react-resizable";
 import "react-resizable/css/styles.css";
 import { useFormik } from "formik";
 import { useFileContext } from "../contexts/file-context";
-import { FormDialog, Progress } from "amps_ui_core";
+import { FormDialog, Progress, useUIContext } from "amps_ui_core";
 
 import { useConfirm } from "material-ui-confirm";
 
@@ -117,7 +117,9 @@ export function Uploads() {
     noSsr: false,
   });
 
-  const { uploads, pending, useAuthContext, disabled } = useFileContext();
+  const { uploads, pending } = useFileContext();
+
+  const { disabled } = useUIContext();
 
   React.useEffect(() => {
     if (lgUp) {
