@@ -25,6 +25,7 @@ import { Update } from "../form/Update";
 import InfoIcon from "@mui/icons-material/Info";
 import { useTokens } from "../hooks/useTokens";
 import { Grid } from "../layout/Grid";
+import { useUIContext } from "amps_ui_core";
 
 const drawerWidth = 240;
 
@@ -160,6 +161,7 @@ const SubNavItem = ({ title, href, icon, route, open }) => {
 
 export function Subpage({ config }) {
   const theme = useTheme();
+  const { checkPerm } = useUIContext();
   const [open, setOpen] = React.useState(false);
   const location = useLocation();
   const { main, field } = useTokens();
