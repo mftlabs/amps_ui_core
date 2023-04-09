@@ -26,7 +26,7 @@ export function Generic() {
     setConfig(null);
 
     if (main !== undefined) {
-      var resp = checkMenu(`/${main}`);
+      var resp = checkMenu(main);
       console.log(resp);
       if (resp.success) {
         // setConfig(config);
