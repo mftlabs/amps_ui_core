@@ -154,7 +154,7 @@ export const UpdateForm = ({
         ) : (
           <Button
             type="button"
-            disabled={disabled(route)}
+            disabled={disabled(route, "write")}
             onClick={(e) => {
               e.preventDefault();
               setEditing(true);
