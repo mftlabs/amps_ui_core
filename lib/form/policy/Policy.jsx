@@ -381,7 +381,7 @@ export function Policy({ field, formik }) {
                                 <Box
                                   sx={{ alignItems: "center", display: "flex" }}
                                 >
-                                  <Typography>{k1}</Typography>
+                                  <Typography>{k2}</Typography>
                                   <Switch
                                     disabled={field.readOnly}
                                     onClick={(e) => {
