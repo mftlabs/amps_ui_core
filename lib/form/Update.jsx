@@ -128,7 +128,8 @@ export const UpdateForm = ({
         {renderFields(formik, fields, !editing, false, stat)}
         {renderFields(formik, typefields, !editing, false, stat)}
       </Box>
-      <Box>
+      <Divider />
+      <Box sx={{ p: 1 }}>
         {editing ? (
           <>
             <Button
