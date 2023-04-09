@@ -8,7 +8,7 @@ import React, {
   useState,
 } from "react";
 import PropTypes from "prop-types";
-import { request, useRenew } from "amps_ui_core";
+import { request } from "amps_ui_core";
 import { Socket } from "phoenix";
 import { toast } from "react-toastify";
 import { useUIContext } from "./UIContext";
@@ -98,7 +98,6 @@ export const FileProvider = (props) => {
   }, [downloads]);
   //   const initialized = useRef(false);
   const { user } = useAuthContext();
-  const { renew } = useRenew();
   //   const socketHandlers = (socket, id) => {
   //     var channel = socket.channel(`user:${id}`);
   //     channel
