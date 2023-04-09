@@ -24,8 +24,8 @@ import { Link } from "react-router-dom";
 import { useUIContext } from "../contexts/UIContext";
 
 export const Sidebar = (props) => {
-  const { useMenu } = useUIContext();
-  const [menu, setMenu] = useState({});
+  const { useAuthContext } = useUIContext();
+  const { menu } = useAuthContext();
   const { open, onClose } = props;
   // const router = useRouter();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up("lg"), {
@@ -33,15 +33,8 @@ export const Sidebar = (props) => {
     noSsr: false,
   });
 
-  const { getMenu } = useMenu();
-
   useEffect(
     () => {
-      const fetch = async () => {
-        var menu = await getMenu();
-        setMenu(menu);
-      };
-      fetch();
       if (open) {
         onClose?.();
       }
