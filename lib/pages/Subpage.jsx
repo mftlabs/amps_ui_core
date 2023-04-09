@@ -180,8 +180,9 @@ export function Subpage({ config }) {
         Object.values(config.subpages).reduce((acc, sp) => {
           if (checkPerm({ main, field })) {
             acc.push(sp);
+            return acc;
           } else {
-            acc;
+            return acc;
           }
         }, [])
       );
