@@ -34,6 +34,7 @@ export const useGridActions = (props) => {
         <IconButton
           sx={{ color: row.original.active ? "green" : "red" }}
           disabled={disabled(route, "actions.active")}
+          key={`${route}-active`}
           onClick={async () => {
             console.log(row.original);
             var tokens = location.pathname.substring(1).split("/");
@@ -70,6 +71,7 @@ export const useGridActions = (props) => {
       return (
         <IconButton
           disabled={disabled(route, "delete")}
+          key={`${route}-delete`}
           onClick={async () => {
             var deletable = true;
 
@@ -178,7 +180,7 @@ export const useGridActions = (props) => {
     ...a,
     search: () => (
       <SearchAction
-        key="search"
+        key={`${route}-search`}
         refetch={refetch}
         route={location.pathname}
         search={search}
@@ -189,7 +191,7 @@ export const useGridActions = (props) => {
     add: () => {
       return (
         <FormAction
-          key="add"
+          key={`${route}-add`}
           disabled={disabled(route, "write")}
           refetch={refetch}
           route={location.pathname}
