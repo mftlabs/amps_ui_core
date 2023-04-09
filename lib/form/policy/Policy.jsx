@@ -97,7 +97,6 @@ const StyledTreeItem = styled((props) => (
 }));
 
 const ToggleTreeItem = styled((props) => {
-  console.log(props);
   return (
     <ListItem dense={true} TransitionComponent={TransitionComponent}>
       <ListItemText>{props.label}</ListItemText>
@@ -126,7 +125,7 @@ const ToggleTreeItem = styled((props) => {
 export function Policy({ field, formik }) {
   const request = useRequest();
   const [options, setOptions] = useState([]);
-  const [policy, setPolicy] = useState(formik.values[field.name]);
+  const [policy, setPolicy] = useState(formik.values[field.name] || []);
   const [expanded, setExpanded] = useState([]);
   const [objects, setObjects] = useState([]);
   const [value, setValue] = useState(null);
@@ -154,7 +153,6 @@ export function Policy({ field, formik }) {
   };
 
   const handleToggle = (value, addValue) => {
-    console.log(value);
     var np;
     if (addValue) {
       np = [...policy, value];
@@ -208,7 +206,6 @@ export function Policy({ field, formik }) {
         return rest.length ? [first, ...rest].join(".") : first;
       })
       .concat(objects);
-    console.log(exp);
     return [...new Set(exp)];
   };
 
@@ -218,7 +215,6 @@ export function Policy({ field, formik }) {
 
   const toggleObject = (obj, parentKey, value) => {
     var gp = getPaths(obj, parentKey);
-    console.log(gp);
     var np = [...policy];
     if (value) {
       np = np.concat(gp);
@@ -227,7 +223,6 @@ export function Policy({ field, formik }) {
       const set = new Set(gp);
       np = np.filter((value) => !set.has(value));
     }
-    console.log(np);
     setPolicy(np);
   };
 
@@ -248,7 +243,6 @@ export function Policy({ field, formik }) {
   });
 
   useEffect(() => {
-    console.log(data);
     if (data) {
       setOptions(Object.keys(data));
     }
@@ -280,21 +274,17 @@ export function Policy({ field, formik }) {
   }, []);
 
   useEffect(() => {
-    console.log("Nulling");
     setValue(null);
     if (acRef.current) {
-      console.log(acRef.current);
       acRef.current.blur();
     }
   }, [objects]);
 
   useEffect(() => {
-    console.log(expanded);
     setExpanded(getExpanded());
   }, []);
 
   useEffect(() => {
-    console.log(policy);
     formik.setFieldValue(field.name, policy);
   }, [policy]);
 
@@ -316,8 +306,6 @@ export function Policy({ field, formik }) {
                 clearOnBlur
                 disabled={field.readOnly}
                 onChange={(event, value) => {
-                  console.log(event);
-
                   setObjects((objects) => {
                     var no = [...objects];
                     no.push(value);
@@ -360,7 +348,6 @@ export function Policy({ field, formik }) {
                 }}
               >
                 {objects.map((k1, index) => {
-                  console.log(k1);
                   var v1 = data[k1];
                   return (
                     <StyledTreeItem
