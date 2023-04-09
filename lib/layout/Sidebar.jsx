@@ -68,7 +68,7 @@ export const Sidebar = (props) => {
                 flex: 1,
                 width: "100%",
                 height: 96,
-                maxHeight: { xs: 64, md: 96 },
+
                 backgroundImage: 'url("/images/logo")',
                 backgroundSize: "contain",
                 backgroundRepeat: "no-repeat",
@@ -78,12 +78,6 @@ export const Sidebar = (props) => {
           </Link>
         </Box>
 
-        <Divider
-          sx={{
-            borderColor: "#2D3748",
-            my: 3,
-          }}
-        />
         <Box sx={{ flexGrow: 1 }}>
           {Object.entries(user.menu).map(([title, object]) => {
             return (
