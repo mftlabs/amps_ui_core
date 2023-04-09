@@ -443,7 +443,7 @@ export function Policy({ field, formik }) {
             </>
           )}
           {type == "json" && (
-            <Box sx={{ opacity: field.readOnly ? 0.7 : 1 }}>
+            <Box sx={{ opacity: field.readOnly ? 0.85 : 1 }}>
               <Editor
                 options={editorCustomOptions}
                 height="60vh"
