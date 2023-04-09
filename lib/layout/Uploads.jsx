@@ -117,7 +117,7 @@ export function Uploads() {
     noSsr: false,
   });
 
-  const { uploads, pending } = useFileContext();
+  const { uploads, pending, useAuthContext, disabled } = useFileContext();
 
   React.useEffect(() => {
     if (lgUp) {
@@ -137,8 +137,11 @@ export function Uploads() {
 
   return (
     <div>
-      <Tooltip title="Uploads">
-        <IconButton onClick={handleClickOpen}>
+      <Tooltip title="Uploads" key="uploads">
+        <IconButton
+          onClick={handleClickOpen}
+          disabled={disabled("/topics", "actions.upload")}
+        >
           <Badge badgeContent={pending} color="primary">
             <Upload fontSize="medium" />
           </Badge>
