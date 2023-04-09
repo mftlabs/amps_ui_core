@@ -88,7 +88,7 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
     rowSelection,
     search,
     setSearch,
-    route: rte,
+    route: route,
     config,
     refetch,
     modal,
