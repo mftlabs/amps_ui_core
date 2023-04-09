@@ -164,6 +164,7 @@ export function Subpage({ config }) {
   const { checkPerm } = useUIContext();
   const [open, setOpen] = React.useState(false);
   const location = useLocation();
+  const [subpages, setSubpages] = useState([]);
   const { main, field } = useTokens();
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -173,147 +174,163 @@ export function Subpage({ config }) {
     setOpen(false);
   };
 
+  useEffect(() => {
+    if (main) {
+      setSubpages(
+        Object.values(config.subpages).reduce((acc, sp) => {
+          if (checkPerm({ main, field })) {
+            acc.push(sp);
+          } else {
+            acc;
+          }
+        }, [])
+      );
+    }
+  }, [main]);
+
   return (
-    <Box sx={{ display: "flex", height: "100%" }}>
-      <CssBaseline />
-      {/* <AppBar position="fixed" open={open}> */}
-      {/* <Toolbar>
+    subpages && (
+      <Box sx={{ display: "flex", height: "100%" }}>
+        <CssBaseline />
+        {/* <AppBar position="fixed" open={open}> */}
+        {/* <Toolbar>
 
         <Typography variant="h6" noWrap component="div">
           Mini variant drawer
         </Typography>
       </Toolbar> */}
-      {/* </AppBar> */}
-      <Drawer variant="permanent" open={open}>
-        <List>
-          <ListItem disablePadding sx={{ display: "block" }}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-                ...(open && { display: "none" }),
-              }}
-              onClick={handleDrawerOpen}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <MenuIcon />
-              </ListItemIcon>
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding sx={{ display: "block" }}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-
-                justifyContent: "end",
-                px: 2.5,
-                ...(!open && { display: "none" }),
-              }}
-              onClick={handleDrawerClose}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "end",
-                }}
-              >
-                <ChevronLeftIcon />
-              </ListItemIcon>
-            </ListItemButton>
-          </ListItem>
-        </List>
-        <Divider />
-
-        <List>
-          <SubNavItem
-            title={config.subroot?.title ?? "Details"}
-            icon={config.subroot?.icon ?? <InfoIcon />}
-            route={location.pathname}
-            open={open}
-          />
-        </List>
-        <Divider />
-        {config.subpages && (
+        {/* </AppBar> */}
+        <Drawer variant="permanent" open={open}>
           <List>
-            {Object.values(config.subpages).map((conf, index) => (
-              <SubNavItem {...conf} route={location.pathname} open={open} />
-            ))}
+            <ListItem disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+
+                  justifyContent: open ? "initial" : "center",
+                  px: 2.5,
+                  ...(open && { display: "none" }),
+                }}
+                onClick={handleDrawerOpen}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  <MenuIcon />
+                </ListItemIcon>
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                sx={{
+                  minHeight: 48,
+
+                  justifyContent: "end",
+                  px: 2.5,
+                  ...(!open && { display: "none" }),
+                }}
+                onClick={handleDrawerClose}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "end",
+                  }}
+                >
+                  <ChevronLeftIcon />
+                </ListItemIcon>
+              </ListItemButton>
+            </ListItem>
           </List>
-        )}
+          <Divider />
 
-        <Divider />
-      </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 1, overflow: "auto" }}>
-        {config && (
-          <Routes>
-            <Route
-              path="/"
-              key="/"
-              element={
-                config.subroot ? (
-                  <config.subroot.view location={location} />
-                ) : (
-                  <Update field={field} location={location} />
-                )
-              }
+          <List>
+            <SubNavItem
+              title={config.subroot?.title ?? "Details"}
+              icon={config.subroot?.icon ?? <InfoIcon />}
+              route={location.pathname}
+              open={open}
             />
+          </List>
+          <Divider />
+          {config.subpages && (
+            <List>
+              {subpages.map((conf, index) => (
+                <SubNavItem {...conf} route={location.pathname} open={open} />
+              ))}
+            </List>
+          )}
 
-            {config.subpages &&
-              Object.values(config.subpages).reduce((acc, sp) => {
-                if (checkPerm({ main, field }, "read")) {
-                  acc.push(
-                    <>
-                      <Route
-                        path={sp.path ? sp.path : sp.href}
-                        key={sp.href}
-                        element={
-                          sp.field ? (
-                            <Update key={sp.href} location={location} />
-                          ) : sp.view ? (
-                            <sp.view />
-                          ) : (
-                            <Grid
-                              key={sp.href}
-                              isSubpage={true}
-                              config={sp}
-                            ></Grid>
-                          )
-                        }
-                      />
-                      {!sp.field && !sp.view && (
-                        <Route
-                          key={sp.href + "/:fieldid/*"}
-                          path={sp.href + "/:fieldid/*"}
-                          element={
-                            <Update
-                              key={sp.href + "/:fieldid/*"}
-                              field={sp.href}
-                              location={location}
-                            />
-                          }
-                        ></Route>
-                      )}
-                    </>
-                  );
-                  return acc;
-                } else {
-                  return acc;
+          <Divider />
+        </Drawer>
+        <Box component="main" sx={{ flexGrow: 1, p: 1, overflow: "auto" }}>
+          {config && (
+            <Routes>
+              <Route
+                path="/"
+                key="/"
+                element={
+                  config.subroot ? (
+                    <config.subroot.view location={location} />
+                  ) : (
+                    <Update field={field} location={location} />
+                  )
                 }
-              }, [])}
+              />
 
-            {/* <Route path="/:id/:field/:fieldid" element={"SubDetails"} /> */}
-          </Routes>
-        )}
+              {config.subpages &&
+                subpages.map((sp) => {
+                  if (checkPerm({ main, field }, "read")) {
+                    acc.push(
+                      <>
+                        <Route
+                          path={sp.path ? sp.path : sp.href}
+                          key={sp.href}
+                          element={
+                            sp.field ? (
+                              <Update key={sp.href} location={location} />
+                            ) : sp.view ? (
+                              <sp.view />
+                            ) : (
+                              <Grid
+                                key={sp.href}
+                                isSubpage={true}
+                                config={sp}
+                              ></Grid>
+                            )
+                          }
+                        />
+                        {!sp.field && !sp.view && (
+                          <Route
+                            key={sp.href + "/:fieldid/*"}
+                            path={sp.href + "/:fieldid/*"}
+                            element={
+                              <Update
+                                key={sp.href + "/:fieldid/*"}
+                                field={sp.href}
+                                location={location}
+                              />
+                            }
+                          ></Route>
+                        )}
+                      </>
+                    );
+                    return acc;
+                  } else {
+                    return acc;
+                  }
+                }, [])}
+
+              {/* <Route path="/:id/:field/:fieldid" element={"SubDetails"} /> */}
+            </Routes>
+          )}
+        </Box>
       </Box>
-    </Box>
+    )
   );
 }
