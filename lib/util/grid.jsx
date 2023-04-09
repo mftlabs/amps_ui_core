@@ -34,6 +34,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useUIContext } from "../contexts/UIContext";
+import { toast } from "react-toastify";
 
 export const idRenderer = ({ cell }, route) => {
   const queryFn = useQueryFn();
@@ -157,11 +158,16 @@ export const FormAction = forwardRef(
         url: `/api${route}`,
         method: "post",
         data: values,
-      }).then(() => {
-        refetch();
-        setOpen(false);
-        formik.handleReset();
-      });
+      })
+        .then(() => {
+          refetch();
+          toast.success(`${config.object} Successfully Created`);
+          setOpen(false);
+          formik.handleReset();
+        })
+        .catch(() => {
+          toast.error(`Failed to create ${config.object}`);
+        });
     };
 
     return (
