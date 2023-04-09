@@ -443,15 +443,17 @@ export function Policy({ field, formik }) {
             </>
           )}
           {type == "json" && (
-            <Editor
-              options={editorCustomOptions}
-              height="60vh"
-              defaultLanguage="json"
-              onMount={onMount}
-              onChange={onChange}
-              theme="vs-dark"
-              value={JSON.stringify(policy, null, 4)}
-            />
+            <Box sx={{ opacity: field.readOnly ? 0.5 : 1 }}>
+              <Editor
+                options={editorCustomOptions}
+                height="60vh"
+                defaultLanguage="json"
+                onMount={onMount}
+                onChange={onChange}
+                theme="vs-dark"
+                value={JSON.stringify(policy, null, 4)}
+              />
+            </Box>
           )}
         </>
       )}
