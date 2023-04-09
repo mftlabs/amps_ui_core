@@ -38,6 +38,7 @@ import {
   ListItemButton,
   Popover,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import { FormAction } from "../util/grid";
 import { FieldArray, FormikProvider } from "formik";
@@ -588,8 +589,10 @@ function Select({
     }
   }, [data]);
 
-  return isLoading ? (
+  return isLoading && !isError ? (
     <Loader key={name} />
+  ) : isError ? (
+    <Typography>{error.resp.data}</Typography>
   ) : (
     <Box key={name} sx={{ display: "flex", flexDirection: "row", ...sx }}>
       <Autocomplete
