@@ -185,16 +185,20 @@ export function Subpage({ config }) {
 
   useEffect(() => {
     if (main) {
-      var sps = Object.values(config.subpages).reduce((acc, sp) => {
-        if (checkPerm({ main, field: sp.href }, "read")) {
-          acc.push(sp);
-          return acc;
-        } else {
-          return acc;
-        }
-      }, []);
-      console.log(sps);
-      setSubpages(sps);
+      if (config.subpages) {
+        var sps = Object.values(config.subpages).reduce((acc, sp) => {
+          if (checkPerm({ main, field: sp.href }, "read")) {
+            acc.push(sp);
+            return acc;
+          } else {
+            return acc;
+          }
+        }, []);
+        console.log(sps);
+        setSubpages(sps);
+      } else {
+        setSubpages([]);
+      }
     }
   }, [main]);
 
