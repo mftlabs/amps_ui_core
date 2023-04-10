@@ -165,7 +165,8 @@ export function Subpage({ config }) {
   const [open, setOpen] = React.useState(false);
   const location = useLocation();
   const [subpages, setSubpages] = useState([]);
-  const { main, field } = useTokens();
+  const { main, id, field } = useTokens();
+  const navigate = useNavigate();
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -175,17 +176,25 @@ export function Subpage({ config }) {
   };
 
   useEffect(() => {
+    if (subpages && field) {
+      if (!subpages.find((sp) => sp.href == field)) {
+        navigate(`/${main}/${id}`);
+      }
+    }
+  }, [subpages, field]);
+
+  useEffect(() => {
     if (main) {
-      setSubpages(
-        Object.values(config.subpages).reduce((acc, sp) => {
-          if (checkPerm({ main, field })) {
-            acc.push(sp);
-            return acc;
-          } else {
-            return acc;
-          }
-        }, [])
-      );
+      var sps = Object.values(config.subpages).reduce((acc, sp) => {
+        if (checkPerm({ main, field: sp.href }, "read")) {
+          acc.push(sp);
+          return acc;
+        } else {
+          return acc;
+        }
+      }, []);
+      console.log(sps);
+      setSubpages(sps);
     }
   }, [main]);
 
@@ -286,46 +295,41 @@ export function Subpage({ config }) {
 
               {config.subpages &&
                 subpages.map((sp) => {
-                  if (checkPerm({ main, field }, "read")) {
-                    acc.push(
-                      <>
+                  return (
+                    <>
+                      <Route
+                        path={sp.path ? sp.path : sp.href}
+                        key={sp.href}
+                        element={
+                          sp.field ? (
+                            <Update key={sp.href} location={location} />
+                          ) : sp.view ? (
+                            <sp.view />
+                          ) : (
+                            <Grid
+                              key={sp.href}
+                              isSubpage={true}
+                              config={sp}
+                            ></Grid>
+                          )
+                        }
+                      />
+                      {!sp.field && !sp.view && (
                         <Route
-                          path={sp.path ? sp.path : sp.href}
-                          key={sp.href}
+                          key={sp.href + "/:fieldid/*"}
+                          path={sp.href + "/:fieldid/*"}
                           element={
-                            sp.field ? (
-                              <Update key={sp.href} location={location} />
-                            ) : sp.view ? (
-                              <sp.view />
-                            ) : (
-                              <Grid
-                                key={sp.href}
-                                isSubpage={true}
-                                config={sp}
-                              ></Grid>
-                            )
+                            <Update
+                              key={sp.href + "/:fieldid/*"}
+                              field={sp.href}
+                              location={location}
+                            />
                           }
-                        />
-                        {!sp.field && !sp.view && (
-                          <Route
-                            key={sp.href + "/:fieldid/*"}
-                            path={sp.href + "/:fieldid/*"}
-                            element={
-                              <Update
-                                key={sp.href + "/:fieldid/*"}
-                                field={sp.href}
-                                location={location}
-                              />
-                            }
-                          ></Route>
-                        )}
-                      </>
-                    );
-                    return acc;
-                  } else {
-                    return acc;
-                  }
-                }, [])}
+                        ></Route>
+                      )}
+                    </>
+                  );
+                })}
 
               {/* <Route path="/:id/:field/:fieldid" element={"SubDetails"} /> */}
             </Routes>

@@ -15,6 +15,7 @@ import { request } from "../util/util";
 import { useCurrent } from "../hooks/useCurrent";
 import { useUIContext } from "../contexts/UIContext";
 import { Divider } from "@mui/material";
+import { useTokens } from "amps_ui_core/lib/hooks/useTokens";
 export const UpdateForm = ({
   fields,
   schema: root,
@@ -29,9 +30,10 @@ export const UpdateForm = ({
   route,
   stat = {},
 }) => {
-  const { useSchemas, types, useAuthContext, disabled } = useUIContext();
+  const { useSchemas, types, useAuthContext, checkPerm } = useUIContext();
   const { user } = useAuthContext();
   const [editing, setEditing] = useState(false);
+  const tokens = useTokens();
   const [typefields, setTypeFields] = useState([]);
   const [schema, setSchema] = useState(root);
   const { current } = useCurrent({
@@ -154,7 +156,7 @@ export const UpdateForm = ({
         ) : (
           <Button
             type="button"
-            disabled={disabled(route, "write")}
+            disabled={!checkPerm(tokens, "write")}
             onClick={(e) => {
               e.preventDefault();
               setEditing(true);
