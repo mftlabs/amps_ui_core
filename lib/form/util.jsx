@@ -604,58 +604,64 @@ function Select({
   ) : (
     <>
       <Box key={name} sx={{ display: "flex", flexDirection: "row", ...sx }}>
-        <Autocomplete
-          disabled={readOnly || error}
-          // disablePortal
-          disableClearable={true}
-          id={name}
-          getOptionLabel={(option) => {
-            if (option === "") {
-              return "";
-            } else if (typeof option === "object" && option !== null) {
-              return option[labelField];
-            } else {
-              return data.find((op) => op[valField] == option)[labelField];
-            }
-          }}
-          isOptionEqualToValue={(option, val) => {
-            if (typeof val === "object" && val !== null) {
-              return option[valField] == val[valField];
-            } else {
-              return option[valField] == val;
-            }
-          }}
-          name={name}
-          label={label}
-          value={selected}
-          options={error ? [] : data}
-          sx={{ flex: 1 }}
-          renderInput={(params) => (
-            <TextField
-              variant="standard"
-              fullWidth={true}
-              {...params}
-              label={label}
-            />
-          )}
-          onChange={(e, value) => {
-            onChange && onChange(formik, value);
-            setSelected(value);
-          }}
-          onBlur={formik.handleBlur}
-        />
-        {dynamic && (
-          <>
-            <FormAction route={route} disabled={readOnly} refetch={refetch} />
-            <IconButton size="medium" disabled={readOnly}>
-              <Replay
-                onClick={() => {
-                  refetch();
-                }}
+        {error.status == "403" ? (
+          <TextField disabled={true} value={formik.values[name]} />
+        ) : (
+          <Autocomplete
+            disabled={readOnly || error}
+            // disablePortal
+            disableClearable={true}
+            id={name}
+            getOptionLabel={(option) => {
+              if (option === "") {
+                return "";
+              } else if (typeof option === "object" && option !== null) {
+                return option[labelField];
+              } else {
+                return data.find((op) => op[valField] == option)[labelField];
+              }
+            }}
+            isOptionEqualToValue={(option, val) => {
+              if (typeof val === "object" && val !== null) {
+                return option[valField] == val[valField];
+              } else {
+                return option[valField] == val;
+              }
+            }}
+            name={name}
+            label={label}
+            value={selected}
+            options={error ? [] : data}
+            sx={{ flex: 1 }}
+            renderInput={(params) => (
+              <TextField
+                variant="standard"
+                fullWidth={true}
+                {...params}
+                label={label}
               />
-            </IconButton>
-          </>
+            )}
+            onChange={(e, value) => {
+              onChange && onChange(formik, value);
+              setSelected(value);
+            }}
+            onBlur={formik.handleBlur}
+          />
         )}
+
+        {dynamic &&
+          !error(
+            <>
+              <FormAction route={route} disabled={readOnly} refetch={refetch} />
+              <IconButton size="medium" disabled={readOnly}>
+                <Replay
+                  onClick={() => {
+                    refetch();
+                  }}
+                />
+              </IconButton>
+            </>
+          )}
       </Box>
 
       <FormHelperText
