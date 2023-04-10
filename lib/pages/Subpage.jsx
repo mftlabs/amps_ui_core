@@ -176,7 +176,7 @@ export function Subpage({ config }) {
   };
 
   useEffect(() => {
-    if (subpages && field) {
+    if (subpages.length && field) {
       if (!subpages.find((sp) => sp.href == field)) {
         navigate(`/${main}/${id}`);
       }
