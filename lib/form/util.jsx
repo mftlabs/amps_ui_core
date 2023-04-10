@@ -604,7 +604,7 @@ function Select({
   ) : (
     <>
       <Box key={name} sx={{ display: "flex", flexDirection: "row", ...sx }}>
-        {error.status == "403" ? (
+        {error?.status == "403" ? (
           <TextField disabled={true} value={formik.values[name]} />
         ) : (
           <Autocomplete
