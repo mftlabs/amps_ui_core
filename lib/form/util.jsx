@@ -649,19 +649,18 @@ function Select({
           />
         )}
 
-        {dynamic &&
-          !error(
-            <>
-              <FormAction route={route} disabled={readOnly} refetch={refetch} />
-              <IconButton size="medium" disabled={readOnly}>
-                <Replay
-                  onClick={() => {
-                    refetch();
-                  }}
-                />
-              </IconButton>
-            </>
-          )}
+        {dynamic && !error && (
+          <>
+            <FormAction route={route} disabled={readOnly} refetch={refetch} />
+            <IconButton size="medium" disabled={readOnly}>
+              <Replay
+                onClick={() => {
+                  refetch();
+                }}
+              />
+            </IconButton>
+          </>
+        )}
       </Box>
 
       <FormHelperText
