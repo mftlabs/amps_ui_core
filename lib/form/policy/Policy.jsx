@@ -288,6 +288,72 @@ export function Policy({ field, formik }) {
     formik.setFieldValue(field.name, policy);
   }, [policy]);
 
+  const deepGet = (obj, key) => {
+    var keys = key.split(".");
+    return keys.reduce(
+      (xs, x) => (xs && xs[x] !== null && xs[x] !== undefined ? xs[x] : null),
+      obj
+    );
+  };
+
+  const sortEntries = (a, b) => {
+    const typeA = typeof a[1];
+    const typeB = typeof b[1];
+    switch (true) {
+      case typeA !== "object" && typeB !== "object":
+        return a[0].localeCompare(b[0]);
+      case typeA === "object" && typeB !== "object":
+        return 1;
+      case typeA !== "object" && typeB === "object":
+        return -1;
+      default:
+        return a[0].localeCompare(b[0]);
+    }
+  };
+
+  const renderPolicy = (value, prefix) => {
+    return Object.entries(value)
+      .sort(sortEntries)
+      .map(([k, v], index2) => {
+        var p = [prefix, k].join(".");
+        if (typeof v == "object") {
+          return (
+            <StyledTreeItem
+              expanded
+              nodeId={p}
+              label={
+                <Box sx={{ alignItems: "center", display: "flex" }}>
+                  <Typography>{k}</Typography>
+                  <Switch
+                    disabled={field.readOnly}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                    onChange={(event, value) => {
+                      toggleObject(deepGet(data, p), p, value);
+                    }}
+                    checked={toggleState(p)}
+                  />
+                </Box>
+              }
+            >
+              {renderPolicy(v, p)}
+            </StyledTreeItem>
+          );
+        } else {
+          return (
+            <ToggleTreeItem
+              handleToggle={handleToggle}
+              disabled={field.readOnly}
+              label={k}
+              value={policy.includes(p)}
+              path={p}
+            />
+          );
+        }
+      });
+  };
+
   return (
     <Box sx={{ p: 1, flex: 1 }}>
       <Tabs value={type} onChange={changeType} aria-label="basic tabs example">
@@ -370,59 +436,7 @@ export function Policy({ field, formik }) {
                         </Box>
                       }
                     >
-                      {Object.entries(v1).map(([k2, v2], index2) => {
-                        if (typeof v2 == "object") {
-                          var p = [k1, k2].join(".");
-                          return (
-                            <StyledTreeItem
-                              expanded
-                              nodeId={p}
-                              label={
-                                <Box
-                                  sx={{ alignItems: "center", display: "flex" }}
-                                >
-                                  <Typography>{k2}</Typography>
-                                  <Switch
-                                    disabled={field.readOnly}
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                    }}
-                                    onChange={(event, value) => {
-                                      toggleObject(data[k1][k2], p, value);
-                                    }}
-                                    checked={toggleState(p)}
-                                  />
-                                </Box>
-                              }
-                            >
-                              {Object.entries(v2).map(([k3, v3]) => {
-                                var path = [k1, k2, k3].join(".");
-
-                                return (
-                                  <ToggleTreeItem
-                                    handleToggle={handleToggle}
-                                    label={k3}
-                                    disabled={field.readOnly}
-                                    value={policy.includes(path)}
-                                    path={path}
-                                  />
-                                );
-                              })}
-                            </StyledTreeItem>
-                          );
-                        } else {
-                          var path = [k1, k2].join(".");
-                          return (
-                            <ToggleTreeItem
-                              handleToggle={handleToggle}
-                              disabled={field.readOnly}
-                              label={k2}
-                              value={policy.includes(path)}
-                              path={path}
-                            />
-                          );
-                        }
-                      })}
+                      {renderPolicy(v1, k1)}
                     </StyledTreeItem>
                   );
                 })}
