@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, useMediaQuery } from "@mui/material";
+import { Box, Typography, useMediaQuery } from "@mui/material";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { Grid } from "../layout/Grid";
 import { Subpage } from "./Subpage";
@@ -10,7 +10,7 @@ import { useUIContext } from "../contexts/UIContext";
 export function Generic() {
   const { pages, defRoute, useAuthContext } = useUIContext();
   const [width, height] = useWindowSize();
-  const { checkMenu } = useAuthContext();
+  const { checkMenu, user } = useAuthContext();
   const location = useLocation();
   const navigate = useNavigate();
   const [config, setConfig] = useState(null);
@@ -25,14 +25,15 @@ export function Generic() {
     setGrid(null);
     setConfig(null);
 
-    if (main !== undefined) {
+    if (main !== undefined && main != "") {
+      console.log(main);
       var resp = checkMenu(main);
       console.log(resp);
       if (resp.success) {
         // setConfig(config);
         // setGrid();
       } else {
-        navigate(resp.href);
+        navigate(resp.href || "/");
       }
     }
   }, [location.pathname, main]);
@@ -49,6 +50,18 @@ export function Generic() {
         }}
       >
         <Routes>
+          <Route
+            key={"/"}
+            path={"/"}
+            element={
+              <Box sx={{ p: 2 }}>
+                <Typography variant="h6">
+                  Welcome {user.user.firstname} {user.user.lastname} (
+                  {user.user.username})
+                </Typography>
+              </Box>
+            }
+          ></Route>
           {Object.values(pages).map((p) => {
             var view = p.View ? (
               <p.View key={p.href} route={p.href} config={p} />
