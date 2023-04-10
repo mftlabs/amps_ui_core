@@ -1,14 +1,9 @@
 import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import {
-  Box,
-  Button,
-  Divider,
-  Drawer,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, Divider, Drawer, Typography, useMediaQuery } from "@mui/material";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import InfoIcon from "@mui/icons-material/Info";
+import ErrorIcon from "@mui/icons-material/Error";
 // import { ChartBar as ChartBarIcon } from "../icons/chart-bar";
 // import { Cog as CogIcon } from "../icons/cog";
 // import { Lock as LockIcon } from "../icons/lock";
@@ -79,18 +74,51 @@ export const Sidebar = (props) => {
         </Box>
 
         <Box sx={{ flexGrow: 1 }}>
-          {Object.entries(user.menu).map(([title, object]) => {
-            return (
-              <NavItem
-                key={object.children ? title : object.title}
-                icon={object.icon}
-                href={object.href}
-                title={object.children ? title : object.title}
-                children={object.children}
-                onClose={onClose}
-              />
-            );
-          })}
+          {Object.keys(user.menu).length ? (
+            Object.entries(user.menu).map(([title, object]) => {
+              return (
+                <NavItem
+                  key={object.children ? title : object.title}
+                  icon={object.icon}
+                  href={object.href}
+                  title={object.children ? title : object.title}
+                  children={object.children}
+                  onClose={onClose}
+                />
+              );
+            })
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "start",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  my: 0.75,
+                  // alignItems: "center",
+                }}
+              >
+                <ErrorIcon sx={{ mx: "1rem", color: "red" }} />
+                <Typography variant="body1" color="red">
+                  Insufficient Permissions
+                </Typography>
+              </Box>
+              <Typography
+                variant="caption"
+                color="red"
+                sx={{ mx: "1rem", my: 0.75 }}
+              >
+                Ask an administrator to grant you access.
+              </Typography>
+            </Box>
+          )}
         </Box>
         <Divider sx={{ borderColor: "#2D3748" }} />
         <Box
