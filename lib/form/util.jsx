@@ -665,7 +665,11 @@ function Select({
             : formik.values[name] && Boolean(formik.errors[name])
         }
       >
-        {error ? error.data.error : formik.values[name] && formik.errors[name]}
+        {error
+          ? error.status == 403
+            ? "Permission Denied"
+            : error.data.error
+          : formik.values[name] && formik.errors[name]}
       </FormHelperText>
     </>
   );
