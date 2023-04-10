@@ -142,7 +142,7 @@ export function Uploads() {
       <Tooltip title="Uploads" key="uploads">
         <IconButton
           onClick={handleClickOpen}
-          disabled={!checkPerm("/topics", "actions.upload")}
+          disabled={!checkPerm({ main: "topics" }, "actions.upload")}
         >
           <Badge badgeContent={pending} color="primary">
             <Upload fontSize="medium" />
