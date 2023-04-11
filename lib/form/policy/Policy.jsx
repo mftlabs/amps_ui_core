@@ -528,7 +528,6 @@ export function Policy({ field, formik }) {
                       <MenuItem
                         onClick={() => {
                           shortcut(collections, !state);
-                          handleClose();
                         }}
                       >
                         <ListItemText
