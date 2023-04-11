@@ -540,6 +540,7 @@ export function Policy({ field, formik }) {
                       const state = menuState(collections);
                       return (
                         <MenuItem
+                          disabled={field.readOnly}
                           onClick={() => {
                             shortcut(collections, !state);
                           }}
