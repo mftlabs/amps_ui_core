@@ -508,6 +508,7 @@ export function Policy({ field, formik }) {
                       label: "Admin Configuration",
                     },
                   ].map(({ collections, label }) => {
+                    const state = menuState(collections);
                     return (
                       <MenuItem
                         onClick={() => {
@@ -519,9 +520,9 @@ export function Policy({ field, formik }) {
                         <Typography
                           sx={{ mx: 1 }}
                           variant="body2"
-                          color="text.secondary"
+                          color={state ? "green" : "text.secondary"}
                         >
-                          {menuState(collections) && <Check />}
+                          {state && <Check />}
                         </Typography>
                       </MenuItem>
                     );
