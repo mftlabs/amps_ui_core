@@ -369,11 +369,11 @@ export function Policy({ field, formik }) {
     for (c of collections) {
       var gp = getPaths(data[c], c);
 
-      if (value) {
-        np = np.concat(gp);
-      }
+      np = np.concat(gp);
     }
+
     np = [...new Set(np)];
+
     setObjects((objects) => {
       var no = [...objects];
       no.concat(collections);
