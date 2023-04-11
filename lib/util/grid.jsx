@@ -93,6 +93,7 @@ export const FormAction = forwardRef(
       submitText,
       title: defaultTitle,
       icon,
+      ...other
     },
     ref
   ) => {
@@ -191,6 +192,7 @@ export const FormAction = forwardRef(
             schema={getSchema(collection, field, {})}
             preserve={preserve}
             submitText={submitText}
+            {...other}
           />
         )}
         <Tooltip
