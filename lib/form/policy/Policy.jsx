@@ -22,7 +22,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Add, List } from "@mui/icons-material";
+import { Add, Check, List } from "@mui/icons-material";
 import Editor from "@monaco-editor/react";
 
 function MinusSquare(props) {
@@ -372,11 +372,13 @@ export function Policy({ field, formik }) {
       np = np.concat(gp);
     }
 
+    console.log(np);
+
     np = [...new Set(np)];
 
     setObjects((objects) => {
       var no = [...objects];
-      no.concat(collections);
+      no = no.concat(collections);
       no = [...new Set(no)];
       return no;
     });
@@ -448,36 +450,29 @@ export function Policy({ field, formik }) {
                     vertical: "top",
                     horizontal: "left",
                   }}
+                  dense={true}
                   transformOrigin={{
                     vertical: "top",
                     horizontal: "left",
                   }}
                 >
-                  <MenuItem
-                    onClick={() => {
-                      shortcut([
+                  {[
+                    {
+                      collections: [
                         "message_events",
                         "sessions",
                         "system_logs",
                         "ui_audit",
                         "consumers",
-                      ]);
-                      handleClose();
-                    }}
-                  >
-                    Monitoring
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      shortcut(["groups", "users"]);
-                      handleClose();
-                    }}
-                  >
-                    Onboarding
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      shortcut([
+                      ],
+                      label: "Monitoring",
+                    },
+                    {
+                      collections: ["groups", "users"],
+                      label: "Onboarding",
+                    },
+                    {
+                      collections: [
                         "services",
                         "actions",
                         "topics",
@@ -488,36 +483,40 @@ export function Policy({ field, formik }) {
                         "rules",
                         "keys",
                         "jobs",
-                      ]);
-                      handleClose();
-                    }}
-                  >
-                    Messaging Configuration
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      shortcut(["providers", "environments", "packages"]);
-                      handleClose();
-                    }}
-                  >
-                    Data Configuration
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      shortcut(["config"]);
-                      handleClose();
-                    }}
-                  >
-                    System Configuration
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      shortcut(["admin", "policies"]);
-                      handleClose();
-                    }}
-                  >
-                    Admin Configuration
-                  </MenuItem>
+                      ],
+                      label: "Message Configuration",
+                    },
+                    {
+                      collections: ["providers", "environments", "packages"],
+                      label: "Data Configuration",
+                    },
+                    {
+                      collections: ["config"],
+                      label: "System Configuration",
+                    },
+                    {
+                      collections: ["admin", "policies"],
+                      label: "Admin Configuration",
+                    },
+                  ].map(({ collections, label }) => {
+                    return (
+                      <MenuItem
+                        onClick={() => {
+                          shortcut(collections);
+                          handleClose();
+                        }}
+                      >
+                        <ListItemText> {label}</ListItemText>
+                        <Typography
+                          sx={{ mx: 1 }}
+                          variant="body2"
+                          color="text.secondary"
+                        >
+                          <Check />
+                        </Typography>
+                      </MenuItem>
+                    );
+                  })}
                 </Menu>
               </Box>
 
