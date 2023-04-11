@@ -51,6 +51,7 @@ export {
   getById,
   mapping,
   outputTopic,
+  uuid,
 } from "./lib/util/util";
 export { Subpage } from "./lib/pages/Subpage";
 
