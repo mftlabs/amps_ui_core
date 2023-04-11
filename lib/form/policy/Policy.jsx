@@ -516,7 +516,12 @@ export function Policy({ field, formik }) {
                           handleClose();
                         }}
                       >
-                        <ListItemText> {label}</ListItemText>
+                        <ListItemText
+                          color={state ? "green" : "text.secondary"}
+                        >
+                          {" "}
+                          {label}
+                        </ListItemText>
                         <Typography
                           sx={{ mx: 1 }}
                           variant="body2"
