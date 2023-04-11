@@ -436,7 +436,7 @@ export function Policy({ field, formik }) {
                     />
                   )}
                 />
-                <IconButton onClick={() => {}}>
+                <IconButton onClick={handleClick}>
                   <List />
                 </IconButton>
                 <Menu
