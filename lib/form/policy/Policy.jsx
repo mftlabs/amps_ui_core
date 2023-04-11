@@ -517,7 +517,7 @@ export function Policy({ field, formik }) {
                         }}
                       >
                         <ListItemText
-                          color={state ? "green" : "text.secondary"}
+                          sx={{ color: state ? "green" : "text.secondary" }}
                         >
                           {" "}
                           {label}
