@@ -365,14 +365,15 @@ export function Policy({ field, formik }) {
   };
 
   const shortcut = (collections) => {
+    var np = [...policy];
     for (c of collections) {
       var gp = getPaths(data[c], c);
-      var np = [...policy];
+
       if (value) {
         np = np.concat(gp);
-        np = [...new Set(np)];
       }
     }
+    np = [...new Set(np)];
     setObjects((objects) => {
       var no = [...objects];
       no.concat(collections);
