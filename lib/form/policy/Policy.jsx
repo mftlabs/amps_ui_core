@@ -364,6 +364,15 @@ export function Policy({ field, formik }) {
       });
   };
 
+  const menuState = (collections) => {
+    for (let i = 0; i < collections.length; i++) {
+      if (!toggleState(collections[i])) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   const shortcut = (collections) => {
     var np = [...policy];
     for (c of collections) {
@@ -512,7 +521,7 @@ export function Policy({ field, formik }) {
                           variant="body2"
                           color="text.secondary"
                         >
-                          <Check />
+                          {menuState(collections) && <Check />}
                         </Typography>
                       </MenuItem>
                     );
