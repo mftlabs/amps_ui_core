@@ -11,11 +11,12 @@ import { useQuery } from "@tanstack/react-query";
 import {
   Autocomplete,
   Box,
-  IconButton,
+  Button,
   ListItem,
   ListItemText,
   Menu,
   MenuItem,
+  MenuList,
   Switch,
   Tab,
   Tabs,
@@ -123,6 +124,50 @@ const ToggleTreeItem = styled((props) => {
     borderLeft: `1px dashed ${alpha(theme.palette.text.primary, 0.4)}`,
   },
 }));
+
+const shortcuts = [
+  {
+    collections: [
+      "message_events",
+      "sessions",
+      "system_logs",
+      "ui_audit",
+      "consumers",
+    ],
+    label: "Monitoring",
+  },
+  {
+    collections: ["groups", "users"],
+    label: "Onboarding",
+  },
+  {
+    collections: [
+      "services",
+      "actions",
+      "topics",
+      "scripts",
+      "utilscripts",
+      "endpoints",
+      "fields",
+      "rules",
+      "keys",
+      "jobs",
+    ],
+    label: "Message Configuration",
+  },
+  {
+    collections: ["providers", "environments", "packages"],
+    label: "Data Configuration",
+  },
+  {
+    collections: ["config"],
+    label: "System Configuration",
+  },
+  {
+    collections: ["admin", "policies"],
+    label: "Admin Configuration",
+  },
+];
 
 export function Policy({ field, formik }) {
   const request = useRequest();
@@ -411,7 +456,7 @@ export function Policy({ field, formik }) {
   };
 
   return (
-    <Box sx={{ p: 1, flex: 1 }}>
+    <Box sx={{ flex: 1 }}>
       <Tabs value={type} onChange={changeType} aria-label="basic tabs example">
         <Tab label="Tree" value="tree" />
         <Tab label="JSON" value="json" />
@@ -424,9 +469,10 @@ export function Policy({ field, formik }) {
             <>
               <Box
                 sx={{
+                  my: 2,
                   display: "flex",
                   flexDirection: "row",
-                  alignItems: "center",
+                  alignItems: "stretch",
                   justifyContent: "center",
                 }}
               >
@@ -459,13 +505,19 @@ export function Policy({ field, formik }) {
                       inputRef={acRef}
                       value={value}
                       label="Select Object"
-                      variant="standard"
+                      variant="outlined"
                     />
                   )}
                 />
-                <IconButton onClick={handleClick}>
-                  <List />
-                </IconButton>
+                <Button
+                  sx={{ ml: 1 }}
+                  onClick={handleClick}
+                  color="inherit"
+                  variant="contained"
+                  startIcon={<List />}
+                >
+                  Shortcuts
+                </Button>
                 <Menu
                   anchorEl={anchorEl}
                   open={open}
@@ -474,78 +526,41 @@ export function Policy({ field, formik }) {
                     vertical: "top",
                     horizontal: "left",
                   }}
+                  PaperProps={{
+                    sx: { width: 300 },
+                  }}
                   dense={true}
                   transformOrigin={{
                     vertical: "top",
                     horizontal: "left",
                   }}
                 >
-                  {[
-                    {
-                      collections: [
-                        "message_events",
-                        "sessions",
-                        "system_logs",
-                        "ui_audit",
-                        "consumers",
-                      ],
-                      label: "Monitoring",
-                    },
-                    {
-                      collections: ["groups", "users"],
-                      label: "Onboarding",
-                    },
-                    {
-                      collections: [
-                        "services",
-                        "actions",
-                        "topics",
-                        "scripts",
-                        "utilscripts",
-                        "endpoints",
-                        "fields",
-                        "rules",
-                        "keys",
-                        "jobs",
-                      ],
-                      label: "Message Configuration",
-                    },
-                    {
-                      collections: ["providers", "environments", "packages"],
-                      label: "Data Configuration",
-                    },
-                    {
-                      collections: ["config"],
-                      label: "System Configuration",
-                    },
-                    {
-                      collections: ["admin", "policies"],
-                      label: "Admin Configuration",
-                    },
-                  ].map(({ collections, label }) => {
-                    const state = menuState(collections);
-                    return (
-                      <MenuItem
-                        onClick={() => {
-                          shortcut(collections, !state);
-                        }}
-                      >
-                        <ListItemText
-                          sx={{ color: state ? "green" : "text.secondary" }}
+                  <MenuList dense>
+                    {shortcuts.map(({ collections, label }) => {
+                      const state = menuState(collections);
+                      return (
+                        <MenuItem
+                          onClick={() => {
+                            shortcut(collections, !state);
+                          }}
                         >
-                          {" "}
-                          {label}
-                        </ListItemText>
-                        <Typography
-                          sx={{ mx: 1 }}
-                          variant="body2"
-                          color={state ? "green" : "text.secondary"}
-                        >
-                          {state && <Check />}
-                        </Typography>
-                      </MenuItem>
-                    );
-                  })}
+                          <ListItemText
+                            sx={{ color: state ? "green" : "text.secondary" }}
+                          >
+                            {" "}
+                            {label}
+                          </ListItemText>
+                          <Typography
+                            sx={{ mx: 1 }}
+                            variant="body2"
+                            color={state ? "green" : "text.secondary"}
+                          >
+                            {state && <Check size="small" />}
+                          </Typography>
+                        </MenuItem>
+                      );
+                    })}
+                  </MenuList>
                 </Menu>
               </Box>
 
