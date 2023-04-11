@@ -14,13 +14,15 @@ import {
   IconButton,
   ListItem,
   ListItemText,
+  Menu,
+  MenuItem,
   Switch,
   Tab,
   Tabs,
   TextField,
   Typography,
 } from "@mui/material";
-import { Add } from "@mui/icons-material";
+import { Add, List } from "@mui/icons-material";
 import Editor from "@monaco-editor/react";
 
 function MinusSquare(props) {
@@ -131,6 +133,14 @@ export function Policy({ field, formik }) {
   const [value, setValue] = useState(null);
   const [type, setType] = useState("tree");
   const acRef = useRef(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const changeType = (event, newValue) => {
     setType(newValue);
@@ -354,6 +364,25 @@ export function Policy({ field, formik }) {
       });
   };
 
+  const shortcut = (collections) => {
+    for (c of collections) {
+      var gp = getPaths(data[c], c);
+      var np = [...policy];
+      if (value) {
+        np = np.concat(gp);
+        np = [...new Set(np)];
+      }
+    }
+    setObjects((objects) => {
+      var no = [...objects];
+      no.concat(collections);
+      no = [...new Set(no)];
+      return no;
+    });
+    setOptions((options) => options.filter((o) => !collections.includes(o)));
+    setPolicy(np);
+  };
+
   return (
     <Box sx={{ p: 1, flex: 1 }}>
       <Tabs value={type} onChange={changeType} aria-label="basic tabs example">
@@ -366,39 +395,131 @@ export function Policy({ field, formik }) {
         <>
           {type == "tree" && (
             <>
-              <Autocomplete
-                sx={{ flex: 1 }}
-                value={value}
-                clearOnBlur
-                disabled={field.readOnly}
-                onChange={(event, value) => {
-                  setObjects((objects) => {
-                    var no = [...objects];
-                    no.push(value);
-                    return no;
-                  });
-                  setOptions((options) => options.filter((o) => o != value));
-                  toggleObject(data[value], value, true);
-
-                  // setExpanded((expanded) => {
-                  //   var exp = [...expanded];
-                  //   exp.push(value);
-                  //   return exp;
-                  // });
-
-                  event.target.blur();
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
-                options={options}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    inputRef={acRef}
-                    value={value}
-                    label="Select Object"
-                    variant="standard"
-                  />
-                )}
-              />
+              >
+                <Autocomplete
+                  sx={{ flex: 1 }}
+                  value={value}
+                  clearOnBlur
+                  disabled={field.readOnly}
+                  onChange={(event, value) => {
+                    setObjects((objects) => {
+                      var no = [...objects];
+                      no.push(value);
+                      return no;
+                    });
+                    setOptions((options) => options.filter((o) => o != value));
+                    toggleObject(data[value], value, true);
+
+                    // setExpanded((expanded) => {
+                    //   var exp = [...expanded];
+                    //   exp.push(value);
+                    //   return exp;
+                    // });
+
+                    event.target.blur();
+                  }}
+                  options={options}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      inputRef={acRef}
+                      value={value}
+                      label="Select Object"
+                      variant="standard"
+                    />
+                  )}
+                />
+                <IconButton onClick={() => {}}>
+                  <List />
+                </IconButton>
+                <Menu
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "left",
+                  }}
+                >
+                  <MenuItem
+                    onClick={() => {
+                      shortcut([
+                        "message_events",
+                        "sessions",
+                        "system_logs",
+                        "ui_audit",
+                        "consumers",
+                      ]);
+                      handleClose();
+                    }}
+                  >
+                    Monitoring
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      shortcut(["groups", "users"]);
+                      handleClose();
+                    }}
+                  >
+                    Onboarding
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      shortcut([
+                        "services",
+                        "actions",
+                        "topics",
+                        "scripts",
+                        "utilscripts",
+                        "endpoints",
+                        "fields",
+                        "rules",
+                        "keys",
+                        "jobs",
+                      ]);
+                      handleClose();
+                    }}
+                  >
+                    Messaging Configuration
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      shortcut(["providers", "environments", "packages"]);
+                      handleClose();
+                    }}
+                  >
+                    Data Configuration
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      shortcut(["config"]);
+                      handleClose();
+                    }}
+                  >
+                    System Configuration
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      shortcut(["admin", "policies"]);
+                      handleClose();
+                    }}
+                  >
+                    Admin Configuration
+                  </MenuItem>
+                </Menu>
+              </Box>
+
               <TreeView
                 aria-label="customized"
                 expanded={expanded}
