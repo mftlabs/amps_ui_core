@@ -187,7 +187,7 @@ export function Subpage({ config }) {
     if (main) {
       if (config.subpages) {
         var sps = Object.values(config.subpages).reduce((acc, sp) => {
-          if (checkPerm({ main, field: sp.href }, "read")) {
+          if (checkPerm({ main, field: sp.href, perm: sp.perm }, "read")) {
             acc.push(sp);
             return acc;
           } else {
@@ -271,16 +271,19 @@ export function Subpage({ config }) {
               open={open}
             />
           </List>
-          <Divider />
-          {config.subpages && (
-            <List>
-              {subpages.map((conf, index) => (
-                <SubNavItem {...conf} route={location.pathname} open={open} />
-              ))}
-            </List>
-          )}
+          {subpages.length > 0 && (
+            <>
+              <Divider />
 
-          <Divider />
+              <List>
+                {subpages.map((conf, index) => (
+                  <SubNavItem {...conf} route={location.pathname} open={open} />
+                ))}
+              </List>
+
+              <Divider />
+            </>
+          )}
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1, p: 1, overflow: "auto" }}>
           {config && (
