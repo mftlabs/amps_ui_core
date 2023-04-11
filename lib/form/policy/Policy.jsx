@@ -373,25 +373,40 @@ export function Policy({ field, formik }) {
     return true;
   };
 
-  const shortcut = (collections) => {
+  const shortcut = (collections, add = true) => {
     var np = [...policy];
     for (c of collections) {
       var gp = getPaths(data[c], c);
 
-      np = np.concat(gp);
+      if (add) {
+        np = np.concat(gp);
+      } else {
+        np = np.filter((value) => !gp.includes(value));
+      }
     }
-
-    console.log(np);
 
     np = [...new Set(np)];
 
     setObjects((objects) => {
       var no = [...objects];
-      no = no.concat(collections);
+      if (add) {
+        no = no.concat(collections);
+      } else {
+        no = no.filter((v) => !collections.includes(v));
+      }
+
       no = [...new Set(no)];
       return no;
     });
-    setOptions((options) => options.filter((o) => !collections.includes(o)));
+    setOptions((options) => {
+      var opts = [...options];
+      if (add) {
+        opts = opts.filter((o) => !collections.includes(o));
+      } else {
+        opts = opts.concat(collections);
+      }
+      return opts;
+    });
     setPolicy(np);
   };
 
@@ -512,7 +527,7 @@ export function Policy({ field, formik }) {
                     return (
                       <MenuItem
                         onClick={() => {
-                          shortcut(collections);
+                          shortcut(collections, !state);
                           handleClose();
                         }}
                       >
