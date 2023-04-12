@@ -4,10 +4,10 @@ import React from "react";
 export function Copyright(props: any) {
   return (
     <Typography
-      variant="body1"
-      sx={{ height: "1rem" }}
+      variant="caption"
+      sx={{ my: 1, mr: 1 }}
       color="text.secondary"
-      align="center"
+      align="end"
       {...props}
     >
       {"Copyright © "}

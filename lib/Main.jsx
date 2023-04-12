@@ -50,7 +50,7 @@ export const Main = ({ Auth }) => {
           </Routes>
         </Box>
 
-        <Copyright sx={{ mt: 2, mb: 2 }} />
+        <Copyright />
       </Box>
     </BrowserRouter>
   );
