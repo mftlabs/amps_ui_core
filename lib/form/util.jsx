@@ -1175,11 +1175,7 @@ function CollectionList({
                   <Refresh />
                 </IconButton>
               </Tooltip>
-              <Tooltip arrow title="Refresh Data" key="create">
-                <IconButton onClick={() => refetch()}>
-                  <Create />
-                </IconButton>
-              </Tooltip>
+              <FormAction route={route} disabled={readOnly} refetch={refetch} />
             </Box>
           )}
           enableRowOrdering
