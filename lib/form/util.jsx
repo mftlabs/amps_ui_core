@@ -26,6 +26,7 @@ import {
   Close,
   Create,
   Delete,
+  Edit,
   Refresh,
   Replay,
 } from "@mui/icons-material";
@@ -1092,7 +1093,22 @@ function CollectionList({
     );
   };
 
-  return (
+  useEffect(() => {
+    if (curr) {
+      var l = formik.values[name] || [];
+      if (l.some((e) => e === curr._id)) {
+        setOpen(true);
+      } else {
+        formik.setFieldValue(name, [...l, curr[valField]]);
+      }
+      setCurr(null);
+    }
+    console.log(formik.values[name]);
+  }, [curr]);
+
+  return isLoading ? (
+    <Loader />
+  ) : (
     <>
       <FormLabel>{label}</FormLabel>
       <Box
@@ -1103,11 +1119,11 @@ function CollectionList({
         }}
       >
         {/* <FormikProvider formik={formik}>
-          <FieldArray
-            name={name}
-            formik={formik}
-            validateOnChange={false}
-            render={({ push, insert, remove }) => ( */}
+      <FieldArray
+        name={name}
+        formik={formik}
+        validateOnChange={false}
+        render={({ push, insert, remove }) => ( */}
         <MaterialReactTable
           columns={columns}
           data={tableData}
@@ -1122,7 +1138,9 @@ function CollectionList({
             <Box key="custom" sx={{ display: "flex", flexDirection: "row" }}>
               <Autocomplete
                 // disablePortal
-                options={data}
+                options={data.filter(
+                  (d) => !tableData.find((td) => td[valField] == d[valField])
+                )}
                 getOptionLabel={(option) => option.name}
                 sx={{ flex: 1, width: "12rem" }}
                 onChange={(e, value) => {
@@ -1146,24 +1164,24 @@ function CollectionList({
                 // error={formik.touched[name] && Boolean(formik.errors[name])}
                 // helperText={formik.touched[name] && formik.errors[name]}
               />
-              <Tooltip arrow title="Add" key="refresh">
-                <IconButton
-                  onClick={() => {
-                    if (curr) {
-                      var l = formik.values[name] || [];
-                      if (l.some((e) => e === curr._id)) {
-                        setOpen(true);
-                      } else {
-                        formik.setFieldValue(name, [...l, curr[valField]]);
-                      }
-                      setCurr(null);
-                    }
-                    console.log(formik.values[name]);
-                  }}
-                >
-                  <Add />
-                </IconButton>
-              </Tooltip>
+              {/* <Tooltip arrow title="Add" key="refresh">
+            <IconButton
+              onClick={() => {
+                if (curr) {
+                  var l = formik.values[name] || [];
+                  if (l.some((e) => e === curr._id)) {
+                    setOpen(true);
+                  } else {
+                    formik.setFieldValue(name, [...l, curr[valField]]);
+                  }
+                  setCurr(null);
+                }
+                console.log(formik.values[name]);
+              }}
+            >
+              <Add />
+            </IconButton>
+          </Tooltip> */}
               <Toast
                 severity="error"
                 msg="Item already in list"
@@ -1171,11 +1189,16 @@ function CollectionList({
                 setOpen={setOpen}
               />
               <Tooltip arrow title="Refresh Data" key="refresh">
-                <IconButton onClick={() => refetch()}>
+                <IconButton sx={{ ml: 1 }} onClick={() => refetch()}>
                   <Refresh />
                 </IconButton>
               </Tooltip>
-              <FormAction route={route} disabled={readOnly} refetch={refetch} />
+              <FormAction
+                icon={<Edit />}
+                route={route}
+                disabled={readOnly}
+                refetch={refetch}
+              />
             </Box>
           )}
           enableRowOrdering
@@ -1200,8 +1223,8 @@ function CollectionList({
           })}
         />
         {/* )}
-          />
-        </FormikProvider> */}
+      />
+    </FormikProvider> */}
       </Box>
     </>
   );
