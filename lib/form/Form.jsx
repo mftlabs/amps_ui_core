@@ -56,7 +56,7 @@ export const Form = ({
   });
 
   useEffect(() => {
-    if (stat) {
+    if (Object.keys(stat).length) {
       if (values) {
         setInitValues(Object.assign(stat, values));
       } else {
