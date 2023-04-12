@@ -1529,11 +1529,12 @@ const Renderer = ({ formik, render, readOnly }) => {
 
 export const renderFields = (
   formik,
-  fields,
+  fls,
   readOnly = false,
   pairs = false,
   stat = []
 ) => {
+  const fields = fls.map((f) => ({ ...f }));
   var pair = [];
   var fs = [];
   Object.entries(stat).forEach(([name, val]) => {
