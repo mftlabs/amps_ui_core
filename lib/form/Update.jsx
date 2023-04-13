@@ -14,8 +14,9 @@ import { useQuery } from "@tanstack/react-query";
 import { request } from "../util/util";
 import { useCurrent } from "../hooks/useCurrent";
 import { useUIContext } from "../contexts/UIContext";
-import { Divider } from "@mui/material";
+import { Divider, IconButton } from "@mui/material";
 import { useTokens } from "amps_ui_core/lib/hooks/useTokens";
+import { Cancel, Edit, Save } from "@mui/icons-material";
 export const UpdateForm = ({
   fields,
   schema: root,
@@ -66,7 +67,7 @@ export const UpdateForm = ({
     validationSchema: schema,
     onSubmit: submit,
     enableReinitialize: true,
-    isInitialValid: false,
+    isInitialValid: true,
   });
   const { getSchema } = useSchemas();
 
@@ -119,30 +120,39 @@ export const UpdateForm = ({
       component="form"
       onSubmit={formik.handleSubmit}
       sx={{
-        // p: 2,
         display: "flex",
         flexDirection: "column",
-
-        width: "100%",
-        height: "100%",
+        maxHeight: "calc(100vh - 128px)",
       }}
     >
-      <Box sx={{ flex: 1, overflowY: "auto", overflowX: "hidden" }}>
+      <Box sx={{ flexGrow: 1 }}>
         {renderFields(formik, fields, !editing, false, stat)}
         {renderFields(formik, typefields, !editing, false, stat)}
       </Box>
-      <Divider />
-      <Box sx={{ p: 1 }}>
+      <Box
+        zIndex={100}
+        sx={{
+          position: "sticky",
+          bottom: 0,
+          display: "flex",
+          justifyContent: "flex-end",
+          p: 2,
+        }}
+      >
         {editing ? (
           <>
-            <Button
+            <IconButton
+              size="large"
+              sx={{ mr: 0.5 }}
+              color="primary"
               type="submit"
               disabled={!formik.isValid}
               variant="contained"
             >
-              Save
-            </Button>
-            <Button
+              <Save fontSize="inherit" />
+            </IconButton>
+            <IconButton
+              size="large"
               type="button"
               onClick={(e) => {
                 e.preventDefault();
@@ -150,12 +160,14 @@ export const UpdateForm = ({
                 setEditing(false);
               }}
             >
-              Cancel
-            </Button>
+              <Cancel fontSize="inherit" />
+            </IconButton>
           </>
         ) : (
-          <Button
+          <IconButton
+            size="large"
             type="button"
+            color="primary"
             disabled={!checkPerm(tokens, "write")}
             onClick={(e) => {
               e.preventDefault();
@@ -163,8 +175,8 @@ export const UpdateForm = ({
             }}
             variant="contained"
           >
-            Edit
-          </Button>
+            <Edit fontSize="inherit" />
+          </IconButton>
         )}
       </Box>
     </Box>

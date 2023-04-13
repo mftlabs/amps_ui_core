@@ -146,14 +146,10 @@ export const Form = ({
       sx={{
         display: "flex",
         flexDirection: "column",
-        margin: 0,
-        width: "100%",
-        height: 500,
-        flex: 1,
-        // height: "80vh",
+        maxHeight: "calc(100vh - 128px)",
       }}
     >
-      <Box sx={{ flex: 1, overflowY: "auto", overflowX: "hidden" }}>
+      <Box sx={{ flexGrow: 1, overflowY: "scroll", paddingBottom: "64px" }}>
         {loading || !initialized ? (
           <Loader />
         ) : (
@@ -164,7 +160,17 @@ export const Form = ({
         )}
       </Box>
 
-      <Box sx={{ display: "flex", justifyContent: "flex-end", py: 2 }}>
+      <Box
+        zIndex={100}
+        sx={{
+          position: "sticky",
+          bottom: 0,
+          display: "flex",
+          backgroundColor: "rgba(255, 255, 255, .7)",
+          justifyContent: "flex-end",
+          p: 2,
+        }}
+      >
         <Button
           variant="contained"
           disabled={loading || !formik.isValid}

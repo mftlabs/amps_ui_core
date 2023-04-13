@@ -46,7 +46,6 @@ export function FormDialog(props) {
       >
         <Box
           sx={{
-            pt: 1,
             minWidth: 500,
             minHeight: 500,
             display: "flex",
