@@ -1464,6 +1464,9 @@ const JSON = ({ field, formik }) => {
 };
 
 export const fieldtypes = {
+  formbuilder: (field, formik) => {
+    return <FormBuilder formik={formik} field={field} />;
+  },
   policy: (field, formik) => {
     return <Policy formik={formik} field={field} />;
   },
