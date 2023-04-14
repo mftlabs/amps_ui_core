@@ -120,6 +120,13 @@ export const Sidebar = (props) => {
             </Box>
           )}
         </Box>
+        <Divider sx={{ borderColor: "#2D3748" }} />
+        <Box
+          sx={{
+            px: 2,
+            py: 3,
+          }}
+        ></Box>
       </Box>
     </Fragment>
   );
