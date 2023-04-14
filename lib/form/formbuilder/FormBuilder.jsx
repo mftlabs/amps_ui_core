@@ -251,6 +251,7 @@ export const FormBuilder = ({ field, formik }) => {
         renderRowActions={({ row }) => (
           <Box key="custom" sx={{ display: "flex", flexDirection: "row" }}>
             <IconButton
+              disabled={field.readOnly}
               onClick={() => {
                 showField(row.index, row.original);
               }}
@@ -258,7 +259,10 @@ export const FormBuilder = ({ field, formik }) => {
               <Edit />
             </IconButton>
 
-            <IconButton onClick={() => onDelete(row.index)}>
+            <IconButton
+              disabled={field.readOnly}
+              onClick={() => onDelete(row.index)}
+            >
               <Delete />
             </IconButton>
           </Box>
@@ -271,12 +275,17 @@ export const FormBuilder = ({ field, formik }) => {
               </IconButton>
             </Tooltip> */}
             <Tooltip arrow title="Add Field" key="add">
-              <IconButton sx={{ ml: 1 }} onClick={handleClick}>
+              <IconButton
+                disabled={field.readOnly}
+                sx={{ ml: 1 }}
+                onClick={handleClick}
+              >
                 <Add />
               </IconButton>
             </Tooltip>
             <Tooltip arrow title="Preview" key="preview">
               <IconButton
+                disabled={field.readOnly}
                 sx={{ ml: 1 }}
                 onClick={() => {
                   setOpenForm(true);

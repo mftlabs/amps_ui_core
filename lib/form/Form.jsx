@@ -15,7 +15,7 @@ export const Form = ({
   entityId,
   field,
   preserve,
-  stat,
+  stat = {},
   values,
   submitText = "Create",
   formikRef,
