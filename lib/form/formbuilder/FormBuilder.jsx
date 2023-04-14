@@ -233,7 +233,13 @@ export const FormBuilder = ({ field, formik }) => {
   };
 
   return (
-    <>
+    <Box
+      sx={{
+        my: 1,
+        opacity: field.readOnly ? 0.5 : 1,
+        pointerEvents: field.readOnly ? "none" : "all",
+      }}
+    >
       <MaterialReactTable
         columns={[
           {
@@ -251,7 +257,6 @@ export const FormBuilder = ({ field, formik }) => {
         renderRowActions={({ row }) => (
           <Box key="custom" sx={{ display: "flex", flexDirection: "row" }}>
             <IconButton
-              disabled={field.readOnly}
               onClick={() => {
                 showField(row.index, row.original);
               }}
@@ -259,10 +264,7 @@ export const FormBuilder = ({ field, formik }) => {
               <Edit />
             </IconButton>
 
-            <IconButton
-              disabled={field.readOnly}
-              onClick={() => onDelete(row.index)}
-            >
+            <IconButton onClick={() => onDelete(row.index)}>
               <Delete />
             </IconButton>
           </Box>
@@ -275,11 +277,7 @@ export const FormBuilder = ({ field, formik }) => {
               </IconButton>
             </Tooltip> */}
             <Tooltip arrow title="Add Field" key="add">
-              <IconButton
-                disabled={field.readOnly}
-                sx={{ ml: 1 }}
-                onClick={handleClick}
-              >
+              <IconButton sx={{ ml: 1 }} onClick={handleClick}>
                 <Add />
               </IconButton>
             </Tooltip>
@@ -371,6 +369,6 @@ export const FormBuilder = ({ field, formik }) => {
         }}
       />
       <Modal ref={modal} />
-    </>
+    </Box>
   );
 };
