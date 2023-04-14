@@ -285,7 +285,6 @@ export const FormBuilder = ({ field, formik }) => {
             </Tooltip>
             <Tooltip arrow title="Preview" key="preview">
               <IconButton
-                disabled={field.readOnly}
                 sx={{ ml: 1 }}
                 onClick={() => {
                   setOpenForm(true);
