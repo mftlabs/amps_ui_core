@@ -79,8 +79,8 @@ export const FormBuilder = ({ field, formik }) => {
     var fields = formik.values[field.name];
 
     formik.setFieldValue(field.name, [
-      ...arr.slice(0, index),
-      ...arr.slice(index + 1),
+      ...fields.slice(0, index),
+      ...fields.slice(index + 1),
     ]);
   };
   const [openForm, setOpenForm] = useState(false);
