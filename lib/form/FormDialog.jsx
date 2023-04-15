@@ -42,7 +42,13 @@ export function FormDialog(props) {
       </DialogTitle>
 
       <DialogContent
-        sx={{ p: 0, px: 2, display: "flex", flexDirection: "column" }}
+        sx={{
+          p: 0,
+          px: 2,
+          display: "flex",
+          flexDirection: "column",
+          overflow: "hidden",
+        }}
       >
         <Box
           sx={{

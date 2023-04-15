@@ -1428,11 +1428,14 @@ export const Text = ({ field, formik, sx = {} }) => {
   );
 };
 
-const JSON = ({ field, formik }) => {
+const JSONField = ({ field, formik }) => {
   const editorCustomOptions = {
     glyphMargin: true,
     lightbulb: {
       enabled: true,
+    },
+    scrollbar: {
+      alwaysConsumeMouseWheel: false,
     },
     fixedOverflowWidgets: true,
     padding: { top: 16 },
@@ -1523,7 +1526,7 @@ export const fieldtypes = {
     return <Text field={field} formik={formik} />;
   },
   json: (field, formik) => {
-    return <JSON field={field} formik={formik} />;
+    return <JSONField field={field} formik={formik} />;
   },
 };
 

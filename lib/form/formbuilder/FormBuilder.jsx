@@ -108,7 +108,27 @@ export const FormBuilder = ({ field, formik }) => {
         },
       ],
     },
-    number: {
+    check: {
+      label: "Checkbox",
+      def: {
+        type: "check",
+        name: "",
+        label: "",
+      },
+      fields: [
+        {
+          type: "text",
+          name: "label",
+          label: "Label",
+        },
+        {
+          type: "text",
+          name: "name",
+          label: "Name",
+        },
+      ],
+    },
+    numberfield: {
       label: "Number Field",
       def: {
         type: "numberfield",
@@ -204,6 +224,112 @@ export const FormBuilder = ({ field, formik }) => {
         },
       ],
     },
+    arrayfield: {
+      label: "Array Field",
+      def: {
+        type: "arrayfield",
+        arrayfields: [],
+        label: "",
+        name: "",
+      },
+      fields: [
+        {
+          type: "text",
+          name: "label",
+          label: "Label",
+        },
+        {
+          type: "text",
+          name: "name",
+          label: "Name",
+        },
+        {
+          type: "formbuilder",
+          name: "arrayfields",
+          label: "Array Fields",
+        },
+      ],
+    },
+    parms: {
+      label: "Parameter Field",
+      def: {
+        type: "parms",
+        label: "",
+        name: "",
+      },
+      fields: [
+        {
+          type: "text",
+          name: "label",
+          label: "Label",
+        },
+        {
+          type: "text",
+          name: "name",
+          label: "Name",
+        },
+      ],
+    },
+    datetime: {
+      label: "DateTime",
+      def: {
+        type: "datetime",
+        label: "",
+        name: "",
+      },
+      fields: [
+        {
+          type: "text",
+          name: "label",
+          label: "Label",
+        },
+        {
+          type: "text",
+          name: "name",
+          label: "Name",
+        },
+      ],
+    },
+    time: {
+      label: "Time Field",
+      def: {
+        type: "time",
+        label: "",
+        name: "",
+      },
+      fields: [
+        {
+          type: "text",
+          name: "label",
+          label: "Label",
+        },
+        {
+          type: "text",
+          name: "name",
+          label: "Name",
+        },
+      ],
+    },
+    json: {
+      label: "Generic",
+      def: {
+        type: "json",
+        label: "",
+        name: "",
+      },
+      fields: [
+        {
+          type: "text",
+          name: "label",
+          label: "Label",
+        },
+        {
+          type: "text",
+          name: "name",
+          label: "Name",
+        },
+      ],
+    },
   };
 
   const submit = (idx, values) => {
@@ -240,6 +366,7 @@ export const FormBuilder = ({ field, formik }) => {
         pointerEvents: field.readOnly ? "none" : "all",
       }}
     >
+      <FormLabel>{field.label}</FormLabel>
       <MaterialReactTable
         columns={[
           {
@@ -254,6 +381,9 @@ export const FormBuilder = ({ field, formik }) => {
         data={formik.values[field.name] || []}
         enablePagination={false}
         enableRowActions={true}
+        muiTablePaperProps={{
+          sx: { mt: 2 },
+        }}
         renderRowActions={({ row }) => (
           <Box key="custom" sx={{ display: "flex", flexDirection: "row" }}>
             <IconButton
