@@ -443,7 +443,11 @@ const Flag = ({ formik, label, name, readOnly }) => {
 
 const Check = ({ formik, label, name, readOnly, value, onChange }) => {
   const [checked, setChecked] = useState(
-    formik.values[name] === undefined ? value : formik.values[name]
+    formik.values[name] === undefined
+      ? value
+        ? value
+        : false
+      : formik.values[name]
   );
 
   useEffect(() => {

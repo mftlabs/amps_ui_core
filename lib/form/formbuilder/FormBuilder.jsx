@@ -154,7 +154,6 @@ export const FormBuilder = ({ field, formik }) => {
         type: "select",
         label: "",
         name: "",
-        options: [],
       },
       fields: [
         {
@@ -168,21 +167,51 @@ export const FormBuilder = ({ field, formik }) => {
           label: "Name",
         },
         {
-          type: "arrayfield",
-          name: "options",
-          label: "Options",
-          arrayfields: [
-            {
-              type: "text",
-              name: "label",
-              label: "Label",
-            },
-            {
-              type: "text",
-              name: "field",
-              label: "Value",
-            },
-          ],
+          type: "check",
+          name: "manual",
+          label: "Manual Options?",
+        },
+        {
+          type: "cond",
+          name: "manual",
+          cond: {
+            true: [
+              {
+                type: "arrayfield",
+                name: "options",
+                label: "Options",
+                arrayfields: [
+                  {
+                    type: "text",
+                    name: "label",
+                    label: "Label",
+                  },
+                  {
+                    type: "text",
+                    name: "field",
+                    label: "Value",
+                  },
+                ],
+              },
+            ],
+            false: [
+              {
+                type: "text",
+                name: "route",
+                label: "Route",
+              },
+              {
+                type: "text",
+                name: "labelField",
+                label: "Label Field",
+              },
+              {
+                type: "text",
+                name: "valField",
+                label: "Value Field",
+              },
+            ],
+          },
         },
       ],
     },
@@ -192,7 +221,6 @@ export const FormBuilder = ({ field, formik }) => {
         type: "tags",
         label: "",
         name: "",
-        options: [],
       },
       fields: [
         {
@@ -206,21 +234,51 @@ export const FormBuilder = ({ field, formik }) => {
           label: "Name",
         },
         {
-          type: "arrayfield",
-          name: "options",
-          label: "Options",
-          arrayfields: [
-            {
-              type: "text",
-              name: "label",
-              label: "Label",
-            },
-            {
-              type: "text",
-              name: "field",
-              label: "Value",
-            },
-          ],
+          type: "check",
+          name: "manual",
+          label: "Manual Options?",
+        },
+        {
+          type: "cond",
+          name: "manual",
+          cond: {
+            true: [
+              {
+                type: "arrayfield",
+                name: "options",
+                label: "Options",
+                arrayfields: [
+                  {
+                    type: "text",
+                    name: "label",
+                    label: "Label",
+                  },
+                  {
+                    type: "text",
+                    name: "field",
+                    label: "Value",
+                  },
+                ],
+              },
+            ],
+            false: [
+              {
+                type: "text",
+                name: "route",
+                label: "Route",
+              },
+              {
+                type: "text",
+                name: "labelField",
+                label: "Label Field",
+              },
+              {
+                type: "text",
+                name: "valField",
+                label: "Value Field",
+              },
+            ],
+          },
         },
       ],
     },
