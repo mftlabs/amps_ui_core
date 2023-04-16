@@ -25,7 +25,7 @@
     "esbuild": "^0.14.27",
     "formik": "^2.2.9",
     "lottie-react": "^2.3.1",
-    "material-react-table": "^1.8.0",
+    "material-react-table": "https://gitpkg.now.sh/KevinVandy/material-react-table/packages/material-react-table?main",
     "material-ui-confirm": "^3.0.8",
     "moment-timezone": "^0.5.41",
     "mui-file-input": "^2.0.0",
