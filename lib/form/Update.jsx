@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 
@@ -196,7 +196,7 @@ export const Update = ({
   const [fields, setFields] = useState(null);
   const [collection, setCollection] = useState(null);
   const [entityId, setEntityId] = useState(null);
-  const [process, setProcess] = useState(null);
+  const process = useRef();
 
   const { getSchema } = useSchemas();
 
@@ -221,7 +221,9 @@ export const Update = ({
 
     if (tokens.length <= 2) {
       if (formfields[tokens[0]]?.update?.process) {
-        setProcess(formfields[tokens[0]].update.process);
+        process.current = formfields[tokens[0]].update.process;
+      } else {
+        process.current = (val) => val;
       }
     }
   }, [route]);
@@ -231,7 +233,7 @@ export const Update = ({
     if (entityId) {
       delete vals._entity;
     }
-    var values = config.update?.process(vals);
+    var values = process.current(vals);
     return values ? values : vals;
   };
 

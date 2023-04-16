@@ -106,7 +106,7 @@ export const FormAction = forwardRef(
     const [collection, setCollection] = useState(null);
     const [entityId, setEntityId] = useState(null);
     const { getSchema } = useSchemas();
-    const [process, setProcess] = useState((val) => val);
+    const process = useRef();
 
     useImperativeHandle(
       ref,
@@ -138,7 +138,9 @@ export const FormAction = forwardRef(
 
       if (tokens.length <= 2) {
         if (formfields[tokens[0]]?.add?.process) {
-          setProcess(formfields[tokens[0]].add.process);
+          process.current = formfields[tokens[0]].add.process;
+        } else {
+          process.current = (val) => val;
         }
       }
 
@@ -154,7 +156,7 @@ export const FormAction = forwardRef(
     }, []);
 
     const onSubmit = (data, formik) => {
-      var values = process(data) ?? data;
+      var values = process.current(data) ?? data;
 
       if (entityId) {
         delete values._entity;
