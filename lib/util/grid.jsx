@@ -106,6 +106,7 @@ export const FormAction = forwardRef(
     const [collection, setCollection] = useState(null);
     const [entityId, setEntityId] = useState(null);
     const { getSchema } = useSchemas();
+    const [process, setProcess] = useState((val) => val);
 
     useImperativeHandle(
       ref,
@@ -135,6 +136,12 @@ export const FormAction = forwardRef(
           ? formfields[tokens[0]].subpages[tokens[2]]
           : formfields[tokens[0]].root;
 
+      if (tokens.length <= 2) {
+        if (formfields[tokens[0]]?.add?.process) {
+          setProcess(formfields[tokens[0]].add.process);
+        }
+      }
+
       // console.log(fields);
       setFields(fields);
       setTitle(
@@ -147,8 +154,7 @@ export const FormAction = forwardRef(
     }, []);
 
     const onSubmit = (data, formik) => {
-      var values = config.add?.process(data);
-      values = values ? values : data;
+      var values = process(data) ?? data;
 
       if (entityId) {
         delete values._entity;

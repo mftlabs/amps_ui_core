@@ -196,6 +196,7 @@ export const Update = ({
   const [fields, setFields] = useState(null);
   const [collection, setCollection] = useState(null);
   const [entityId, setEntityId] = useState(null);
+  const [process, setProcess] = useState(null);
 
   const { getSchema } = useSchemas();
 
@@ -217,6 +218,12 @@ export const Update = ({
         ? formfields[tokens[0]].subpages[tokens[2]]
         : formfields[tokens[0]].root
     );
+
+    if (tokens.length <= 2) {
+      if (formfields[tokens[0]]?.update?.process) {
+        setProcess(formfields[tokens[0]].update.process);
+      }
+    }
   }, [route]);
 
   const onSubmit = (vals) => {

@@ -135,9 +135,9 @@ export const Form = ({
     }
   }, [formik.values.type]);
 
-  useEffect(() => {
-    console.log(formik.values);
-  }, [formik.values]);
+  // useEffect(() => {
+  //   console.log(formik.values);
+  // }, [formik.values]);
 
   return (
     <Box

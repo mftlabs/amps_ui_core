@@ -1001,7 +1001,6 @@ function ArrayField({ field, formik }) {
           <>
             {formik.values[field.name]?.length > 0 &&
               formik.values[field.name].map((obj, index) => {
-                console.log(obj);
                 return (
                   <Box
                     key={index}
