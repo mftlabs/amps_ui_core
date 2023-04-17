@@ -225,6 +225,12 @@ export const Update = ({
       } else {
         process.current = (val) => val;
       }
+    } else {
+      if (config.update?.process) {
+        process.current = config.update.process;
+      } else {
+        process.current = (val) => val;
+      }
     }
   }, [route]);
 

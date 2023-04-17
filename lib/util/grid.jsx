@@ -142,6 +142,12 @@ export const FormAction = forwardRef(
         } else {
           process.current = (val) => val;
         }
+      } else {
+        if (config.add?.process) {
+          process.current = config.add.process;
+        } else {
+          process.current = (val) => val;
+        }
       }
 
       // console.log(fields);
