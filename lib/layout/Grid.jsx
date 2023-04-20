@@ -197,8 +197,12 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
           //   :
           ({ row }) => (
             <Box sx={{ display: "flex", p: 0 }}>
-              {config.rowActions?.map((action) =>
-                rowActions[action]({ row: row })
+              {config.rowActions?.map((Action) =>
+                typeof Action === "string" ? (
+                  rowActions[Action]({ row: row })
+                ) : (
+                  <Action row={row} />
+                )
               )}
             </Box>
           )

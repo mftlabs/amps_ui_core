@@ -49,6 +49,7 @@ import { useMetadata } from "../hooks/useMetadata";
 import Editor from "@monaco-editor/react";
 import { Policy } from "./policy/Policy";
 import { FormBuilder } from "./formbuilder/FormBuilder";
+import { ActionBuilder } from "./actions/ActionBuilder";
 const DateTime = ({ field, formik }) => {
   return (
     <LocalizationProvider key={field.name} dateAdapter={AdapterDayjs}>
@@ -1473,6 +1474,9 @@ const JSONField = ({ field, formik }) => {
 export const fieldtypes = {
   formbuilder: (field, formik) => {
     return <FormBuilder formik={formik} field={field} />;
+  },
+  actionbuilder: (field, formik) => {
+    return <ActionBuilder formik={formik} field={field} />;
   },
   policy: (field, formik) => {
     return <Policy formik={formik} field={field} />;

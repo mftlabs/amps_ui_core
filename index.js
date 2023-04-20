@@ -44,6 +44,7 @@ export {
   useRequest,
   request,
   queryFn,
+  useQueryFn,
   topicBuilder,
   useRenew,
   useSocket,
