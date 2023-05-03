@@ -69,10 +69,7 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
       }));
 
       fetchURL.searchParams.set("limit", `${pagination.pageSize}`);
-      fetchURL.searchParams.set(
-        "params",
-        JSON.stringify({ filters: search ?? {} })
-      );
+      fetchURL.searchParams.set("filters", JSON.stringify(search ?? {}));
       fetchURL.searchParams.set("globalFilter", globalFilter ?? "");
       fetchURL.searchParams.set("sort", JSON.stringify(sort));
 
