@@ -256,9 +256,9 @@ export const Update = ({
     },
   });
 
-  // useEffect(() => {
-  //   refetch();
-  // }, [route]);
+  useEffect(() => {
+    refetch();
+  }, [route]);
 
   return isLoading ? (
     <Loader />

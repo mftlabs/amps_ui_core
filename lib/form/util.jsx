@@ -1026,7 +1026,10 @@ function ArrayField({ field, formik }) {
                       )}
                     </Box>
                     <Box>
-                      <IconButton onClick={() => remove(index)}>
+                      <IconButton
+                        disabled={field.readOnly}
+                        onClick={() => remove(index)}
+                      >
                         <Close />
                       </IconButton>
                     </Box>
@@ -1035,6 +1038,7 @@ function ArrayField({ field, formik }) {
               })}
             <IconButton
               type="button"
+              disabled={field.readOnly}
               className="secondary"
               onClick={() => push(loadValues({}, field.arrayfields))}
             >
