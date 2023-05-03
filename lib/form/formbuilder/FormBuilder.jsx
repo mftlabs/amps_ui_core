@@ -94,6 +94,7 @@ export const FormBuilder = ({ field, formik }) => {
         type: "text",
         name: "",
         label: "",
+        inputType: "text",
       },
       fields: [
         {
@@ -105,6 +106,21 @@ export const FormBuilder = ({ field, formik }) => {
           type: "text",
           name: "name",
           label: "Name",
+        },
+        {
+          type: "select",
+          name: "inputType",
+          label: "Input Type",
+          options: [
+            {
+              field: "text",
+              label: "Text",
+            },
+            {
+              field: "password",
+              label: "Password",
+            },
+          ],
         },
       ],
     },
@@ -303,6 +319,7 @@ export const FormBuilder = ({ field, formik }) => {
         },
         {
           type: "formbuilder",
+          sub: true,
           name: "arrayfields",
           label: "Array Fields",
         },
@@ -407,7 +424,17 @@ export const FormBuilder = ({ field, formik }) => {
         <Field
           idx={idx}
           submit={submit}
-          fields={[...types[data.type].fields]}
+          fields={[...types[data.type].fields].concat(
+            field.sub
+              ? []
+              : [
+                  {
+                    type: "check",
+                    name: "_render",
+                    label: "Display In UI",
+                  },
+                ]
+          )}
           readOnly={field.readOnly}
           values={data}
         />
@@ -518,7 +545,8 @@ export const FormBuilder = ({ field, formik }) => {
                 onClick={() => {
                   var fields = formik.values[field.name];
                   var idx = fields.length;
-                  formik.setFieldValue(field.name, [...fields, { ...def }]);
+                  def = field.sub ? def : { ...def, _render: true };
+                  formik.setFieldValue(field.name, [...fields, def]);
                   showField(idx, def);
                   handleClose();
                 }}

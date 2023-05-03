@@ -1377,7 +1377,7 @@ export function parseForm(form) {
 }
 
 export const Text = ({ field, formik, sx = {} }) => {
-  const [password, setPassword] = useState(Boolean(field.inputType));
+  const [password, setPassword] = useState(field.inputType == "password");
   useEffect(() => {
     if (field.value && !formik.values[field.name]) {
       formik.setFieldValue(field.name, field.value);
