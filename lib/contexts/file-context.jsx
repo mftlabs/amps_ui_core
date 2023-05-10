@@ -235,6 +235,7 @@ export const FileProvider = (props) => {
           var idx = newUploads.findIndex((item) => item.id == id);
 
           newUploads[idx].progress = 1;
+          newUploads[idx].response = JSON.parse(request.response);
 
           newUploads[idx].status = "Uploaded";
           return newUploads;

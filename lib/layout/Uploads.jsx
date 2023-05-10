@@ -7,14 +7,21 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Paper from "@mui/material/Paper";
 import Draggable from "react-draggable";
-import { Badge, Box, IconButton, Tooltip, useMediaQuery } from "@mui/material";
+import {
+  Badge,
+  Box,
+  IconButton,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { Add, Close, StopCircle, Upload } from "@mui/icons-material";
 import MaterialReactTable from "material-react-table";
 import { Resizable } from "react-resizable";
 import "react-resizable/css/styles.css";
 import { useFormik } from "formik";
 import { useFileContext } from "../contexts/file-context";
-import { FormDialog, Progress, useUIContext } from "amps_ui_core";
+import { FormDialog, Progress, useModal, useUIContext } from "amps_ui_core";
 
 import { useConfirm } from "material-ui-confirm";
 
@@ -210,6 +217,33 @@ export function Uploads() {
                   {
                     header: "Status",
                     accessorKey: "status",
+                  },
+                  {
+                    header: "Response",
+                    accessorKey: "response",
+                    Cell: ({ cell }) => {
+                      const { Modal, modal } = useModal();
+                      return (
+                        <>
+                          <Button
+                            onClick={() => {
+                              modal.current.configure({
+                                title: "Response",
+                                content: (
+                                  <Typography sx={{ whiteSpace: "pre-wrap" }}>
+                                    {cell.getValue()}
+                                  </Typography>
+                                ),
+                              });
+                              modal.current.open();
+                            }}
+                          >
+                            View Response
+                          </Button>
+                          <Modal ref={modal} />
+                        </>
+                      );
+                    },
                   },
                 ]}
                 data={uploads}
