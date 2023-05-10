@@ -732,14 +732,16 @@ const Parm = ({
   useEffect(() => {
     console.log(field);
     console.log(value);
-    const newParms = [...parms];
-    newParms[index] = {
-      field: field,
-      value: type == "number" ? +value : value,
-      type: type,
-    };
 
-    setParms(newParms);
+    setParms((parms) => {
+      const newParms = [...parms];
+      newParms[index] = {
+        field: field,
+        value: type == "number" ? +value : value,
+        type: type,
+      };
+      return newParms;
+    });
 
     // formik.setFieldValue();
   }, [field, value]);
@@ -856,15 +858,18 @@ const Parms = ({ field, formik }) => {
   };
 
   useEffect(() => {
-    // console.log(parms);
     if (!fQueue.length) {
-      var ps = {};
-      parms.forEach(({ field, value }) => {
-        ps[field] = value;
-      });
-      // console.log(ps);
-      setPQueue((curr) => [...curr, true]);
-      formik.setFieldValue(field.name, ps);
+      if (init) {
+        var ps = {};
+        parms.forEach(({ field, value }) => {
+          ps[field] = value;
+        });
+
+        setPQueue((curr) => [...curr, true]);
+        formik.setFieldValue(field.name, ps);
+      } else {
+        setInit(true);
+      }
     }
     setFQueue((curr) => {
       curr.pop();
@@ -886,13 +891,14 @@ const Parms = ({ field, formik }) => {
           } else {
             type = typeof val;
           }
-          console.log(val);
+
           return {
             field: key,
             value: type == "key" ? val["key"] : val,
             type: type,
           };
         });
+
         // console.log("Setting Parms");
         setFQueue((curr) => [...curr, true]);
         setParms(p);
