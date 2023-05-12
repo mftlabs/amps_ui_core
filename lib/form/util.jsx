@@ -1633,7 +1633,14 @@ export const loadValues = (obj = {}, fields, values = {}) => {
         obj[f.name] = false;
       } else if (f.type == "range") {
         obj[f.name] = {};
-      } else if (["arrayfield", "collectionlist"].includes(f.type)) {
+      } else if (
+        [
+          "arrayfield",
+          "collectionlist",
+          "formbuilder",
+          "actionbuilder",
+        ].includes(f.type)
+      ) {
         obj[f.name] = [];
       } else {
         obj[f.name] = "";
