@@ -1429,7 +1429,7 @@ export const Text = ({ field, formik, sx = {} }) => {
       }
       name={field.name}
       label={field.label}
-      value={deepGet(formik.values, field.name.split(".")) || field.value}
+      value={deepGet(formik.values, field.name.split("."))}
       onChange={(e) => {
         var val = e.target.value;
         field.onChange && field.onChange(formik, val);
