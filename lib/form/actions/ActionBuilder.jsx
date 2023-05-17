@@ -131,7 +131,7 @@ export const ActionBuilder = ({ field, formik }) => {
         },
         {
           type: "parms",
-          title: "Refresh/Manage Metadata",
+          label: "Refresh/Manage Metadata",
           name: "meta",
         },
         {
