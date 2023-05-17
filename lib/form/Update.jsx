@@ -253,6 +253,8 @@ export const Update = ({
       } else {
         load.current = (val) => val;
       }
+    } else {
+      load.current = (val) => val;
     }
   }, [route]);
 
