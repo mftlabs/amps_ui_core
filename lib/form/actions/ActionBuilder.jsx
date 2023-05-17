@@ -130,6 +130,11 @@ export const ActionBuilder = ({ field, formik }) => {
           dynamic: true,
         },
         {
+          type: "parms",
+          title: "Refresh/Manage Metadata",
+          name: "meta",
+        },
+        {
           type: "text",
           label: "Data Key",
           name: "key",

@@ -132,52 +132,65 @@ export const UpdateForm = ({
       <Box
         zIndex={100}
         sx={{
+          // backgroundColor: "rgba(0,0,0, .7)",
           position: "sticky",
           bottom: 0,
           display: "flex",
           justifyContent: "flex-end",
-          // p: 2,
+          pointerEvents: "none",
+          p: 2,
         }}
       >
-        {editing ? (
-          <>
-            <IconButton
-              size="large"
-              sx={{ mr: 0.5 }}
-              color="primary"
-              type="submit"
-              disabled={!formik.isValid}
-              variant="contained"
-            >
-              <Save fontSize="inherit" />
-            </IconButton>
+        <Box
+          sx={{
+            pointerEvents: "auto",
+            position: "sticky",
+            bottom: 0,
+            display: "flex",
+            justifyContent: "flex-end",
+            // p: 2,
+          }}
+        >
+          {editing ? (
+            <>
+              <IconButton
+                size="large"
+                sx={{ mr: 0.5 }}
+                color="primary"
+                type="submit"
+                disabled={!formik.isValid}
+                variant="contained"
+              >
+                <Save fontSize="inherit" />
+              </IconButton>
+              <IconButton
+                size="large"
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  formik.setValues(values);
+                  setEditing(false);
+                }}
+              >
+                <Cancel fontSize="inherit" />
+              </IconButton>
+            </>
+          ) : (
             <IconButton
               size="large"
               type="button"
+              color="primary"
+              disabled={!checkPerm(tokens, "write")}
               onClick={(e) => {
                 e.preventDefault();
-                formik.setValues(values);
-                setEditing(false);
+                setEditing(true);
               }}
+              variant="contained"
             >
-              <Cancel fontSize="inherit" />
+              <Edit fontSize="inherit" />
             </IconButton>
-          </>
-        ) : (
-          <IconButton
-            size="large"
-            type="button"
-            color="primary"
-            disabled={!checkPerm(tokens, "write")}
-            onClick={(e) => {
-              e.preventDefault();
-              setEditing(true);
-            }}
-            variant="contained"
-          >
-            <Edit fontSize="inherit" />
-          </IconButton>
-        )}
+          )}
+        </Box>
       </Box>
     </Box>
   );
@@ -197,6 +210,7 @@ export const Update = ({
   const [collection, setCollection] = useState(null);
   const [entityId, setEntityId] = useState(null);
   const process = useRef();
+  const load = useRef();
 
   const { getSchema } = useSchemas();
 
@@ -232,6 +246,14 @@ export const Update = ({
         process.current = (val) => val;
       }
     }
+
+    if (tokens.length <= 2) {
+      if (formfields[tokens[0]]?.load) {
+        load.current = formfields[tokens[0]].load;
+      } else {
+        load.current = (val) => val;
+      }
+    }
   }, [route]);
 
   const onSubmit = (vals) => {
@@ -265,7 +287,7 @@ export const Update = ({
   ) : config && data ? (
     <UpdateForm
       onSubmit={onSubmit}
-      values={config.load ? config.load(data) : data}
+      values={load.current(data)}
       refetch={refetch}
       reloadParent={reloadParent}
       //   title={title}

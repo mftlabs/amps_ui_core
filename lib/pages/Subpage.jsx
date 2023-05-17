@@ -285,7 +285,7 @@ export function Subpage({ config }) {
             </>
           )}
         </Drawer>
-        <Box component="main" sx={{ flexGrow: 1, p: 1, overflow: "auto" }}>
+        <Box component="main" sx={{ flexGrow: 1, p: 0, overflow: "auto" }}>
           {config && (
             <Routes>
               <Route

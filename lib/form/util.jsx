@@ -507,10 +507,16 @@ export const NumberField = ({ field, formik }) => {
 };
 
 function Metadata(props) {
-  const { data, isLoading, isFetching } = useMetadata();
+  const { data, isLoading, isFetching, refetch } = useMetadata();
 
   return data ? (
-    <Select options={data} valField="field" labelField="desc" {...props} />
+    <Select
+      options={data}
+      dynamic={{ refetch: refetch, route: "/fields" }}
+      valField="field"
+      labelField="desc"
+      {...props}
+    />
   ) : (
     <Loader />
   );
@@ -529,6 +535,7 @@ function Select({
   value = null,
   submitValue = true,
   dynamic,
+
   onChange = () => null,
   sx,
   ...other
@@ -661,18 +668,35 @@ function Select({
           />
         )}
 
-        {dynamic && !error && (
-          <>
-            <FormAction route={route} disabled={readOnly} refetch={refetch} />
-            <IconButton size="medium" disabled={readOnly}>
-              <Replay
-                onClick={() => {
-                  refetch();
-                }}
+        {dynamic &&
+          !error &&
+          (typeof dynamic == "boolean" ? (
+            <>
+              <FormAction route={route} disabled={readOnly} refetch={refetch} />
+              <IconButton size="medium" disabled={readOnly}>
+                <Replay
+                  onClick={() => {
+                    refetch();
+                  }}
+                />
+              </IconButton>
+            </>
+          ) : (
+            <>
+              <FormAction
+                route={dynamic.route}
+                disabled={readOnly}
+                refetch={dynamic.refetch}
               />
-            </IconButton>
-          </>
-        )}
+              <IconButton size="medium" disabled={readOnly}>
+                <Replay
+                  onClick={() => {
+                    dynamic.refetch();
+                  }}
+                />
+              </IconButton>
+            </>
+          ))}
       </Box>
 
       <FormHelperText
