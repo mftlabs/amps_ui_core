@@ -1655,7 +1655,7 @@ export const loadValues = (obj = {}, fields, values = {}) => {
         obj[f.name] = f.value;
       } else if (f.type === "check" || f.type === "switch") {
         obj[f.name] = false;
-      } else if (f.type == "range") {
+      } else if (["range", "parms"].includes(f.type)) {
         obj[f.name] = {};
       } else if (
         [
@@ -1663,6 +1663,8 @@ export const loadValues = (obj = {}, fields, values = {}) => {
           "collectionlist",
           "formbuilder",
           "actionbuilder",
+          "tags",
+          "policy",
         ].includes(f.type)
       ) {
         obj[f.name] = [];
