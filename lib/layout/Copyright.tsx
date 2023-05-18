@@ -7,7 +7,7 @@ export function Copyright(props: any) {
       variant="caption"
       sx={{ my: 1, mr: 1 }}
       color="text.secondary"
-      align="end"
+      align="right"
       {...props}
     >
       {"Copyright © "}
