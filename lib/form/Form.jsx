@@ -130,7 +130,12 @@ export const Form = ({
         }
         var values = { ...baseVals, ...inits };
         formik.setValues(values);
-        setTypeFields(type.fields);
+        setTypeFields(
+          type.fields.map((f) => {
+            f.key = formik.values.type + f.name;
+            return f;
+          })
+        );
         setInitialized(true);
         setType(formik.values.type);
       } else {

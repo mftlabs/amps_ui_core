@@ -1634,7 +1634,7 @@ export const renderFields = (
         }
       } else {
         fs.push(
-          <Box sx={{ py: 1, mx: 1 }}>
+          <Box sx={{ py: 1, mx: 1 }} key={field.key}>
             {fieldtypes[field.type](
               { ...field, ...{ ...(readOnly ? { readOnly: readOnly } : {}) } },
               formik

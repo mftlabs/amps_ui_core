@@ -97,7 +97,12 @@ export const UpdateForm = ({
 
         formik.setValues(values);
 
-        setTypeFields(type.fields);
+        setTypeFields(
+          type.fields.map((f) => {
+            f.key = formik.values.type + f.name;
+            return f;
+          })
+        );
       } else {
         setTypeFields([]);
       }
