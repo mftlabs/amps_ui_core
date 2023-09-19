@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, isValidElement } from "react";
 import { Box, Tooltip, IconButton } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import MaterialReactTable from "material-react-table";
@@ -11,15 +11,16 @@ import { useModal } from "../hooks/useModal";
 import { useGridActions } from "../util/gridactions";
 import { useUIContext } from "../contexts/UIContext";
 import { useTokens } from "amps_ui_core";
+import { useCurrent } from "../hooks/useCurrent";
 
 export const Grid = ({ config: config, route: rte, isSubpage }) => {
   // const { confRowActions = [], confActions = [], ...config } = conf;
-
   const { modal, Modal } = useModal();
   const [rowSelection, setRowSelection] = useState({});
   const location = useLocation();
   const navigate = useNavigate();
   const [columnFilters, setColumnFilters] = useState([]);
+  const [staticSearch, setStaticSearch] = useState();
   const [search, setSearch] = useState(
     config.defaultFilter ? config.defaultFilter() : {}
   );
@@ -27,10 +28,17 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
   const [globalFilter, setGlobalFilter] = useState("");
   const [sorting, setSorting] = useState(config.sort || []);
   const [route, setRoute] = useState(null);
-  const { main, field } = useTokens(route);
+  const { main, id, field } = useTokens(route);
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 25,
+  });
+
+  const [itemRoute, setItemRoute] = useState();
+
+  const { current } = useCurrent({
+    route: itemRoute,
+    enabled: Boolean(itemRoute),
   });
 
   useEffect(() => {
@@ -39,18 +47,40 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
     } else {
       setRoute(location.pathname);
     }
-  });
+  }, [location.pathname, rte]);
+
+  useEffect(() => {
+    if (id && isSubpage) {
+      if (isSubpage && rte) {
+        setItemRoute(`/${main}/${id}`);
+      }
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (current && isSubpage && rte) {
+      if (config.staticSearch) {
+        var ss = config.staticSearch(current);
+        setStaticSearch(ss);
+      } else {
+        setStaticSearch({});
+      }
+    }
+  }, [current]);
 
   const { data, isError, isFetching, isLoading, refetch } = useQuery({
     queryKey: [
-      route || location.pathname,
+      route,
       search,
       columnFilters, //refetch when columnFilters changes
       globalFilter, //refetch when globalFilter changes
       pagination.pageIndex, //refetch when pagination.pageIndex changes
       pagination.pageSize, //refetch when pagination.pageSize changes
       sorting, //refetch when sorting changes
+      staticSearch,
     ],
+
+    enabled: Boolean(isSubpage && rte ? staticSearch && route : route),
     queryFn: async () => {
       const fetchURL = new URL(
         `/api${route || location.pathname}`,
@@ -69,7 +99,10 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
       }));
 
       fetchURL.searchParams.set("limit", `${pagination.pageSize}`);
-      fetchURL.searchParams.set("filters", JSON.stringify(search ?? {}));
+      fetchURL.searchParams.set(
+        "filters",
+        JSON.stringify({ ...search, ...staticSearch } ?? {})
+      );
       fetchURL.searchParams.set("globalFilter", globalFilter ?? "");
       fetchURL.searchParams.set("sort", JSON.stringify(sort));
 
@@ -77,10 +110,9 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
         url: fetchURL.href,
         method: "get",
       });
-      console.log(response);
       return response.data;
     },
-    keepPreviousData: true,
+    // keepPreviousData: true,
   });
 
   const { actions, rowActions } = useGridActions({
@@ -95,10 +127,6 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
   });
 
   useEffect(() => {
-    refetch();
-  }, []);
-
-  useEffect(() => {
     setSorting(config.sort || []);
   }, [config]);
 
@@ -106,6 +134,7 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
     <>
       <MaterialReactTable
         initialState={{
+          isLoading: true,
           density: "compact",
           columnPinning: {
             right: ["mrt-row-actions"],
@@ -116,10 +145,12 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
         enableRowSelection={true}
         onRowSelectionChange={setRowSelection}
         columns={config.columns}
-        data={isSubpage ? data ?? [] : data?.rows ?? []} //data is undefined on first render
+        data={
+          rte ? data?.rows ?? [] : isSubpage ? data ?? [] : data?.rows ?? []
+        } //data is undefined on first render
         manualFiltering
         getRowId={(d) => d._id}
-        manualPagination={!isSubpage}
+        manualPagination={rte ? false : !isSubpage}
         manualSorting
         enableClickToCopy={true}
         muiTableBodyRowProps={({ row }) => ({
@@ -171,8 +202,14 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
               </IconButton>
             </Tooltip>
 
-            {config.actions?.map((action) => {
-              return actions[action]();
+            {config.actions?.map((Action) => {
+              if (typeof Action == "function") {
+                return current ? (
+                  <Action current={current} refetch={refetch} />
+                ) : null;
+              } else {
+                return actions[Action]();
+              }
             })}
           </Box>
         )}

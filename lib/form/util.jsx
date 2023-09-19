@@ -90,13 +90,20 @@ const Time = ({ field, formik }) => {
         onChange={(value) => {
           console.log(value);
           // var time = dayjs(value).format("HH:mm");
-          var utc = dayjs.utc(value).format("HH:mm");
-
-          // console.log(time);
-          console.log(utc);
-          formik.setFieldValue(field.name, utc);
+          try {
+            var utc = dayjs.utc(value).format("HH:mm");
+            console.log(utc);
+            if (utc == "Invalid Date") {
+              formik.setFieldError(field.name, "Invalid Time");
+            } else {
+              formik.setFieldValue(field.name, utc);
+            }
+          } catch (e) {}
         }}
       />
+      <FormHelperText error={Boolean(formik.errors[field.name])}>
+        {formik.errors[field.name]}
+      </FormHelperText>
     </LocalizationProvider>
   );
 };
@@ -353,7 +360,8 @@ const DisplayField = ({ field, formik }) => {
     <TextField
       variant="outlined"
       disabled={field.readOnly}
-      inputProps={{ readOnly: true }}
+      InputProps={{ readOnly: true }}
+      InputLabelProps={{ shrink: true }}
       key={field.name}
       fullWidth={true}
       id={field.name}
@@ -362,8 +370,8 @@ const DisplayField = ({ field, formik }) => {
       value={formik.values?.[field.name]}
       onChange={formik.handleChange}
       onBlur={formik.handleBlur}
-      error={formik.touched[field.name] && Boolean(formik.errors[field.name])}
-      helperText={formik.touched[field.name] && formik.errors[field.name]}
+      error={formik.values[field.name] && Boolean(formik.errors[field.name])}
+      helperText={formik.values[field.name] && formik.errors[field.name]}
     />
   );
 };
@@ -578,16 +586,7 @@ function Select({
     }
   }, [selected]);
 
-  // useEffect(() => {
-  //   if (selected) {
-  //     formik.setFieldValue(name, selected[valField]);
-  //   }
-  // }, [data]);
-
   useEffect(() => {
-    console.log(name);
-    console.log(data);
-    console.log(formik.values);
     if (data && formik.values[name]) {
       console.log(name);
       console.log(data.find((d) => d[valField] == formik.values[name]));
@@ -663,6 +662,7 @@ function Select({
             onChange={(e, value) => {
               onChange && onChange(formik, value);
               setSelected(value);
+              e.currentTarget.blur();
             }}
             onBlur={formik.handleBlur}
           />
@@ -1416,6 +1416,7 @@ export const Text = ({ field, formik, sx = {} }) => {
     if (field.value && !formik.values[field.name]) {
       formik.setFieldValue(field.name, field.value);
     }
+    field.onChange && field.onChange(formik, formik.values[field.name]);
   }, []);
 
   const deepGet = (obj, keys) =>

@@ -56,6 +56,12 @@ export const Form = ({
   });
 
   useEffect(() => {
+    if (formikRef) {
+      formikRef(formik);
+    }
+  }, [formik.values]);
+
+  useEffect(() => {
     if (Object.keys(stat).length) {
       if (values) {
         setInitValues(Object.assign(stat, values));
@@ -135,13 +141,10 @@ export const Form = ({
     }
   }, [formik.values.type]);
 
-  // useEffect(() => {
-  //   console.log(formik.values);
-  // }, [formik.values]);
-
   return (
     <Box
       component="form"
+      ref={formikRef ?? null}
       onSubmit={formik.handleSubmit}
       sx={{
         display: "flex",

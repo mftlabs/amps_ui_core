@@ -69,6 +69,7 @@ export const UpdateForm = ({
     enableReinitialize: true,
     isInitialValid: true,
   });
+
   const { getSchema } = useSchemas();
 
   useEffect(() => {
@@ -77,6 +78,7 @@ export const UpdateForm = ({
         ? types[collection].subpages?.[field]?.[formik.values.type]
         : types[collection][formik.values.type];
       var s = getSchema(collection, field, formik.values);
+
       setSchema(s);
       if (type) {
         var inits = loadValues({}, type.fields);
@@ -92,6 +94,7 @@ export const UpdateForm = ({
         }
 
         var newVals = { ...baseVals, ...inits };
+
         formik.setValues(values);
 
         setTypeFields(type.fields);

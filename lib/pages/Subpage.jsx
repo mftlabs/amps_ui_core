@@ -295,7 +295,7 @@ export function Subpage({ config }) {
                   config.subroot ? (
                     <config.subroot.view location={location} />
                   ) : (
-                    <Update field={field} location={location} />
+                    <Update key={`${main}_${id}`} location={location} />
                   )
                 }
               />
@@ -317,6 +317,7 @@ export function Subpage({ config }) {
                               key={sp.href}
                               isSubpage={true}
                               config={sp}
+                              route={sp.route}
                             ></Grid>
                           )
                         }

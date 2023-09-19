@@ -22,6 +22,8 @@ import { queryFn, request } from "../util/util";
 import { useUIContext } from "../contexts/UIContext";
 import { Downloads } from "./Downloads";
 import { Uploads } from "./Uploads";
+import { useCurrent } from "../hooks/useCurrent";
+import { useTokens } from "../hooks/useTokens";
 
 const Clock = ({ timezone }) => {
   const [dt, setDt] = useState(
@@ -65,8 +67,12 @@ export const Navbar = (props) => {
   const { pages, NavbarContent } = useUIContext();
   const settingsRef = useRef(null);
   const [openAccountPopover, setOpenAccountPopover] = useState(false);
-
   const location = useLocation();
+  const { main, id, field } = useTokens(location.pathname);
+  const { current } = useCurrent({
+    route: `/${main}/${id}`,
+    enabled: Boolean(id),
+  });
 
   const [crumbs, setCrumbs] = useState([]);
   useEffect(() => {
@@ -87,7 +93,17 @@ export const Navbar = (props) => {
       }
 
       if (idx == 1) {
-        title = pages[root].object;
+        if (current) {
+          if (root == "topics") {
+            title = current.topic;
+          } else if (root == "users") {
+            title = current.username;
+          } else if (current.name) {
+            title = current.name;
+          }
+        } else {
+          title = pages[root].object;
+        }
         tooltip = piece;
       }
 
@@ -109,7 +125,7 @@ export const Navbar = (props) => {
     });
 
     setCrumbs(cr);
-  }, [location.pathname]);
+  }, [location.pathname, current]);
 
   return (
     <>
