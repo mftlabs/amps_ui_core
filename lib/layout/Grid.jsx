@@ -101,7 +101,7 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
       fetchURL.searchParams.set("limit", `${pagination.pageSize}`);
       fetchURL.searchParams.set(
         "filters",
-        JSON.stringify({ ...search, ...staticSearch } ?? {})
+        JSON.stringify({ ...search, ...(staticSearch ?? {}) } ?? {})
       );
       fetchURL.searchParams.set("globalFilter", globalFilter ?? "");
       fetchURL.searchParams.set("sort", JSON.stringify(sort));
@@ -112,7 +112,7 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
       });
       return response.data;
     },
-    // keepPreviousData: true,
+    keepPreviousData: true,
   });
 
   const { actions, rowActions } = useGridActions({
@@ -150,7 +150,7 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
         } //data is undefined on first render
         manualFiltering
         getRowId={(d) => d._id}
-        manualPagination={rte ? false : !isSubpage}
+        manualPagination={isSubpage ? (rte ? true : false) : true}
         manualSorting
         enableClickToCopy={true}
         muiTableBodyRowProps={({ row }) => ({
