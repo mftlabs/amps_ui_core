@@ -20,7 +20,13 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [columnFilters, setColumnFilters] = useState([]);
-  const [staticSearch, setStaticSearch] = useState();
+  const [staticSearch, setStaticSearch] = useState(
+    config.staticSearch
+      ? config.staticSearch instanceof Function
+        ? undefined
+        : config.staticSearch
+      : undefined
+  );
   const [search, setSearch] = useState(
     config.defaultFilter ? config.defaultFilter() : {}
   );
@@ -153,6 +159,7 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
         manualPagination={isSubpage ? (rte ? true : false) : true}
         manualSorting
         enableClickToCopy={true}
+        enableStickyHeader={true}
         muiTableBodyRowProps={({ row }) => ({
           onDoubleClick: (event) => {
             // modal.current.configure({ title: "HELLO" });

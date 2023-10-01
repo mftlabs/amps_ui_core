@@ -44,7 +44,7 @@ export function Generic() {
         sx={{
           flexGrow: 1,
           height: height - 136,
-          width: lgUp ? width - 280 : width,
+          width: width,
           // display: "flex",
           // py: 2,
         }}

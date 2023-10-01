@@ -135,7 +135,8 @@ export const Sidebar = (props) => {
     return (
       <Drawer
         anchor="left"
-        open
+        onClose={onClose}
+        open={open}
         sx={{ width: 280 }}
         PaperProps={{
           sx: {
@@ -144,7 +145,7 @@ export const Sidebar = (props) => {
             width: 280,
           },
         }}
-        variant="persistent"
+        variant="temporary"
       >
         {content}
       </Drawer>
