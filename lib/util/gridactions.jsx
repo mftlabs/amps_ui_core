@@ -72,7 +72,7 @@ export const useGridActions = (props) => {
           onClick={async () => {
             var deletable = true;
 
-            var tokens = location.pathname.substring(1).split("/");
+            var tokens = route.substring(1).split("/");
             confirm({
               description: "Are you sure you want to delete this item?",
             })
@@ -111,8 +111,8 @@ export const useGridActions = (props) => {
                   request({
                     url:
                       tokens.length == 1
-                        ? "/api" + location.pathname + "/" + id
-                        : "/api" + location.pathname + "/" + id,
+                        ? "/api" + route + "/" + id
+                        : "/api" + route + "/" + id,
                     method: "DELETE",
                     timeout: 60000,
                     params: {},
