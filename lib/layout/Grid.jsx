@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, isValidElement } from "react";
-import { Box, Tooltip, IconButton } from "@mui/material";
+import { Box, Tooltip, IconButton, Chip } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import MaterialReactTable from "material-react-table";
 import RefreshIcon from "@mui/icons-material/Refresh";
@@ -47,6 +47,10 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
     enabled: Boolean(itemRoute),
   });
 
+  const enabled = () => {
+    return Boolean(isSubpage && rte ? staticSearch && route : route);
+  };
+
   useEffect(() => {
     if (rte) {
       setRoute(rte);
@@ -86,7 +90,7 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
       staticSearch,
     ],
 
-    enabled: Boolean(isSubpage && rte ? staticSearch && route : route),
+    enabled: enabled(),
     queryFn: async () => {
       const fetchURL = new URL(
         `/api${route || location.pathname}`,
@@ -125,6 +129,7 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
     rowSelection,
     search,
     setSearch,
+    setStaticSearch,
     route: route,
     tokens: { main, field },
     config,
@@ -135,6 +140,14 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
   useEffect(() => {
     setSorting(config.sort || []);
   }, [config]);
+
+  useEffect(() => {
+    if (enabled()) {
+      if (!isSubpage) {
+        refetch();
+      }
+    }
+  }, [route]);
 
   return (
     <>

@@ -38,13 +38,14 @@ import { toast } from "react-toastify";
 
 export const idRenderer = ({ cell }, route) => {
   const queryFn = useQueryFn();
-  if (cell.getValue()) {
-    const { data, isError, isFetching, isLoading, refetch } = useQuery({
-      queryKey: [route],
-      queryFn: () => queryFn(route),
-      keepPreviousData: true,
-    });
+  const { data, isError, isFetching, isLoading, refetch } = useQuery({
+    queryKey: [route],
+    queryFn: () => queryFn(route),
+    keepPreviousData: true,
+    enabled: Boolean(cell.getValue()),
+  });
 
+  if (cell.getValue()) {
     return isLoading || isFetching ? (
       <Loader />
     ) : (
