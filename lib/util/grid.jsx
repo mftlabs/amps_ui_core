@@ -21,7 +21,7 @@ export const dateRenderer = ({ cell }) => {
   }
 };
 
-export const formatDate = () => {
+export const formatDate = (val) => {
   var date = new Date(val);
   var milli = val.split(".")[1].substring(0, 3);
   var str = date.toLocaleString();
