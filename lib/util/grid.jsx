@@ -17,13 +17,18 @@ import { RecursiveMenu } from "../layout/RecursiveMenu";
 export const dateRenderer = ({ cell }) => {
   var val = cell.getValue();
   if (val) {
-    var date = new Date(val);
-    var milli = val.split(".")[1].substring(0, 3);
-    var str = date.toLocaleString();
-
-    return str.substring(0, str.length - 3) + ":" + milli + str.slice(-3);
+    return formatDate(val);
   }
 };
+
+export const formatDate = () => {
+  var date = new Date(val);
+  var milli = val.split(".")[1].substring(0, 3);
+  var str = date.toLocaleString();
+
+  return str.substring(0, str.length - 3) + ":" + milli + str.slice(-3);
+};
+
 import { request } from "./util";
 import { Edit, Search, SearchOff } from "@mui/icons-material";
 import {

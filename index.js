@@ -31,6 +31,7 @@ export { TabPanel } from "./lib/util/components/TabPanel";
 export { Toast } from "./lib/util/components/Toast";
 export {
   dateRenderer,
+  formatDate,
   FormAction,
   UtilityAction,
   SearchAction,
