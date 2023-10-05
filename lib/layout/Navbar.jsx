@@ -98,8 +98,6 @@ export const Navbar = (props) => {
             title = current.topic;
           } else if (root == "users") {
             title = current.username;
-          } else if (root == "message_events") {
-            title = current.msgid;
           } else if (current.name) {
             title = current.name;
           }
