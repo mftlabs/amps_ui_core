@@ -31,7 +31,6 @@ export const Clock = ({ timezone }) => {
         ></Box>
         {dt} {moment().tz(timezone).zoneAbbr()}
       </Typography>
-      ;
     </>
   );
 };
