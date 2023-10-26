@@ -50,7 +50,7 @@ export const idRenderer = ({ cell }, route) => {
     enabled: Boolean(cell.getValue()),
   });
 
-  if (cell.getValue()) {
+  if (cell.getValue() && data) {
     return isLoading || isFetching ? (
       <Loader />
     ) : (
@@ -59,7 +59,6 @@ export const idRenderer = ({ cell }, route) => {
   } else {
     return cell.getValue();
   }
-  //
 };
 
 export const fileSizeRenderer = ({ cell, row }) => {

@@ -79,7 +79,11 @@ export const Navbar = (props) => {
     var curr = "";
     var root = "";
     var subroot = "";
-    var cr = location.pathname.substring(1).split("/");
+    var cr = (
+      location.pathname.substring(1).endsWith("/")
+        ? location.pathname.substring(1).slice(0, -1)
+        : location.pathname.substring(1)
+    ).split("/");
     cr = cr.map((piece, idx) => {
       var tooltip;
 
