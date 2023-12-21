@@ -42,20 +42,22 @@ import { useUIContext } from "../contexts/UIContext";
 import { toast } from "react-toastify";
 
 export const idRenderer = ({ cell }, route) => {
+  const [refreshed, setRefreshed] = useState();
   const queryFn = useQueryFn();
   const { data, isError, isFetching, isLoading, refetch } = useQuery({
     queryKey: [route],
     queryFn: () => queryFn(route),
-    keepPreviousData: true,
     enabled: Boolean(cell.getValue()),
   });
 
   if (cell.getValue() && data) {
-    return isLoading || isFetching ? (
-      <Loader />
-    ) : (
-      data.find((d) => d._id == cell.getValue()).name
-    );
+    var o = data.find((d) => d._id == cell.getValue());
+    if (!o && !refreshed) {
+      refetch();
+      setRefreshed(true);
+    }
+
+    return o ? o.name : cell.getValue();
   } else {
     return cell.getValue();
   }

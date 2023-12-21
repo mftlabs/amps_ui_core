@@ -160,6 +160,8 @@ export const Grid = ({ config: config, route: rte, isSubpage }) => {
             left: ["mrt-row-select"],
           },
         }}
+        enableExpanding={config.subRows}
+        // getSubRows={config.getSubRows}
         enableMultiRowSelection={true}
         enableRowSelection={true}
         onRowSelectionChange={setRowSelection}
