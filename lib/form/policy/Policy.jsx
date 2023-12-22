@@ -128,6 +128,7 @@ const ToggleTreeItem = styled((props) => {
 const shortcuts = [
   {
     collections: [
+      "messages",
       "message_events",
       "sessions",
       "system_logs",
