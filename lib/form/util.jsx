@@ -1506,6 +1506,45 @@ const JSONField = ({ field, formik }) => {
   );
 };
 
+const HTMLField = ({ field, formik }) => {
+  const editorCustomOptions = {
+    glyphMargin: true,
+    lightbulb: {
+      enabled: true,
+    },
+    scrollbar: {
+      alwaysConsumeMouseWheel: false,
+    },
+    fixedOverflowWidgets: true,
+    padding: { top: 16 },
+  };
+  const onChange = (value) => {
+    formik.setFieldValue(field.name, value);
+  };
+
+  const onMount = (editor) => {
+    editor.updateOptions({ readOnly: field.readOnly });
+  };
+
+  return (
+    <Box sx={{ opacity: field.readOnly ? 0.7 : 1 }}>
+      <FormLabel>{field.label}</FormLabel>
+      <FormHelperText error={formik.errors[field.name]}>
+        {formik.errors[field.name]}
+      </FormHelperText>
+      <Editor
+        options={editorCustomOptions}
+        height="60vh"
+        defaultLanguage="html"
+        onMount={onMount}
+        onChange={onChange}
+        theme="vs-dark"
+        value={formik.values[field.name]}
+      />
+    </Box>
+  );
+};
+
 export const fieldtypes = {
   formbuilder: (field, formik) => {
     return <FormBuilder formik={formik} field={field} />;
@@ -1569,6 +1608,9 @@ export const fieldtypes = {
   },
   json: (field, formik) => {
     return <JSONField field={field} formik={formik} />;
+  },
+  html: (field, formik) => {
+    return <HTMLField field={field} formik={formik} />;
   },
 };
 
