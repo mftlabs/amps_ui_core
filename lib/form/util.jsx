@@ -1468,6 +1468,7 @@ export const Text = ({ field, formik, sx = {} }) => {
 };
 
 const JSONField = ({ field, formik }) => {
+  const [editor, setEditor] = useState(null);
   const editorCustomOptions = {
     glyphMargin: true,
     lightbulb: {
@@ -1485,7 +1486,14 @@ const JSONField = ({ field, formik }) => {
 
   const onMount = (editor) => {
     editor.updateOptions({ readOnly: field.readOnly });
+    setEditor(editor);
   };
+
+  useEffect(() => {
+    if (editor) {
+      editor.updateOptions({ readOnly: field.readOnly });
+    }
+  }, [field.readOnly]);
 
   return (
     <Box sx={{ opacity: field.readOnly ? 0.7 : 1 }}>
@@ -1507,6 +1515,7 @@ const JSONField = ({ field, formik }) => {
 };
 
 const HTMLField = ({ field, formik }) => {
+  const [editor, setEditor] = useState(null);
   const editorCustomOptions = {
     glyphMargin: true,
     lightbulb: {
@@ -1524,7 +1533,14 @@ const HTMLField = ({ field, formik }) => {
 
   const onMount = (editor) => {
     editor.updateOptions({ readOnly: field.readOnly });
+    setEditor(editor);
   };
+
+  useEffect(() => {
+    if (editor) {
+      editor.updateOptions({ readOnly: field.readOnly });
+    }
+  }, [field.readOnly]);
 
   return (
     <Box sx={{ opacity: field.readOnly ? 0.7 : 1 }}>
